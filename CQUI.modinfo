@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Mod id="1d44b5e7-753e-405b-af24-5ee634ec8a01" version="3.1">
+<Mod id="07C8DDCA-47EE-6C40-5068-37A945B2435D" version="1">
     <!-- ==============================  Basic Mod Information ============================== -->
     <Properties>
+        <Name>Community Quick User Interface Lite</Name>
+        <Teaser>CQUI Lite</Teaser>
+        <Description>The Community Quick User Interface, Lite Version</Description>
         <AffectsSavedGames>0</AffectsSavedGames>
-        <Name>Community Quick User Interface</Name>
-        <Teaser>CQUI</Teaser>
-        <Description>The Community Quick User Interface MOD, 2020 CivFanatics Version</Description>
         <CompatibleVersions>1.2,2.0</CompatibleVersions>
-        <!-- (New-TimeSpan -Start (Get-Date "01/01/1970") -End (Get-Date)).TotalSeconds -->
-        <Created>1612307834</Created>
     </Properties>
 
     <!--============================== Incompatible mods ============================== -->
@@ -568,6 +566,7 @@
             </Properties>
             <Items>
                 <File>Assets/Expansion1/Replacements/citypanelculture_CQUI.lua</File>
+                <File>Assets/Expansion1/Replacements/citypanelculture.xml</File>
             </Items>
         </ImportFiles>
 
@@ -1245,6 +1244,7 @@
 
         <!-- ============================== Mod integrations ======================================== -->
         <!-- ============================== Better Trade Screen (BTS) ============================== -->
+		<!-- 2023-04-02 Infixo: use original BTS
         <LocalizedText id="CQUI_BTS_TEXT">
             <Items>
                 <File>Integrations/BTS/Text/bts_text.xml</File>
@@ -1271,8 +1271,9 @@
                 <File>Integrations/BTS/UI/Choosers/tradeoriginchooser.lua</File>
             </Items>
         </ImportFiles>
-
+		-->
         <!-- ============================== Better Espionoge Screen (BES) ============================== -->
+		<!-- 2023-03-02 Infixo: use enhanced BES
         <ImportFiles id="CQUI_IMPORT_FILES_BES">
             <Items>
                 <File>Integrations/BES/UI/espionagesupport.lua</File>
@@ -1296,7 +1297,7 @@
                 <File>Integrations/BES/Text/bes_text_ko.xml</File>
             </Items>
         </LocalizedText>
-
+		-->
         <!-- ============================== MoreLenses (ML) ============================== -->
         <AddUserInterfaces id="CQUI_MORELENSES_LENSES_WPANEL">
             <Properties>
@@ -1423,6 +1424,7 @@
         <File>Assets/Expansion1/CityBanners/citybannerinstances.xml</File>
         <File>Assets/Expansion1/CityBanners/cityreligioninstances.xml</File>
         <File>Assets/Expansion1/Replacements/CityPanel_Expansion1.lua</File>
+        <File>Assets/Expansion1/Replacements/citypanelculture.xml</File>
         <File>Assets/Expansion1/Replacements/citypanelculture_CQUI.lua</File>
         <File>Assets/Expansion1/Replacements/citypaneloverview_expansion1_CQUI.lua</File>
         <File>Assets/Expansion1/Replacements/citystates.xml</File>
@@ -1584,6 +1586,7 @@
         <File>Assets/UI/Icons/FontIcons_CQUI.xml</File>
         
         <!-- Integrations -->
+		<!-- 2023-04-02 Infixo: use original BTS
         <File>Integrations/BTS/UI/tradeoverview.xml</File>
         <File>Integrations/BTS/UI/tradeoverview.lua</File>
         <File>Integrations/BTS/UI/tradesupport.lua</File>
@@ -1602,6 +1605,7 @@
         <File>Integrations/BTS/Text/bts_text_pt.xml</File>
         <File>Integrations/BTS/Text/bts_text_ru.xml</File>
         <File>Integrations/BTS/Text/bts_text_zh.xml</File>
+		-->
         <File>Integrations/ML/Text/morelenses_text.xml</File>
         <File>Integrations/ML/Text/morelenses_text_de.xml</File>
         <File>Integrations/ML/Text/morelenses_text_es.xml</File>
@@ -1637,6 +1641,7 @@
         <File>Integrations/ML/Lenses/Wonder/ModLens_Wonder.lua</File>
         <File>Integrations/ML/DLC/Expansion1/UI/Replacements/minimappanel.xml</File>
         <File>Integrations/ML/DLC/Expansion2/UI/Replacements/minimappanel.xml</File>
+		<!-- 2023-04-02 Infixo: use enhanced BES
         <File>Integrations/BES/UI/espionagesupport.lua</File>
         <File>Integrations/BES/UI/Choosers/espionagechooser.lua</File>
         <File>Integrations/BES/UI/Choosers/espionagechooser.xml</File>
@@ -1651,5 +1656,6 @@
         <File>Integrations/BES/Text/bes_text_pt.xml</File>
         <File>Integrations/BES/Text/bes_text_ru.xml</File>
         <File>Integrations/BES/Text/bes_text_ko.xml</File>
+		-->
     </Files>
 </Mod>
