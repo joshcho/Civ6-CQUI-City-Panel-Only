@@ -9,20 +9,6 @@
         <CompatibleVersions>1.2,2.0</CompatibleVersions>
     </Properties>
 
-    <!--============================== Incompatible mods ============================== -->
-    <Blocks>
-        <Mod id="9e9923e5-6842-4e7d-97e7-c9a56a85cf03" title="Simplified Gossip" />
-        <Mod id="37b5fdca-2690-96ff-ea23-d8612ae7a757" title="Divine Yuri's Custom City Panel" />
-        <Mod id="37b5fdca-2690-96ff-ea23-d8612ae7a758" title="Next City Plot by Ace" />
-        <Mod id="2027E5A2-A48D-E606-031F-141E1196975A" title="Production Queue" />
-        <Mod id="35f33319-ad93-4d6b-bf27-406fac382d06" title="More Lenses" />
-        <Mod id="c9d28cde-61ee-459c-93f5-c734cd392553" title="NQ Enhanced User Interface" />
-        <!-- Better Trade Screen is already integrated -->
-        <Mod id="8d4fa23a-ef43-440c-8422-2bec11f8f5d7" title="Better Trade Screen" />
-        <!-- CQUI implements the same functionality (current load order is 105) -->
-        <Mod id="5fa339e0-1cef-4a63-abdb-549fadbd670d" title="Suzerain At A Glance" />
-    </Blocks>
-
     <!-- ==============================  Modinfo Specific LOC ============================== -->
     <LocalizedText>
         <Text id="CQUI_TEASER">
@@ -1157,61 +1143,6 @@
         </ReplaceUIScript>
 
         <!-- ============================== Mod integrations ======================================== -->
-        <!-- ============================== Better Trade Screen (BTS) ============================== -->
-		<!-- 2023-04-02 Infixo: use original BTS
-        <LocalizedText id="CQUI_BTS_TEXT">
-            <Items>
-                <File>Integrations/BTS/Text/bts_text.xml</File>
-                <File>Integrations/BTS/Text/bts_text_de.xml</File>
-                <File>Integrations/BTS/Text/bts_text_es.xml</File>
-                <File>Integrations/BTS/Text/bts_text_fr.xml</File>
-                <File>Integrations/BTS/Text/bts_text_it.xml</File>
-                <File>Integrations/BTS/Text/bts_text_ja.xml</File>
-                <File>Integrations/BTS/Text/bts_text_ko.xml</File>
-                <File>Integrations/BTS/Text/bts_text_pl.xml</File>
-                <File>Integrations/BTS/Text/bts_text_pt.xml</File>
-                <File>Integrations/BTS/Text/bts_text_ru.xml</File>
-                <File>Integrations/BTS/Text/bts_text_zh.xml</File>
-            </Items>
-        </LocalizedText>
-        <ImportFiles id="CQUI_IMPORT_FILES_BTS">
-            <Items>
-                <File>Integrations/BTS/UI/tradeoverview.xml</File>
-                <File>Integrations/BTS/UI/tradeoverview.lua</File>
-                <File>Integrations/BTS/UI/tradesupport.lua</File>
-                <File>Integrations/BTS/UI/Choosers/traderoutechooser.xml</File>
-                <File>Integrations/BTS/UI/Choosers/traderoutechooser.lua</File>
-                <File>Integrations/BTS/UI/Choosers/tradeoriginchooser.xml</File>
-                <File>Integrations/BTS/UI/Choosers/tradeoriginchooser.lua</File>
-            </Items>
-        </ImportFiles>
-		-->
-        <!-- ============================== Better Espionoge Screen (BES) ============================== -->
-		<!-- 2023-03-02 Infixo: use enhanced BES
-        <ImportFiles id="CQUI_IMPORT_FILES_BES">
-            <Items>
-                <File>Integrations/BES/UI/espionagesupport.lua</File>
-                <File>Integrations/BES/UI/Choosers/espionagechooser.lua</File>
-                <File>Integrations/BES/UI/Choosers/espionagechooser.xml</File>
-                <File>Integrations/BES/UI/PartialScreens/espionageoverview.lua</File>
-                <File>Integrations/BES/UI/PartialScreens/espionageoverview.xml</File>
-            </Items>
-        </ImportFiles>
-
-        <LocalizedText id="CQUI_BES_TEXT">
-            <Items>
-                <File Priority="1">Integrations/BES/Text/bes_text.xml</File>
-                <File>Integrations/BES/Text/bes_text_de.xml</File>
-                <File>Integrations/BES/Text/bes_text_es.xml</File>
-                <File>Integrations/BES/Text/bes_text_fr.xml</File>
-                <File>Integrations/BES/Text/bes_text_it.xml</File>
-                <File>Integrations/BES/Text/bes_text_ja.xml</File>
-                <File>Integrations/BES/Text/bes_text_pt.xml</File>
-                <File>Integrations/BES/Text/bes_text_ru.xml</File>
-                <File>Integrations/BES/Text/bes_text_ko.xml</File>
-            </Items>
-        </LocalizedText>
-		-->
         <!-- ============================== MoreLenses (ML) ============================== -->
         <AddUserInterfaces id="CQUI_MORELENSES_LENSES_WPANEL">
             <Properties>
@@ -1478,26 +1409,6 @@
         <File>Assets/UI/Icons/FontIcons_CQUI.xml</File>
         
         <!-- Integrations -->
-		<!-- 2023-04-02 Infixo: use original BTS
-        <File>Integrations/BTS/UI/tradeoverview.xml</File>
-        <File>Integrations/BTS/UI/tradeoverview.lua</File>
-        <File>Integrations/BTS/UI/tradesupport.lua</File>
-        <File>Integrations/BTS/UI/Choosers/traderoutechooser.xml</File>
-        <File>Integrations/BTS/UI/Choosers/traderoutechooser.lua</File>
-        <File>Integrations/BTS/UI/Choosers/tradeoriginchooser.xml</File>
-        <File>Integrations/BTS/UI/Choosers/tradeoriginchooser.lua</File>
-        <File>Integrations/BTS/Text/bts_text.xml</File>
-        <File>Integrations/BTS/Text/bts_text_de.xml</File>
-        <File>Integrations/BTS/Text/bts_text_es.xml</File>
-        <File>Integrations/BTS/Text/bts_text_fr.xml</File>
-        <File>Integrations/BTS/Text/bts_text_it.xml</File>
-        <File>Integrations/BTS/Text/bts_text_ja.xml</File>
-        <File>Integrations/BTS/Text/bts_text_ko.xml</File>
-        <File>Integrations/BTS/Text/bts_text_pl.xml</File>
-        <File>Integrations/BTS/Text/bts_text_pt.xml</File>
-        <File>Integrations/BTS/Text/bts_text_ru.xml</File>
-        <File>Integrations/BTS/Text/bts_text_zh.xml</File>
-		-->
         <File>Integrations/ML/Text/morelenses_text.xml</File>
         <File>Integrations/ML/Text/morelenses_text_de.xml</File>
         <File>Integrations/ML/Text/morelenses_text_es.xml</File>
@@ -1533,21 +1444,5 @@
         <File>Integrations/ML/Lenses/Wonder/ModLens_Wonder.lua</File>
         <File>Integrations/ML/DLC/Expansion1/UI/Replacements/minimappanel.xml</File>
         <File>Integrations/ML/DLC/Expansion2/UI/Replacements/minimappanel.xml</File>
-		<!-- 2023-04-02 Infixo: use enhanced BES
-        <File>Integrations/BES/UI/espionagesupport.lua</File>
-        <File>Integrations/BES/UI/Choosers/espionagechooser.lua</File>
-        <File>Integrations/BES/UI/Choosers/espionagechooser.xml</File>
-        <File>Integrations/BES/UI/PartialScreens/espionageoverview.lua</File>
-        <File>Integrations/BES/UI/PartialScreens/espionageoverview.xml</File>
-        <File>Integrations/BES/Text/bes_text.xml</File>
-        <File>Integrations/BES/Text/bes_text_de.xml</File>
-        <File>Integrations/BES/Text/bes_text_es.xml</File>
-        <File>Integrations/BES/Text/bes_text_fr.xml</File>
-        <File>Integrations/BES/Text/bes_text_it.xml</File>
-        <File>Integrations/BES/Text/bes_text_ja.xml</File>
-        <File>Integrations/BES/Text/bes_text_pt.xml</File>
-        <File>Integrations/BES/Text/bes_text_ru.xml</File>
-        <File>Integrations/BES/Text/bes_text_ko.xml</File>
-		-->
     </Files>
 </Mod>
