@@ -699,6 +699,30 @@
                 <File>Assets/Text/cqui_diplomacy_text_zh.xml</File>
             </Items>
         </LocalizedText>
+        
+        <LocalizedText id="CQUI_TEXT_EXP1BEYOND" criteria="Expansion1AndBeyond">
+            <Items>
+                <File>Assets/Expansion1/Text/Gossip_Text.xml</File>
+                <File>Assets/Expansion1/Text/Gossip_Text_de.xml</File>
+                <File>Assets/Expansion1/Text/Gossip_Text_es.xml</File>
+                <File>Assets/Expansion1/Text/Gossip_Text_fr.xml</File>
+                <File>Assets/Expansion1/Text/Gossip_Text_ja.xml</File>
+                <File>Assets/Expansion1/Text/Gossip_Text_ko.xml</File>
+                <File>Assets/Expansion1/Text/Gossip_Text_pl.xml</File>
+                <File>Assets/Expansion1/Text/Gossip_Text_pt.xml</File>
+                <File>Assets/Expansion1/Text/Gossip_Text_zh.xml</File>
+            </Items>
+        </LocalizedText>
+
+        <LocalizedText id="CQUI_TEXT_EXP2" criteria="Expansion2">
+            <Items>
+                <File>Assets/Expansion2/Text/Gossip_Text.xml</File>
+                <File>Assets/Expansion2/Text/Gossip_Text_de.xml</File>
+                <File>Assets/Expansion2/Text/Gossip_Text_es.xml</File>
+                <File>Assets/Expansion2/Text/Gossip_Text_ja.xml</File>
+                <File>Assets/Expansion2/Text/Gossip_Text_zh.xml</File>
+            </Items>
+        </LocalizedText>
 
         <!-- ============================== CQUI specific UIs ============================== -->
         <ImportFiles id="CQUI_IMPORT_FILES_CQUI_SETTINGS_LENSCOLORS">
