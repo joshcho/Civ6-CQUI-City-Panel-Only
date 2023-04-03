@@ -233,13 +233,6 @@
             </Items>
         </ImportFiles>
 
-        <ImportFiles id="CQUI_IMPORT_FILES_DIPLOMACYRIBBON">
-            <Items>
-                <File>Assets/UI/diplomacyribbon_CQUI_basegame.lua</File>
-                <File>Assets/UI/diplomacyribbon_CQUI.lua</File>
-            </Items>
-        </ImportFiles>
-
         <ImportFiles id="CQUI_IMPORT_FILES_DISTRICTPLOTICONMANAGER">
             <Items>
                 <File>Assets/UI/WorldView/districtploticonmanager_CQUI.lua</File>
@@ -421,16 +414,6 @@
             </Items>
         </ImportFiles>
 
-        <ImportFiles id="CQUI_IMPORT_FILES_EXP1_DIPLOMACYRIBBON" criteria="Expansion1">
-            <Properties>
-                <LoadOrder>100</LoadOrder>
-                <Context>InGame</Context>
-            </Properties>
-            <Items>
-                <File>Assets/Expansion1/Replacements/diplomacyribbon_CQUI_expansion1.lua</File>
-            </Items>
-        </ImportFiles>
-
         <ImportFiles id="CQUI_IMPORT_FILES_EXP1_GOVERNMENTSCREEN" criteria="Expansion1">
             <Properties>
                 <LoadOrder>100</LoadOrder>
@@ -548,16 +531,6 @@
             </Items>
         </ImportFiles>
 
-        <ImportFiles id="CQUI_IMPORT_FILES_EXP2_DIPLOMACYRIBBON" criteria="Expansion2">
-            <Properties>
-                <LoadOrder>200</LoadOrder>
-                <Context>InGame</Context>
-            </Properties>
-            <Items>
-                <File>Assets/Expansion2/Replacements/diplomacyribbon_CQUI_expansion2.lua</File>
-            </Items>
-        </ImportFiles>
-
         <ImportFiles id="CQUI_IMPORT_FILES_EXP2_GOVERNMENTSCREEN" criteria="Expansion2">
             <Properties>
                 <LoadOrder>200</LoadOrder>
@@ -644,85 +617,81 @@
         </UpdateIcons>
 
         <!-- ============================== CQUI specific LOCs ============================== -->
-        <LocalizedText id="CQUI_TEXT">
-            <Items>
-                <File>Assets/Text/Gossip_Text.xml</File>
-                <File>Assets/Text/Gossip_Text_de.xml</File>
-                <File>Assets/Text/Gossip_Text_es.xml</File>
-                <File>Assets/Text/Gossip_Text_fr.xml</File>
-                <File>Assets/Text/Gossip_Text_it.xml</File>
-                <File>Assets/Text/Gossip_Text_ja.xml</File>
-                <File>Assets/Text/Gossip_Text_ko.xml</File>
-                <File>Assets/Text/Gossip_Text_pl.xml</File>
-                <File>Assets/Text/Gossip_Text_pt.xml</File>
-                <File>Assets/Text/Gossip_Text_ru.xml</File>
-                <File>Assets/Text/Gossip_Text_zh.xml</File>
-                <File>Assets/Text/cqui_InGameText.xml</File>
-                <File>Assets/Text/cqui_InGameText_de.xml</File>
-                <File>Assets/Text/cqui_InGameText_it.xml</File>
-                <File>Assets/Text/cqui_InGameText_ja.xml</File>
-                <File>Assets/Text/cqui_InGameText_ru.xml</File>
-                <File>Assets/Text/cqui_InGameText_zh.xml</File>
-                <File>Assets/Text/cqui_InGameText_ko.xml</File>
-                <File>Assets/Text/cqui_text_general.xml</File>
-                <File>Assets/Text/cqui_text_general_de.xml</File>
-                <File>Assets/Text/cqui_text_general_es.xml</File>
-                <File>Assets/Text/cqui_text_general_fr.xml</File>
-                <File>Assets/Text/cqui_text_general_it.xml</File>
-                <File>Assets/Text/cqui_text_general_ja.xml</File>
-                <File>Assets/Text/cqui_text_general_ko.xml</File>
-                <File>Assets/Text/cqui_text_general_pl.xml</File>
-                <File>Assets/Text/cqui_text_general_pt.xml</File>
-                <File>Assets/Text/cqui_text_general_ru.xml</File>
-                <File>Assets/Text/cqui_text_general_zh.xml</File>
-                <File>Assets/Text/cqui_text_settings.xml</File>
-                <File>Assets/Text/cqui_text_settings_de.xml</File>
-                <File>Assets/Text/cqui_text_settings_es.xml</File>
-                <File>Assets/Text/cqui_text_settings_fr.xml</File>
-                <File>Assets/Text/cqui_text_settings_it.xml</File>
-                <File>Assets/Text/cqui_text_settings_ja.xml</File>
-                <File>Assets/Text/cqui_text_settings_ko.xml</File>
-                <File>Assets/Text/cqui_text_settings_pl.xml</File>
-                <File>Assets/Text/cqui_text_settings_pt.xml</File>
-                <File>Assets/Text/cqui_text_settings_ru.xml</File>
-                <File>Assets/Text/cqui_text_settings_zh.xml</File>
-                <File>Assets/Text/cqui_diplomacy_text.xml</File>
-                <File>Assets/Text/cqui_diplomacy_text_de.xml</File>
-                <File>Assets/Text/cqui_diplomacy_text_es.xml</File>
-                <File>Assets/Text/cqui_diplomacy_text_fr.xml</File>
-                <File>Assets/Text/cqui_diplomacy_text_it.xml</File>
-                <File>Assets/Text/cqui_diplomacy_text_ja.xml</File>
-                <File>Assets/Text/cqui_diplomacy_text_ko.xml</File>
-                <File>Assets/Text/cqui_diplomacy_text_pl.xml</File>
-                <File>Assets/Text/cqui_diplomacy_text_pt.xml</File>
-                <File>Assets/Text/cqui_diplomacy_text_ru.xml</File>
-                <File>Assets/Text/cqui_diplomacy_text_zh.xml</File>
-            </Items>
-        </LocalizedText>
+        <UpdateText id="CQUI_TEXT">
+			<File>Assets/Text/Gossip_Text.xml</File>
+			<File>Assets/Text/Gossip_Text_de.xml</File>
+			<File>Assets/Text/Gossip_Text_es.xml</File>
+			<File>Assets/Text/Gossip_Text_fr.xml</File>
+			<File>Assets/Text/Gossip_Text_it.xml</File>
+			<File>Assets/Text/Gossip_Text_ja.xml</File>
+			<File>Assets/Text/Gossip_Text_ko.xml</File>
+			<File>Assets/Text/Gossip_Text_pl.xml</File>
+			<File>Assets/Text/Gossip_Text_pt.xml</File>
+			<File>Assets/Text/Gossip_Text_ru.xml</File>
+			<File>Assets/Text/Gossip_Text_zh.xml</File>
+			<File>Assets/Text/cqui_InGameText.xml</File>
+			<File>Assets/Text/cqui_InGameText_de.xml</File>
+			<File>Assets/Text/cqui_InGameText_it.xml</File>
+			<File>Assets/Text/cqui_InGameText_ja.xml</File>
+			<File>Assets/Text/cqui_InGameText_ru.xml</File>
+			<File>Assets/Text/cqui_InGameText_zh.xml</File>
+			<File>Assets/Text/cqui_InGameText_ko.xml</File>
+			<File>Assets/Text/cqui_text_general.xml</File>
+			<File>Assets/Text/cqui_text_general_de.xml</File>
+			<File>Assets/Text/cqui_text_general_es.xml</File>
+			<File>Assets/Text/cqui_text_general_fr.xml</File>
+			<File>Assets/Text/cqui_text_general_it.xml</File>
+			<File>Assets/Text/cqui_text_general_ja.xml</File>
+			<File>Assets/Text/cqui_text_general_ko.xml</File>
+			<File>Assets/Text/cqui_text_general_pl.xml</File>
+			<File>Assets/Text/cqui_text_general_pt.xml</File>
+			<File>Assets/Text/cqui_text_general_ru.xml</File>
+			<File>Assets/Text/cqui_text_general_zh.xml</File>
+			<File>Assets/Text/cqui_text_settings.xml</File>
+			<File>Assets/Text/cqui_text_settings_de.xml</File>
+			<File>Assets/Text/cqui_text_settings_es.xml</File>
+			<File>Assets/Text/cqui_text_settings_fr.xml</File>
+			<File>Assets/Text/cqui_text_settings_it.xml</File>
+			<File>Assets/Text/cqui_text_settings_ja.xml</File>
+			<File>Assets/Text/cqui_text_settings_ko.xml</File>
+			<File>Assets/Text/cqui_text_settings_pl.xml</File>
+			<File>Assets/Text/cqui_text_settings_pt.xml</File>
+			<File>Assets/Text/cqui_text_settings_ru.xml</File>
+			<File>Assets/Text/cqui_text_settings_zh.xml</File>
+			<File>Assets/Text/cqui_diplomacy_text.xml</File>
+			<File>Assets/Text/cqui_diplomacy_text_de.xml</File>
+			<File>Assets/Text/cqui_diplomacy_text_es.xml</File>
+			<File>Assets/Text/cqui_diplomacy_text_fr.xml</File>
+			<File>Assets/Text/cqui_diplomacy_text_it.xml</File>
+			<File>Assets/Text/cqui_diplomacy_text_ja.xml</File>
+			<File>Assets/Text/cqui_diplomacy_text_ko.xml</File>
+			<File>Assets/Text/cqui_diplomacy_text_pl.xml</File>
+			<File>Assets/Text/cqui_diplomacy_text_pt.xml</File>
+			<File>Assets/Text/cqui_diplomacy_text_ru.xml</File>
+			<File>Assets/Text/cqui_diplomacy_text_zh.xml</File>
+        </UpdateText>
         
-        <LocalizedText id="CQUI_TEXT_EXP1BEYOND" criteria="Expansion1AndBeyond">
-            <Items>
-                <File>Assets/Expansion1/Text/Gossip_Text.xml</File>
-                <File>Assets/Expansion1/Text/Gossip_Text_de.xml</File>
-                <File>Assets/Expansion1/Text/Gossip_Text_es.xml</File>
-                <File>Assets/Expansion1/Text/Gossip_Text_fr.xml</File>
-                <File>Assets/Expansion1/Text/Gossip_Text_ja.xml</File>
-                <File>Assets/Expansion1/Text/Gossip_Text_ko.xml</File>
-                <File>Assets/Expansion1/Text/Gossip_Text_pl.xml</File>
-                <File>Assets/Expansion1/Text/Gossip_Text_pt.xml</File>
-                <File>Assets/Expansion1/Text/Gossip_Text_zh.xml</File>
-            </Items>
-        </LocalizedText>
+        <UpdateText id="CQUI_TEXT_EXP1BEYOND" criteria="Expansion1AndBeyond">
+            <Properties><LoadOrder>100</LoadOrder></Properties>
+			<File>Assets/Expansion1/Text/Gossip_Text.xml</File>
+			<File>Assets/Expansion1/Text/Gossip_Text_de.xml</File>
+			<File>Assets/Expansion1/Text/Gossip_Text_es.xml</File>
+			<File>Assets/Expansion1/Text/Gossip_Text_fr.xml</File>
+			<File>Assets/Expansion1/Text/Gossip_Text_ja.xml</File>
+			<File>Assets/Expansion1/Text/Gossip_Text_ko.xml</File>
+			<File>Assets/Expansion1/Text/Gossip_Text_pl.xml</File>
+			<File>Assets/Expansion1/Text/Gossip_Text_pt.xml</File>
+			<File>Assets/Expansion1/Text/Gossip_Text_zh.xml</File>
+        </UpdateText>
 
-        <LocalizedText id="CQUI_TEXT_EXP2" criteria="Expansion2">
-            <Items>
-                <File>Assets/Expansion2/Text/Gossip_Text.xml</File>
-                <File>Assets/Expansion2/Text/Gossip_Text_de.xml</File>
-                <File>Assets/Expansion2/Text/Gossip_Text_es.xml</File>
-                <File>Assets/Expansion2/Text/Gossip_Text_ja.xml</File>
-                <File>Assets/Expansion2/Text/Gossip_Text_zh.xml</File>
-            </Items>
-        </LocalizedText>
+        <UpdateText id="CQUI_TEXT_EXP2" criteria="Expansion2">
+            <Properties><LoadOrder>200</LoadOrder></Properties>
+			<File>Assets/Expansion2/Text/Gossip_Text.xml</File>
+			<File>Assets/Expansion2/Text/Gossip_Text_de.xml</File>
+			<File>Assets/Expansion2/Text/Gossip_Text_es.xml</File>
+			<File>Assets/Expansion2/Text/Gossip_Text_ja.xml</File>
+			<File>Assets/Expansion2/Text/Gossip_Text_zh.xml</File>
+        </UpdateText>
 
         <!-- ============================== CQUI specific UIs ============================== -->
         <ImportFiles id="CQUI_IMPORT_FILES_CQUI_SETTINGS_LENSCOLORS">
@@ -1155,55 +1124,39 @@
 
         <ImportFiles id="CQUI_IMPORT_FILES_MORELENSES_PANELS">
             <!-- ML replacements after all lens files imported -->
-            <Properties>
-                <LoadOrder>100</LoadOrder>
-            </Properties>
-            <Items>
-                <File>Integrations/ML/UI/minimappanel.lua</File>
-                <File>Integrations/ML/UI/minimappanel.xml</File>
-                <File>Integrations/ML/UI/Panels/modallenspanel.lua</File>
-                <File>Integrations/ML/UI/Panels/modallenspanel.xml</File>
-            </Items>
+            <Properties><LoadOrder>100</LoadOrder></Properties>
+			<File>Integrations/ML/UI/minimappanel.lua</File>
+			<File>Integrations/ML/UI/minimappanel.xml</File>
+			<File>Integrations/ML/UI/Panels/modallenspanel.lua</File>
+			<File>Integrations/ML/UI/Panels/modallenspanel.xml</File>
         </ImportFiles>
 
         <ImportFiles id="CQUI_IMPORT_FILES_EXP1_MORELENSES_MINIMAPPANEL" criteria="Expansion1AndBeyond">
-            <Properties>
-                <LoadOrder>101</LoadOrder>
-            </Properties>
-            <Items>
-                <File>Integrations/ML/DLC/Expansion1/UI/Replacements/minimappanel.xml</File>
-            </Items>
+            <Properties><LoadOrder>101</LoadOrder></Properties>
+            <File>Integrations/ML/DLC/Expansion1/UI/Replacements/minimappanel.xml</File>
         </ImportFiles>
 
         <ImportFiles id="CQUI_IMPORT_FILES_EXP2_MORELENSES_MINIMAPPANEL" criteria="Expansion2">
-            <Properties>
-                <LoadOrder>102</LoadOrder>
-            </Properties>
-            <Items>
-                <File>Integrations/ML/DLC/Expansion2/UI/Replacements/minimappanel.xml</File>
-            </Items>
+            <Properties><LoadOrder>102</LoadOrder></Properties>
+            <File>Integrations/ML/DLC/Expansion2/UI/Replacements/minimappanel.xml</File>
         </ImportFiles>
 
-        <LocalizedText id="CQUI_MORELENSES_TEXT">
-            <Items>
-                <File Priority="1">Integrations/ML/Text/morelenses_text.xml</File>
-                <File>Integrations/ML/Text/morelenses_text_de.xml</File>
-                <File>Integrations/ML/Text/morelenses_text_es.xml</File>
-                <File>Integrations/ML/Text/morelenses_text_fr.xml</File>
-                <File>Integrations/ML/Text/morelenses_text_it.xml</File>
-                <File>Integrations/ML/Text/morelenses_text_ja.xml</File>
-                <File>Integrations/ML/Text/morelenses_text_ko.xml</File>
-                <File>Integrations/ML/Text/morelenses_text_pl.xml</File>
-                <File>Integrations/ML/Text/morelenses_text_pt.xml</File>
-                <File>Integrations/ML/Text/morelenses_text_ru.xml</File>
-                <File>Integrations/ML/Text/morelenses_text_zh.xml</File>
-            </Items>
-        </LocalizedText>
+        <UpdateText id="CQUI_MORELENSES_TEXT">
+			<File Priority="1">Integrations/ML/Text/morelenses_text.xml</File>
+			<File>Integrations/ML/Text/morelenses_text_de.xml</File>
+			<File>Integrations/ML/Text/morelenses_text_es.xml</File>
+			<File>Integrations/ML/Text/morelenses_text_fr.xml</File>
+			<File>Integrations/ML/Text/morelenses_text_it.xml</File>
+			<File>Integrations/ML/Text/morelenses_text_ja.xml</File>
+			<File>Integrations/ML/Text/morelenses_text_ko.xml</File>
+			<File>Integrations/ML/Text/morelenses_text_pl.xml</File>
+			<File>Integrations/ML/Text/morelenses_text_pt.xml</File>
+			<File>Integrations/ML/Text/morelenses_text_ru.xml</File>
+			<File>Integrations/ML/Text/morelenses_text_zh.xml</File>
+        </UpdateText>
 
         <UpdateDatabase id="CQUI_MORELENSES_DATABASE">
-            <Items>
-                <File>Integrations/ML/morelenses_colors.sql</File>
-            </Items>
+			<File>Integrations/ML/morelenses_colors.sql</File>
         </UpdateDatabase>
         <!-- ============================== End of ML ============================== -->
         <!-- </Components> -->
@@ -1278,8 +1231,9 @@
         <File>Assets/Text/cqui_InGameText_de.xml</File>
         <File>Assets/Text/cqui_InGameText_it.xml</File>
         <File>Assets/Text/cqui_InGameText_ja.xml</File>
-        <File>Assets/Text/cqui_InGameText_ru.xml</File>
         <File>Assets/Text/cqui_InGameText_ko.xml</File>
+        <File>Assets/Text/cqui_InGameText_ru.xml</File>
+		<File>Assets/Text/cqui_InGameText_zh.xml</File>
         <File>Assets/Text/cqui_text_general.xml</File>
         <File>Assets/Text/cqui_text_general_de.xml</File>
         <File>Assets/Text/cqui_text_general_es.xml</File>
