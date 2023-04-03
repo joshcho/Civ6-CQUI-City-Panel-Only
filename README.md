@@ -1,3 +1,12 @@
+## CQUI Lite
+
+### Removed components
+- BES integration - use [Better Espionage Screen(UI)](https://steamcommunity.com/sharedfiles/filedetails/?id=2913201420) by Infixo.
+- BTS integration - use [Better Trade Screen](https://steamcommunity.com/sharedfiles/filedetails/?id=873246701) by astog.
+- Great People - use [Real Great People](https://steamcommunity.com/sharedfiles/filedetails/?id=900089445) by Infixo.
+- City States - use [Better City-States (UI)](https://steamcommunity.com/sharedfiles/filedetails/?id=2495851756) by Infixo.
+
+
 # Community Quick User Interface (CQUI)
 > CQUI is an open source Civilization 6 mod that is maintained by its community.
 
