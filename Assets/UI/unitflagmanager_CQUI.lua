@@ -70,6 +70,7 @@ end
 -- ===========================================================================
 -- Update the stats of the flags (Azurency) and update the flag transparency if Religion Lens is displayed (the_m4a)
 function CQUI_Refresh()
+	if Game.GetLocalPlayer() < 0 then return; end
     local unitList = Players[Game.GetLocalPlayer()]:GetUnits();
     if unitList ~= nil then
         local applyDimming = false;

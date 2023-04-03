@@ -1825,7 +1825,9 @@ function CQUI_UpdateCityStateBannerSuzerain( pPlayer:table, bannerInstance )
         -- print("CityBannerManager_CQUI: CQUI_UpdateCityStateBannerSuzerain EXIT (CQUI XML not loaded)");
         return;
     end
-
+	
+	if Game.GetLocalPlayer() < 0 then return; end
+	
     local pPlayerInfluence :table  = pPlayer:GetInfluence();
     local suzerainID :number = pPlayerInfluence:GetSuzerain();
     if (suzerainID ~= -1 and IsCQUI_ShowSuzerainInCityStateBannerEnabled()) then
