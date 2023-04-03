@@ -1,7 +1,3 @@
--- CQUI InGame.lua Replacement
--- CQUI-Specific Changes marked in-line below
--- NOTE: InGame.lua cannot be replaced via ReplaceUIScript, per the comment below from Firaxis.
-
 -- Copyright 2015-2018, Firaxis Games
 -- Root context for ingame (aka: All-the-things)
 -- MODs / Expansions cannot use partial replacement as this context is 
@@ -9,9 +5,6 @@
 
 include( "LocalPlayerActionSupport" );
 include( "InputSupport" );
--- ==== CQUI CUSTOMIZATION BEGIN  ==================================================================================== --
-include( "CQUICommon" );
--- ==== CQUI CUSTOMIZATION END ======================================================================================= --
 
 
 -- ===========================================================================
@@ -90,8 +83,8 @@ DefaultMessageHandler[KeyEvents.KeyUp] =
                 OpenInGameOptionsMenu();
                 return true;
             end
-
             return false; -- Already open, let it handle it.
+			
         elseif ( uiKey == Keys.B and pInputStruct:IsShiftDown() and pInputStruct:IsAltDown() and (not UI.IsFinalRelease()) ) then
             -- DEBUG: Force unhiding
             local msg:string =  "***PLAYER Force Bulk unhiding SHIFT+ALT+B ***";
@@ -175,10 +168,7 @@ function BulkHide( isHide:boolean, debugWho:string )
 
     -- Tracking for debugging:
     m_bulkHideTracker = m_bulkHideTracker + (isHide and 1 or -1);
-    -- ==== CQUI CUSTOMIZATION BEGIN  ==================================================================================== --
-    -- CQUI: Unmodifed file just uses print here (rather than print_debug), rest of line is the same
-    print_debug("Request to BulkHide( "..tostring(isHide)..", "..debugWho.." ), Show on 0 = "..tostring(m_bulkHideTracker));
-    -- ==== CQUI CUSTOMIZATION END ==================================================================================== --
+    print("Request to BulkHide( "..tostring(isHide)..", "..debugWho.." ), Show on 0 = "..tostring(m_bulkHideTracker));
 
     if m_bulkHideTracker < 0 then
         UI.DataError("Request to bulk show past limit by "..debugWho..". Last bulk shown by "..m_lastBulkHider);
@@ -371,10 +361,7 @@ function Initialize()
 
     -- Support for Modded Add-in UI's
     for i, addin in ipairs(Modding.GetUserInterfaces("InGame")) do
-        -- ==== CQUI CUSTOMIZATION BEGIN  ==================================================================================== --
-        -- CQUI: Unmodifed version just uses print here rather than print_debug
-        print_debug("Loading InGame UI - " .. addin.ContextPath);
-        -- ==== CQUI CUSTOMIZATION END ==================================================================================== --
+        print("Loading InGame UI - " .. addin.ContextPath);
         local id        :string = addin.ContextPath:sub(-(string.find(string.reverse(addin.ContextPath), '/') - 1));         -- grab id from end of path
         local isHidden  :boolean = true;
         local newContext:table = ContextPtr:LoadNewContext(addin.ContextPath, Controls.AdditionalUserInterfaces, id, isHidden); -- Content, ID, hidden

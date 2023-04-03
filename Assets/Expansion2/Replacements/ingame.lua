@@ -5,8 +5,7 @@
 
 include( "LocalPlayerActionSupport" );
 include( "InputSupport" );
-include( "Civ6Common" );
-include( "CQUICommon.lua" );
+
 
 -- ===========================================================================
 --  CONSTANTS
@@ -23,9 +22,7 @@ local m_bulkHideTracker :number = 0;
 local m_lastBulkHider:string = "first call";
 g_uiAddins = {};
 
-local m_PauseId;
 local m_PauseId     :number = Input.GetActionId("PauseMenu");
-local m_QuicksaveId;
 local m_QuicksaveId :number = Input.GetActionId("QuickSave");
 
 local m_HexColoringReligion : number = UILens.CreateLensLayerHash("Hex_Coloring_Religion");
@@ -84,12 +81,14 @@ DefaultMessageHandler[KeyEvents.KeyUp] =
                 return true;
             end
             return false;  -- Already open, let it handle it.
+			
         elseif ( uiKey == Keys.B and pInputStruct:IsShiftDown() and pInputStruct:IsAltDown() and (not UI.IsFinalRelease()) ) then
             -- DEBUG: Force unhiding
             local msg:string =    "***PLAYER Force Bulk unhiding SHIFT+ALT+B ***";
             UI.DataError(msg);
             m_bulkHideTracker = 1;
             BulkHide(false, msg);
+			
         elseif ( uiKey == Keys.J and pInputStruct:IsShiftDown() and pInputStruct:IsAltDown() and (not UI.IsFinalRelease()) ) then
             if m_bulkHideTracker < 1 then
                 BulkHide(true,  "Forced" );
@@ -143,8 +142,21 @@ function OnShow()
             pFriends:SetRichPresence("civPresence", "LOC_PRESENCE_IN_GAME_SP");
         end
     end
+
+	RealizeTooltipBehavior();
 end
 
+-- ===========================================================================
+function RealizeTooltipBehavior()
+	local toolTipBehavior:number = Options.GetAppOption("UI", "TooltipBehavior");
+	if toolTipBehavior == TooltipBehavior.AlwaysShowing then		
+		TTManager:SetToolTipDelay( 0.0 );
+	elseif toolTipBehavior == TooltipBehavior.ShowAfterDelay then	
+		TTManager:SetToolTipDelay( 2.0 );	-- seconds to delay before showing
+	elseif toolTipBehavior == TooltipBehavior.ShowOnButton then
+		TTManager:SetToolTipDelay( 0.0 );	-- no delay (but require button.)
+	end
+end
 
 -- ===========================================================================
 --  Hide (or Show) all the contexts part of the BULK group.
@@ -153,7 +165,7 @@ function BulkHide( isHide:boolean, debugWho:string )
 
     -- Tracking for debugging:
     m_bulkHideTracker = m_bulkHideTracker + (isHide and 1 or -1);
-    print_debug("Request to BulkHide( "..tostring(isHide)..", "..debugWho.." ), Show on 0 = "..tostring(m_bulkHideTracker));
+    print("Request to BulkHide( "..tostring(isHide)..", "..debugWho.." ), Show on 0 = "..tostring(m_bulkHideTracker));
 
     if m_bulkHideTracker < 0 then
         UI.DataError("Request to bulk show past limit by "..debugWho..". Last bulk shown by "..m_lastBulkHider);
@@ -244,6 +256,7 @@ function OnTurnEnd()
     m_activeLocalPlayer = -1;
 end
 
+
 -- ===========================================================================
 function RestartRefreshRequest()
     -- Increasing this adds a delay, but will make it less likely that lower
@@ -276,6 +289,15 @@ end
 
 -- ===========================================================================
 --  Event
+-- ===========================================================================
+function OnUpdateUI( type, tag, iData1, iData2, strData1 )
+    if (type == SystemUpdateUI.TouchTipBehaviorChanged) then
+		RealizeTooltipBehavior();
+    end
+end
+
+-- ===========================================================================
+--	Event
 -- ===========================================================================
 function OnUIIdle()
     -- If a countdown to check hasn't started, kick one off.
@@ -326,7 +348,6 @@ function OnTutorialEndHide()           BulkHide( true, "TutorialEnd" );     end
 function OnWonderBuiltPopupShown()     BulkHide( true, "Wonder" );          end
 function OnWonderBuiltPopupClosed()    BulkHide(false, "Wonder" );          end
 
-
 -- ===========================================================================
 function OnShutdown()
     UIManager:ClearPopupChangeHandler();
@@ -341,7 +362,7 @@ function Initialize()
 
     -- Support for Modded Add-in UI's
     for i, addin in ipairs(Modding.GetUserInterfaces("InGame")) do
-        print_debug("Loading InGame UI - " .. addin.ContextPath);
+        print("Loading InGame UI - " .. addin.ContextPath);
         local id        :string = addin.ContextPath:sub(-(string.find(string.reverse(addin.ContextPath), '/') - 1));         -- grab id from end of path
         local isHidden  :boolean = true;
         local newContext:table = ContextPtr:LoadNewContext(addin.ContextPath, Controls.AdditionalUserInterfaces, id, isHidden); -- Content, ID, hidden
@@ -361,8 +382,10 @@ function Initialize()
     Events.LoadGameViewStateDone.Add(OnLoadGameViewStateDone);
     Events.LocalPlayerTurnBegin.Add(OnTurnBegin);
     Events.LocalPlayerTurnEnd.Add(OnTurnEnd);
+	Events.SystemUpdateUI.Add( OnUpdateUI );
     Events.UIIdle.Add(OnUIIdle);
 
+ 
     -- NOTE: Using UI open/closed pairs in the case of end game; where
     --       the same player receives both a victory and defeat messages
     --       across the wire.
