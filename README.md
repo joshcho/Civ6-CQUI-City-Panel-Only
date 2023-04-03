@@ -5,6 +5,9 @@
 - BTS integration - use [Better Trade Screen](https://steamcommunity.com/sharedfiles/filedetails/?id=873246701) by astog.
 - Great People - use [Real Great People](https://steamcommunity.com/sharedfiles/filedetails/?id=900089445) by Infixo.
 - City States - use [Better City-States (UI)](https://steamcommunity.com/sharedfiles/filedetails/?id=2495851756) by Infixo.
+- Map Pin Manager - use [Detailed Map Tacks](https://steamcommunity.com/sharedfiles/filedetails/?id=2428969051) by wltk.
+- Civilopedia - use [Better Civilopedia (UI)](https://steamcommunity.com/sharedfiles/filedetails/?id=1341630847) by Infixo.
+- Diplomacy Ribbon (extra info on hover) - use [Extended Diplomacy Ribbon](https://steamcommunity.com/sharedfiles/filedetails/?id=1360462633) by Aristos or [Better Leader Icon (UI)](https://steamcommunity.com/sharedfiles/filedetails/?id=1691629919) by Infixo.
 
 
 # Community Quick User Interface (CQUI)
@@ -57,22 +60,9 @@ See CQUI_Settings_Local section later in this document.
   - Unit XP bars are twice as tall _- [image](http://i.imgur.com/TeWR0VA.png)_
   - Unit flags show a "+" icon when able to be promoted
   - Hero units have a brighter glow    
-- Great Person panel revamped _- [image](https://user-images.githubusercontent.com/8012430/31862025-75a4cb88-b737-11e7-9b0f-57129f114f59.jpg)_
-  - Reduced or eliminate side scrolling
-  - Adapts to the screen height
-  - Heroes entries are twice as wide for better readability
 - Policy Reminder Popup _- [image](https://user-images.githubusercontent.com/8012430/31861779-17cd1758-b733-11e7-8b16-b4422999c8af.png)_
   - If new policies are available, a popup reminds you to check them out
-- City State Panel shows additional information
-  - Envoy list also shows 2nd place Suzerain and tooltip lists all Envoys sent to that City State
-  - City State quests are shown in-line with a resizable font
 - "My Government" tab removed from Government panel _- [image](http://i.imgur.com/168ThOx.jpg)_
-- Leaderheads expanded tooltips _- [image](https://user-images.githubusercontent.com/8012430/31861835-17537960-b734-11e7-8ae4-08e7e3f19cc4.png)_
-- Map Pinning system enhanced _- [image](http://i.imgur.com/M11tac6.png)_
-  - New pins
-  - Long pinlists are now scrollable
-  - Shift-Right click to quickly delete pins
-  - Enter key now bound to finalizing a pin in pin creation menu
 - Tech/Civic Tree and Civilopedia now autofocus the search bar
 - Civic/Tech popups can be disabled
   - Civic/Tech voice-overs can be set to only play manually
@@ -108,26 +98,6 @@ Mod originally by mironos (on the Steam Workshop), now incorporated into and mai
 - All great works with a creator now display that creator
 - Artifacts include civ leader names so you can tell at a glance what nation or city state the artifact originated from, as well as the artifact's era.
 
-### Better Trade Screen
-Mod by [astog](https://github.com/astog), the stand-alone version can be found [on github](https://github.com/astog/BTS). The goal of this mod is to improve the trade screens in Civilization VI and help manage and monitor running trade routes.
-
-![](http://i.imgur.com/8DXfZx3.png)
-
-- Shows turns to complete a trade route rather than the distance between the cities
-- Overhauled Trade Overview screen _- [image](http://i.imgur.com/0IMseO1.png)_
-  - Shows all possible routes, even if the trader is not present in the origin city
-  - Clicking on a route where a free trade unit is not present in the origin city takes you to a free trade unit and opens the Change City screen
-  - Route entry is colored based on destination player
-  - Player/City header are also colored
-  - Shows origin city and destination city yields in the same screen
-  - Added Group and Filter settings
-  - My Routes tab tracks active routes, so you know when a trade route completes
-- Sort bar in Make Trade Route screen and Trade Overview screen. Sort the routes by left clicking on a button _- [image](http://i.imgur.com/F7ZRUi7.png)_
-- Trade Routes can be sorted based on yields, and turns remaining. Queue multiple sorts by holding SHIFT and the left clicking on a sort button. Right click on any sort button to remove it from the sort setting
-- When opening Make Trade Route screen, the last destination is automatically picked
-- Set a trader to repeat its last route by selecting the Repeat Route checkbox when initiating a trade route
-- An additional checkbox is provided that sets the trader to repeat the top route from the sort settings when the trade was initiated. This allows the trade route to always be the best one, hence reducing micromanagement of always checking the trade routes
-- Cancel the automated trader from the My Routes tab in Trade Overview screen
 
 ### More Lenses
 Mod by [astog](https://github.com/astog), the stand-alone version can be found [on github](https://github.com/astog/MoreLenses). The goal of this mod is to add more lenses to the game, that help with empire management and in general quality of life improvements.
@@ -142,16 +112,6 @@ Mod by [astog](https://github.com/astog), the stand-alone version can be found [
 - Add a Wonder Lens to highlights natural and player made wonders
 - Add an Adjacency Yield Lens to show the various adjacency bonuses in a gradient, allowing you to relish in your pristine city planning skills
 - Add a Scout Lens to highlight goody huts on the map. Automatically applies when a scout/ranger is selected (can be toggled in the settings)
-
-### Better Espionage Screen
-Mod by [astog](https://github.com/astog), the stand-alone version can be found [on github](https://github.com/astog/BES). The Espionage Screens are overhauled to reduce the number of clicks and find the right information quickly.
-
-![](https://camo.githubusercontent.com/763167a1fb61481c0e9a60888d30687f51c3e919/687474703a2f2f692e696d6775722e636f6d2f705435617352652e6a7067)
-
-- District Filter Options
-  - Allows you to filter the cities based on their districts
-  - You can also filter based on civilizations
-- Mission list is shown as a side screen, rather than replacing the destination list
 
 ### Divine Yuri's Custom City Panel
 Mod by [Divine Yuri](https://forums.civfanatics.com/members/divine-yuri.263736/), the stand-alone version can be found [on civfanatics](https://forums.civfanatics.com/resources/divine-yuris-custom-city-panel.25430/). The mod adds additional tooltips to the city panel.
