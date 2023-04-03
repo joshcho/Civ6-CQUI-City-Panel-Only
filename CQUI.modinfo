@@ -190,13 +190,6 @@
             </Items>
         </ImportFiles>
 
-        <ImportFiles id="CQUI_IMPORT_FILES_CIVILOPEDIA">
-            <Items>
-                <File>Assets/UI/Civilopedia/civilopediasupport_CQUI.lua</File>
-                <File>Assets/UI/Civilopedia/civilopediascreen.lua</File>
-            </Items>
-        </ImportFiles>
-
         <ImportFiles id="CQUI_IMPORT_FILES_CITYPANELS">
             <Items>
                 <File>Assets/UI/Panels/citypanel.lua</File>
@@ -742,13 +735,6 @@
             </Items>
         </GameplayScripts>
 
-        <!-- ============================== CQUI specific art overrides ============================== -->
-        <ModArt id="CQUI_MODART">
-            <Items>
-                <File>CQUI.dep</File>
-            </Items>
-        </ModArt>
-
         <!-- ============================== ReplaceUIScript Declarations ============================== -->
         <ReplaceUIScript id="CQUI_CityPanelCulture_EXP1" criteria="Expansion1AndBeyond">
             <Properties>
@@ -1248,7 +1234,6 @@
     <Files>
         <!-- See note before the UpdateDatabase section above -->
         <File>../cqui_settings_local.sql</File>
-        <File>CQUI.dep</File>
         <File>Assets/cqui_databaseschema.sql</File>
         <File>Assets/cqui_data.sql</File>
         <File>Assets/cqui_settings.sql</File>
@@ -1375,8 +1360,6 @@
         <File>Assets/UI/WorldViewIconsManager_CQUI.lua</File>
         <File>Assets/UI/Choosers/CivicsChooser_CQUI.lua</File>
         <File>Assets/UI/Choosers/ResearchChooser_CQUI.lua</File>
-        <File>Assets/UI/Civilopedia/civilopediasupport_CQUI.lua</File>
-        <File>Assets/UI/Civilopedia/civilopediascreen.lua</File>
         <File>Assets/UI/Panels/citypanel.lua</File>
         <File>Assets/UI/Panels/citypanel.xml</File>
         <File>Assets/UI/Panels/citypaneloverview.lua</File>
