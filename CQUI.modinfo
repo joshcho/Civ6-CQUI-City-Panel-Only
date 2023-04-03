@@ -158,19 +158,6 @@
             </Items>
         </ImportFiles>
 
-        <ImportFiles id="CQUI_IMPORT_FILES_TEXTURES">
-            <Items>
-                <File>Assets/Texture/CQUI_GreatPeople_Background_Bottom.dds</File>
-                <File>Assets/Texture/CQUI_GreatPeople_Background_Repeat_Bottom.dds</File>
-                <File>Assets/Texture/CQUI_GreatPeople_Background_Repeat_Top.dds</File>
-                <File>Assets/Texture/CQUI_GreatPeople_Background_Top.dds</File>
-                <File>Assets/Texture/CQUI_Heroes_Background_Bottom.dds</File>
-                <File>Assets/Texture/CQUI_Heroes_Background_Repeat_Bottom.dds</File>
-                <File>Assets/Texture/CQUI_Heroes_Background_Repeat_Top.dds</File>
-                <File>Assets/Texture/CQUI_Heroes_Background_Top.dds</File>
-            </Items>
-        </ImportFiles>
-
         <ImportFiles id="CQUI_IMPORT_FILES_OPTIONS_MENU">
             <Items>
                 <File>Assets/UI/Options_CQUI.lua</File>
@@ -294,13 +281,6 @@
                 <File>Assets/UI/Screens/governmentscreen_CQUI_basegame.lua</File>
                 <File>Assets/UI/Screens/governmentscreen_CQUI.lua</File>
                 <File>Assets/UI/Utilities/extendedrelationship.lua</File>
-            </Items>
-        </ImportFiles>
-
-        <ImportFiles id="CQUI_IMPORT_FILES_GREATPEOPLEPOPUP">
-            <Items>
-                <File>Assets/UI/Popups/greatpeoplepopup.lua</File>
-                <File>Assets/UI/Popups/greatpeoplepopup.xml</File>
             </Items>
         </ImportFiles>
 
@@ -720,18 +700,6 @@
             <Properties><LoadOrder>200</LoadOrder></Properties>
             <File>Assets/Expansion2/Data/Expansion2_Icons_FontIcons_CQUI.xml</File>
         </UpdateIcons>
-
-        <!-- ============================== CQUI Heroes Mode files ======================================== -->
-        <ImportFiles id="CQUI_IMPORT_FILES_HEROES_MODE" criteria="Heroes_Mode">
-            <Properties>
-                <LoadOrder>250</LoadOrder>
-                <Context>InGame</Context>
-            </Properties>
-            <Items>
-                <File>Assets/Babylon/Additions/GreatPeopleHeroPanel.lua</File>
-                <File>Assets/Babylon/Additions/GreatPeopleHeroPanel.xml</File>
-            </Items>
-        </ImportFiles>
 
         <!-- ============================== CQUI specific LOCs ============================== -->
         <LocalizedText id="CQUI_TEXT">
@@ -1459,10 +1427,6 @@
         <File>Assets/Expansion2/CityBanners/cityreligioninstances.xml</File>
         <File>Assets/Expansion2/Data/Expansion2_Icons_FontIcons_CQUI.xml</File>
 
-        <!-- Heroes Mode -->
-        <File>Assets/Babylon/Additions/GreatPeopleHeroPanel.lua</File>
-        <File>Assets/Babylon/Additions/GreatPeopleHeroPanel.xml</File>
-
         <File>Assets/Text/Gossip_Text.xml</File>
         <File>Assets/Text/Gossip_Text_de.xml</File>
         <File>Assets/Text/Gossip_Text_it.xml</File>
@@ -1510,15 +1474,6 @@
         <File>Assets/Text/cqui_diplomacy_text_ru.xml</File>
         <File>Assets/Text/cqui_diplomacy_text_zh.xml</File>
 
-        <File>Assets/Texture/CQUI_GreatPeople_Background_Bottom.dds</File>
-        <File>Assets/Texture/CQUI_GreatPeople_Background_Repeat_Bottom.dds</File>
-        <File>Assets/Texture/CQUI_GreatPeople_Background_Repeat_Top.dds</File>
-        <File>Assets/Texture/CQUI_GreatPeople_Background_Top.dds</File>
-        <File>Assets/Texture/CQUI_Heroes_Background_Bottom.dds</File>
-        <File>Assets/Texture/CQUI_Heroes_Background_Repeat_Bottom.dds</File>
-        <File>Assets/Texture/CQUI_Heroes_Background_Repeat_Top.dds</File>
-        <File>Assets/Texture/CQUI_Heroes_Background_Top.dds</File>
-
         <!-- BASE -->
         <File>Assets/UI/actionpanel.lua</File>
         <File>Assets/UI/diplomacyactionview_CQUI_basegame.lua</File>
@@ -1562,8 +1517,6 @@
         <File>Assets/UI/PartialScreens/citystates_CQUI_basegame.lua</File>
         <File>Assets/UI/PartialScreens/citystates_CQUI.lua</File>
         <File>Assets/UI/PartialScreens/citystates.xml</File>
-        <File>Assets/UI/Popups/greatpeoplepopup.lua</File>
-        <File>Assets/UI/Popups/greatpeoplepopup.xml</File>
         <File>Assets/UI/Popups/policyreminderpopup.lua</File>
         <File>Assets/UI/Popups/policyreminderpopup.xml</File>
         <File>Assets/UI/Popups/techciviccompletedpopup.lua</File>
