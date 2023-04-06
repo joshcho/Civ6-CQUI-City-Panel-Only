@@ -97,6 +97,9 @@ end
 --  CQUI modified PopulatePolicyFilterData functiton
 --  Add a Great People filter
 -- ===========================================================================
+
+function wildcardFilter(policy) return policy.SlotType == "SLOT_WILDCARD" end
+
 function PopulatePolicyFilterData()
     BASE_CQUI_PopulatePolicyFilterData()
 
