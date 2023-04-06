@@ -1,4 +1,4 @@
-## CQUI Lite
+## CQUI Lite on [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2958461265)
 
 ### Removed components
 - BES integration - use [Better Espionage Screen(UI)](https://steamcommunity.com/sharedfiles/filedetails/?id=2913201420) by Infixo.
