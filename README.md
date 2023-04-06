@@ -164,12 +164,19 @@ Place CQUI_Settings_Local.sql in the "Mods" folder:
 
 
 ## Credits
-@Vans163 for his original QUI mod, @Chaorace for the Chao's QUI, @alexeyOnGitHub, @alimulhuda, @the-m4a, @Infixo, @Sparrow, @astog, Aristos/@ricanuck, @JHCD, Greg Miller, Ace, Divine Yuri, @ZhouYzzz, @deggesim, @e1ectron, @sejbr, @frytom, @maxap, @lctrs, @wbqd, @jacks0nX, @RatchetJ, @Frozen-In-Ice, @zgavin, @olegbl, @Proustldee, @kblease, @bolbass, @SpaceOgre, @OfekA, @zeyangl, @Remolten, @bestekov, @cpinter, @paavohuhtala, @perseghini, @benjaminjackman, @velit, @MarkusKV, @apskim, @8h42
 
+@Vans163 for his original QUI mod
+
+@Chaorace for the Chao's QUI
+
+#### 2017-2022 development
+@alexeyOnGitHub, @alimulhuda, @the-m4a, @Infixo, @Sparrow, @astog, Aristos/@ricanuck, @JHCD, Greg Miller, Ace, Divine Yuri, @ZhouYzzz, @deggesim, @e1ectron, @sejbr, @frytom, @maxap, @lctrs, @wbqd, @jacks0nX, @RatchetJ, @Frozen-In-Ice, @zgavin, @olegbl, @Proustldee, @kblease, @bolbass, @SpaceOgre, @OfekA, @zeyangl, @Remolten, @bestekov, @cpinter, @paavohuhtala, @perseghini, @benjaminjackman, @velit, @MarkusKV, @apskim, @8h42
+
+#### 2023 development
+@Infixo, @Jamie-nyanchi
+
+#### World :)
 Firaxis for eventually delivering mod tools and steam workshop. 
-
 The lovely folks over at Civfanatics for their guides, knowledge, tools, and resources. 
-
 The even lovelier folks contributing on GitHub and over at /r/civ for their input and testing. 
-
 The, arguably, lovely folks back at the Steam Workshop :p
