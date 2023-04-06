@@ -182,6 +182,7 @@ See [here](https://github.com/civfanatics/CQUI_Community-Edition)
 #### 2023 development
 
 @Infixo, @Jamie-nyanchi
+Spy Info originally a module in the Concise UI created by @eudaimonia.
 
 #### World :)
 

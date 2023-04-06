@@ -76,5 +76,13 @@
       <Text>Ci sono cittadini sbloccati che vengono assegnati automaticamente dal governatore della città.</Text>
     </Replace>
 
+	<!-- #11 Spy Info -->
+    <Replace Tag="LOC_CUI_SI_SPY_AVAILABLE" Language="it_IT">
+        <Text>{1_num} [ICON_Unit] {1_num : plural 1?Spia disponibile; other?Spie disponibili;}</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_SI_SPY_CAPACITY" Language="it_IT">
+        <Text>{1_num} [ICON_Unit] {1_num : plural 1?Spia arruolabile; other?Spie arruolabili;}</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

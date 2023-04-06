@@ -100,5 +100,13 @@
         <Text>+{1_Num} 가장 발전된 전략 자원</Text>
     </Row>
 
+	<!-- #11 Spy Info -->
+    <Replace Tag="LOC_CUI_SI_SPY_AVAILABLE" Language="ko_KR">
+        <Text>현재 활동 중인 [ICON_Unit]스파이: {1_num}명</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_SI_SPY_CAPACITY" Language="ko_KR">
+        <Text>활동 가능한 [ICON_Unit]스파이: {1_num}명</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

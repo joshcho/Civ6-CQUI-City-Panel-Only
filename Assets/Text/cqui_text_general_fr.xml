@@ -62,5 +62,13 @@
       <Text>Des citoyens sont automatiquement assignés par l'IA du gouverneur de ville.</Text>
     </Row>
 
+	<!-- #11 Spy Info -->
+    <Replace Tag="LOC_CUI_SI_SPY_AVAILABLE" Language="fr_FR">
+        <Text>{1_num} [ICON_Unit] {1_num : plural 1?Espion disponible; other?Espions disponibles;}</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_SI_SPY_CAPACITY" Language="fr_FR">
+        <Text>{1_num} [ICON_Unit] {1_num : plural 1?Espion possible; other?Espions possibles;}</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

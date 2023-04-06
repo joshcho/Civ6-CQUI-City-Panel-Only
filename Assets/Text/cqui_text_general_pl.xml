@@ -35,5 +35,13 @@
       <Text>Postęp:</Text>
     </Row>
 
+	<!-- #11 Spy Info -->
+    <Replace Tag="LOC_CUI_SI_SPY_AVAILABLE" Language="pl_PL">
+        <Text>Użycie: {1_num} [ICON_Unit] {1_num : plural 1?Szpieg; other?Szpiegów;}</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_SI_SPY_CAPACITY" Language="pl_PL">
+        <Text>Limit: {1_num} [ICON_Unit] {1_num : plural 1?Szpieg; other?Szpiegów;}</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

@@ -71,5 +71,13 @@
       <Text>合計</Text>
     </Replace>
 
+	<!-- #11 Spy Info -->
+    <Replace Tag="LOC_CUI_SI_SPY_AVAILABLE" Language="ja_JP">
+        <Text>[ICON_Unit]スパイ待機中: {1_num}</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_SI_SPY_CAPACITY" Language="ja_JP">
+        <Text>[ICON_Unit]スパイ保有枠: {1_num}</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

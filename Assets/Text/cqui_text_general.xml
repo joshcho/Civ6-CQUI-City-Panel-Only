@@ -100,5 +100,13 @@
         <Text>+{1_Num} most advanced strategic resources</Text>
     </Row>
 
+	<!-- #11 Spy Info -->
+    <Replace Tag="LOC_CUI_SI_SPY_AVAILABLE" Language="en_US">
+        <Text>{1_num} [ICON_Unit] {1_num : plural 1?Spy; other?Spies;} available</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_SI_SPY_CAPACITY" Language="en_US">
+        <Text>{1_num} [ICON_Unit] {1_num : plural 1?Spy; other?Spies;} capacity</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

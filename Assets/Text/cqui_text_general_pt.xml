@@ -66,5 +66,13 @@
       <Text>Você pode mudar sua política neste turno.</Text>
     </Row>
 
+	<!-- #11 Spy Info -->
+    <Replace Tag="LOC_CUI_SI_SPY_AVAILABLE" Language="pt_BR">
+        <Text>{1_num} [ICON_Unit] {1_num : plural 1?Espião disponíveis; other?Espiões disponíveis;}</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_SI_SPY_CAPACITY" Language="pt_BR">
+        <Text>{1_num} [ICON_Unit] {1_num : plural 1?Espião; other?Espiões;} capacidade</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

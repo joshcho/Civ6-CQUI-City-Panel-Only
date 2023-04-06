@@ -43,5 +43,13 @@
       <Text>Tu Campamento puede efectuar un ataque a distancia</Text>
     </Replace>
 
+	<!-- #11 Spy Info -->
+    <Replace Tag="LOC_CUI_SI_SPY_AVAILABLE" Language="es_ES">
+        <Text>{1_num} [ICON_Unit] {1_num : plural 1?Espía; other?Espías;} disponibles</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_SI_SPY_CAPACITY" Language="es_ES">
+        <Text>{1_num} [ICON_Unit] {1_num : plural 1?Espía; other?Espías;} permitidos</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

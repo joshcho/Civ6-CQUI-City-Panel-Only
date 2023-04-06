@@ -104,5 +104,14 @@
     <Replace Tag="LOC_GOODYHUT_STRATEGIC_RESOURCES_DESCRIPTION" Language="zh_Hans_CN">
       <Text>+{1_Num}最高级的战略资源</Text>
     </Replace>
+
+	<!-- #11 Spy Info -->
+    <Replace Tag="LOC_CUI_SI_SPY_AVAILABLE" Language="zh_Hans_CN">
+        <Text>{1_num}名 [ICON_Unit] 间谍可用</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_SI_SPY_CAPACITY" Language="zh_Hans_CN">
+        <Text>{1_num}名 [ICON_Unit] 间谍上限</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

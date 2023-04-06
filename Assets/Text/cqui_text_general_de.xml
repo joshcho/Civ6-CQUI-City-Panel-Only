@@ -99,6 +99,14 @@
     <Row Tag="LOC_GOODYHUT_STRATEGIC_RESOURCES_DESCRIPTION" Language="de_DE">
         <Text>+{1_Num} fortgeschrittenste strategische Ressourcen</Text>
     </Row>
-
+	
+	<!-- #11 Spy Info -->
+    <Replace Tag="LOC_CUI_SI_SPY_AVAILABLE" Language="de_DE">
+        <Text>{1_num} [ICON_Unit] {1_num : plural 1?Spion; other?Spione;} verfügbar</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_SI_SPY_CAPACITY" Language="de_DE">
+        <Text>{1_num} [ICON_Unit] {1_num : plural 1?Spion; other?Spione;} möglich</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>
