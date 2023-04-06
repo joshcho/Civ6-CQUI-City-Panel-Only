@@ -11,11 +11,7 @@
 
 
 # Community Quick User Interface (CQUI)
-> CQUI is an open source Civilization 6 mod that is maintained by its community.
-
-CQUI is a UI mod that replaces parts of the original Civ 6 UI, with the intention of letting you manage your empire with fewer mouse clicks.
-
-This repository is the official repository of the [CQUI steam mod](http://steamcommunity.com/sharedfiles/filedetails/?id=2115302648).
+CQUI is an open source Civilization 6 mod that is maintained by its community. It replaces parts of the original Civ 6 UI, with the intention of letting you manage your empire with fewer mouse clicks.
 
 ![CQUIReadmeScreen](https://user-images.githubusercontent.com/8787640/89616678-a6b97c80-d83d-11ea-8822-06e005c4ce8e.png)
 
