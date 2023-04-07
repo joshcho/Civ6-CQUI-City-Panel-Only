@@ -395,6 +395,9 @@
                     <!-- Corps Button-->
                     <Container ID="CorpsButtonContainer" Size="305, 36" Hidden="1">
                         <GridButton ID="TrainCorpsButton" Size="305,parent" Style="ProductionButtonNest" Anchor="C,B">
+                            <Container ID="CorpsDisabled" Size="parent,parent" Hidden="1" ConsumeMouseButton="1">
+                                <GridButton Size="parent,parent" Style="ProductionButtonNest" Color="200,200,200,150" Disabled="1"/>
+                            </Container>
                             <Image ID="ProductionCorpsProgressArea" Texture="CityPanel_MeterSmallBacking" Size="71,21" Anchor="R,C">
                                 <TextureBar ID="ProductionCorpsProgress" Texture="CityPanel_ProductionMeterSmall" Size="67,17" Anchor="C,C" Speed="1" Direction="Right"/>
                             </Image>
@@ -423,14 +426,14 @@
                                     </Stack>
                                 </Container>
                             </Stack>
-                            <Container ID="CorpsDisabled" Size="parent,parent" Hidden="1" ConsumeMouseButton="1">
-                                <GridButton Size="parent,parent" Style="ProductionButtonNest" Color="200,200,200,150" Disabled="1"/>
-                            </Container>
                         </GridButton>
                     </Container>
                     <!-- Army Button -->
                     <Container ID="ArmyButtonContainer" Size="305, 36" Hidden="1">
                         <GridButton ID="TrainArmyButton" Size="305,parent" Style="ProductionButtonNest" Anchor="C,B">
+                            <Container ID="ArmyDisabled" Size="parent,parent" Hidden="1" ConsumeMouseButton="1">
+                                <GridButton Size="parent,parent" Style="ProductionButtonNest" Color="200,200,200,150" Disabled="1"/>
+                            </Container>
                             <Image ID="ProductionArmyProgressArea" Texture="CityPanel_MeterSmallBacking" Size="71,21" Anchor="R,C">
                                 <TextureBar ID="ProductionArmyProgress" Texture="CityPanel_ProductionMeterSmall" Size="67,17" Anchor="C,C" Speed="1" Direction="Right"/>
                             </Image>
@@ -460,9 +463,6 @@
                                     </Stack>
                                 </Container>
                             </Stack>
-                            <Container ID="ArmyDisabled" Size="parent,parent" Hidden="1" ConsumeMouseButton="1">
-                                <GridButton Size="parent,parent" Style="ProductionButtonNest" Color="200,200,200,150" Disabled="1"/>
-                            </Container>
                         </GridButton>
                     </Container>
                 </Stack>

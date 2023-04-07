@@ -145,7 +145,7 @@ function View(data)
                 CQUI_PurchaseTable[item.Hash]["faithCallback"] = CQUI_PurchaseUnit(item, data.City);
                 if (item.Corps) then
                     CQUI_PurchaseTable[item.Hash]["corpsFaith"] = item.CorpsCost;
-                    CQUI_PurchaseTable[item.Hash]["corpsFaithDisabled"] = item.ArmyDisabled;
+                    CQUI_PurchaseTable[item.Hash]["corpsFaithDisabled"] = item.CorpsDisabled;
                     CQUI_PurchaseTable[item.Hash]["corpsFaithCallback"] = CQUI_PurchaseUnitCorps(item, data.City);
                 end
                 if (item.Army) then
@@ -238,18 +238,26 @@ function GetData()
                 Progress            = 0,
                 Corps               = false,
                 CorpsCost           = 0,
-                CorpsTurnsLeft      = 1,
+                CorpsTurnsLeft      = CQUI_TURNS_LEFT_PURCHASE_ONLY,
                 CorpsTooltip        = "",
                 CorpsName           = "",
+				CorpsDisabled 		= isDisabled;
                 Army                = false,
                 ArmyCost            = 0,
-                ArmyTurnsLeft       = 1,
+                ArmyTurnsLeft       = CQUI_TURNS_LEFT_PURCHASE_ONLY,
                 ArmyTooltip         = "",
                 ArmyName            = "",
+				ArmyDisabled		= isDisabled;
                 ReligiousStrength   = row.ReligiousStrength,
                 IsCurrentProduction = row.Hash == m_CurrentProductionHash
             };
 
+			-- fix #17 (copy of #355)
+			-- Should we present options for purchasing Corps or Army versions?
+			if results then
+				kUnit.Corps = results[CityOperationResults.CAN_TRAIN_CORPS];
+				kUnit.Army  = results[CityOperationResults.CAN_TRAIN_ARMY];
+			end
             table.insert(new_data.UnitItems, kUnit );
         end
     end
