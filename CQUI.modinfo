@@ -1196,6 +1196,12 @@
 			<File>ui/new/cui_spy_info.xml</File>
 		</AddUserInterfaces>
 		
+		<!-- #19 compatibility with Quick Deals -->
+		<ImportFiles id="CQUI_Files_QuickDeals">
+			<Properties><LoadOrder>100000</LoadOrder></Properties> <!-- QD uses 99999 -->
+			<File>ui/new/diplomacyactionview_qd.lua</File>
+		</ImportFiles>
+		
     </InGameActions>
 
     <Settings />
@@ -1416,5 +1422,7 @@
 		<!-- #11 Spy Info -->
 		<File>ui/new/cui_spy_info.lua</File>
 		<File>ui/new/cui_spy_info.xml</File>
+		<!-- #19 compatibility with Quick Deals -->
+		<File>ui/new/diplomacyactionview_qd.lua</File>
     </Files>
 </Mod>
