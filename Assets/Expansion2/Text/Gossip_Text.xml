@@ -1,7 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Ed Beach (Firaxis Games) -->
 <GameData>
 	<LocalizedText>
+		<!-- Trim gossip source -->
+		<Replace Tag="LOC_GOSSIP_SOURCE_HIGHLEVEL_SPY" Language="en_US"/>
 		<!-- Replace Expansion 2 Gossip Text -->
 		<Replace Tag="LOC_GOSSIP_SPY_DAM_BREACHED_DETECTED" Language="en_US">
 			<Text>[ICON_Pillaged] {LOC_GRAMMAR_CIVNAME &lt;&lt; {1_CivName}} had a dam breached in {2_CityName} due to a spy from {3_SpyPlayer}.</Text>

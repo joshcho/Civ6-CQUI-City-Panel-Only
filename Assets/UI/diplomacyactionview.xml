@@ -240,14 +240,10 @@
     <!-- When an instance is passed into a function, it incorrectly evaluates the parent width as the full width of the screen, instead of its current parent.  -->
     <!-- Until this is addressed, I am going to hard-code the width of the gossip entry as (295) so that I can continue.-->
     <Instance Name="IntelGossipHistoryPanelEntry">
-        <!-- ==== BEGIN CQUI CUSTOMIZATION  ==================================================================================== -->
-        <!-- CQUI: Commented line is the unmodified code -->
-        <!-- <Grid ID="Background" Texture="Controls_GossipBubble" Size="450,37" Anchor="C,T" SliceCorner="18,18" SliceTextureSize="36,37"> -->
-        <!-- AZURENCY : changed size back to parent, seems to work. If it doesn't, just revert it back -->
-        <Grid ID="Background" Texture="Controls_GossipBubble" Size="parent-100,37" Anchor="C,T" SliceCorner="18,18" SliceTextureSize="36,37">
-            <!-- ==== END CQUI CUSTOMIZATION ==================================================================================== -->
-            <Label ID="GossipText" WrapWidth="parent-30" Offset="17,0" Style="TextButtonStyle" Anchor="L,C"/>
-            <Label ID="NewIndicator" String="[ICON_New]" Anchor="R,T" Hidden="1"/>
+		<!-- 230413 changed frame to be more aligned with the text and other tabs -->
+        <Grid ID="Background" Size="parent-60,25" Anchor="C,T" Texture="Controls_RoundedRectH" SliceTextureSize="12,8" SliceCorner="6,4" Color="DiplomacyPanelFrameColor">
+            <Label ID="GossipText" WrapWidth="parent-30" Offset="2,1" Style="ActionPanelText" Anchor="L,C" />
+            <Label ID="NewIndicator" String="[ICON_New]" Anchor="R,C" Offset="2,0" Hidden="1" />
         </Grid>
     </Instance>
 

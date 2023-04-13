@@ -1,109 +1,25 @@
-include( "CQUICommon.lua" );
-
 -- ===========================================================================
 -- Cached Base Functions
 -- ===========================================================================
-BASE_OnActivateIntelRelationshipPanel = OnActivateIntelRelationshipPanel
+BASE_OnActivateIntelRelationshipPanel = OnActivateIntelRelationshipPanel;
+BASE_AutoSizeGrid = AutoSizeGrid;
 
--- ===========================================================================
--- Members
--- ===========================================================================
-local ms_IntelGossipHistoryPanelEntryIM :table = InstanceManager:new( "IntelGossipHistoryPanelEntry",  "Background" );
-
--- ===========================================================================
--- CQUI Members
--- ===========================================================================
-local CQUI_trimGossip = true;
-
-function CQUI_OnSettingsUpdate()
-    CQUI_trimGossip = GameConfiguration.GetValue("CQUI_TrimGossip");
-end
-
-LuaEvents.CQUI_SettingsUpdate.Add( CQUI_OnSettingsUpdate );
-LuaEvents.CQUI_SettingsInitialized.Add( CQUI_OnSettingsUpdate );
 
 -- ===========================================================================
 --  CQUI modified OnActivateIntelGossipHistoryPanel functiton
 --  Trim the gossip message
 --  Integration of Simplified Gossip mod
+--  230413 no longer needed; ipairs are working from 0 and messages are already trimmed
 -- ===========================================================================
-function OnActivateIntelGossipHistoryPanel(gossipInstance : table)
-    
-    local intelSubPanel = gossipInstance;
-    
-    -- Get the selected player's Diplomactic AI
-    local selectedPlayerDiplomaticAI = ms_SelectedPlayer:GetDiplomaticAI();
 
-    local localPlayerDiplomacy = ms_LocalPlayer:GetDiplomacy();
-    
-    ms_IntelGossipHistoryPanelEntryIM:ResetInstances();
-    
-    local bAddedLastTenTurnsItem = false;
-    local bAddedOlderItem = false;
-    
-    local gossipManager = Game.GetGossipManager();
-    
-    local iCurrentTurn = Game.GetCurrentGameTurn();
-    
-    --Only show the gossip generated in the last 100 turns.  Otherwise we can end up with a TON of gossip, and everything bogs down.
-    local earliestTurn = iCurrentTurn - 100;
-    local gossipStringTable = gossipManager:GetRecentVisibleGossipStrings(earliestTurn, ms_LocalPlayerID, ms_SelectedPlayerID);
-    
-    if (#gossipStringTable > 0) then                              -- FF16~ Neccesary with new loop to prevent trying to reference items in empty gossip tables of civs you just met.
-        --for i, currTable:table in pairs(gossipStringTable) do  -- FF16~ The original loop delcaration seems to have a bug, it puts the most recent gossip entry at the bottom instead of the top.
-        for i = 0, #gossipStringTable do                         -- FF16~ I have delcared a simpler loop which seems to resolve the issue and correctly puts the list in the right order.
-            
-            currTable = gossipStringTable[i];
-            local gossipString = currTable[1];
-            local gossipTurn = currTable[2];
-            
-            if (gossipString ~= nil) then
-                local item;
-                if ((iCurrentTurn - gossipTurn) <= 10) then
-                    item = ms_IntelGossipHistoryPanelEntryIM:GetInstance(intelSubPanel.LastTenTurnsStack);
-                    bAddedLastTenTurnsItem = true;
-                    -- If we received this gossip this turn or last turn mark it as new
-                    if ((iCurrentTurn-1) <= gossipTurn) then
-                        item.NewIndicator:SetHide(false);
-                    else
-                        item.NewIndicator:SetHide(true);
-                    end
-                else
-                    item = ms_IntelGossipHistoryPanelEntryIM:GetInstance(intelSubPanel.OlderStack);
-                    item.NewIndicator:SetHide(true);
-                    bAddedOlderItem = true;
-                end
-                
-                if (item ~= nil) then
-                    -- AZURENCY : trim the message if the setting is enable
-                    if (CQUI_trimGossip) then
-                        trimmed = CQUI_TrimGossipMessage(gossipString);
-                        if trimmed ~= nil then
-                            gossipString = trimmed
-                        end
-                    end
-                    item.GossipText:SetText(gossipString); -- It has already been localized
-                    AutoSizeGrid(item:GetTopControl(), item.GossipText,25,25);
-                end
-            else
-                break;
-            end
-        end
-    end
-    
-    if (not bAddedLastTenTurnsItem) then
-        local item = ms_IntelGossipHistoryPanelEntryIM:GetInstance(intelSubPanel.LastTenTurnsStack);
-        item.GossipText:LocalizeAndSetText("LOC_DIPLOMACY_GOSSIP_ITEM_NO_RECENT");
-        item.NewIndicator:SetHide(true);
-        AutoSizeGrid(item:GetTopControl(), item.GossipText,25,37);
-    end
-    
-    if (not bAddedOlderItem) then
-        intelSubPanel.OlderHeader:SetHide(true);
-    else
-        intelSubPanel.OlderHeader:SetHide(false);
-    end
+
+-- ===========================================================================
+--  CQUI modified AutoSizeGrid functiton
+-- ===========================================================================
+function AutoSizeGrid(gridControl:table, labelControl:table, padding:number, minSize:number)
+	BASE_AutoSizeGrid(gridControl, labelControl, 15, 30); -- values adjusted to the new frame and font size
 end
+
 
 -- ===========================================================================
 --  CQUI modified OnActivateIntelRelationshipPanel functiton
@@ -176,3 +92,5 @@ function OnActivateIntelRelationshipPanel(relationshipInstance : table)
 
     BASE_OnActivateIntelRelationshipPanel(intelSubPanel);
 end
+
+print("CQUI-Lite: loaded diplomacyactionview_CQUI.lua");

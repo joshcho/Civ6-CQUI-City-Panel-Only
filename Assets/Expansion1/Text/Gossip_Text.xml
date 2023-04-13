@@ -1,7 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Ed Beach (Firaxis Games) -->
 <GameData>
 	<LocalizedText>
+		<!-- Trim gossip source -->
+		<Replace Tag="LOC_GOSSIP_SOURCE_VENDOR" Language="en_US"/>
 		<!-- Replace Expansion 1 Gossip Text -->
 		<Replace Tag="LOC_GOSSIP_SPY_FOMENT_UNREST_DETECTED" Language="en_US">
 			<Text>[ICON_Exclamation] {1_CivName} lost loyalty in {2_CityName} because of {3_SpyPlayer}'s Spy.</Text>
