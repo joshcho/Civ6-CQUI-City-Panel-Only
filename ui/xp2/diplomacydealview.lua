@@ -1,149 +1,168 @@
-print("Loading DiplomacyDealView.lua from Better Deal View version 1.0 (CUI)");
+print("Loading diplomacydealview.lua (cui) from CQUI");
+
 -- ===========================================================================
 -- Diplomacy Trade View Manager
 -- ===========================================================================
-include("InstanceManager")
-include("Colors")
-include("Civ6Common") -- AutoSizeGridButton
-include("SupportFunctions")
-include("PopupDialog")
-include("ToolTipHelper_PlayerYields")
-include("CivilizationIcon")
-include("GreatWorksSupport")
-include("cui_utils") -- CUI
-include("cui_deal_support") -- CUI
+include("InstanceManager");
+include("Colors");
+include("Civ6Common"); -- AutoSizeGridButton
+include("SupportFunctions");
+include("PopupDialog");
+include("ToolTipHelper_PlayerYields");
+include("CivilizationIcon");
+include("GreatWorksSupport");
+include("cui_utils"); -- CUI
+include("cui_deal_support"); -- CUI
+
 
 -- ===========================================================================
 --    Globals
 -- ===========================================================================
-g_LocalPlayer = nil
-g_OtherPlayer = nil
-g_AvailableGroups = {}
-g_IconOnlyIM = InstanceManager:new("IconOnly", "SelectButton", Controls.IconOnlyContainer)
-g_IconAndTextIM = InstanceManager:new("IconAndText", "SelectButton", Controls.IconAndTextContainer)
-g_ValueEditDealItemID = -1 -- The ID of the deal item that is being value edited.
-g_ValueEditDealItemControlTable = nil -- The control table of the deal item that is being edited.
+g_LocalPlayer = nil;
+g_OtherPlayer = nil;
+g_AvailableGroups = {};
+g_IconOnlyIM = InstanceManager:new( "IconOnly",  "SelectButton", Controls.IconOnlyContainer);
+g_IconAndTextIM = InstanceManager:new("IconAndText", "SelectButton", Controls.IconAndTextContainer);
+g_ValueEditDealItemID = -1; -- The ID of the deal item that is being value edited.
+g_ValueEditDealItemControlTable = nil; -- The control table of the deal item that is being edited.
 
 -- These are initialized in CreateGroupTypes
-DealItemGroupTypes = nil
-AvailableDealItemGroupTypes = nil
+DealItemGroupTypes = nil;
+AvailableDealItemGroupTypes = nil;
+
+--g_uiMyOffers = {};
+--g_uiTheirOffers = {};
 
 -- ===========================================================================
 --    VARIABLES
 -- ===========================================================================
-local ms_PlayerPanelIM = InstanceManager:new("PlayerAvailablePanel", "Root")
-local ms_LeftRightListIM = InstanceManager:new("LeftRightList", "List", Controls.LeftRightListContainer)
-local ms_TopDownListIM = InstanceManager:new("TopDownList", "List", Controls.TopDownListContainer)
-local ms_AgreementOptionIM =
-    InstanceManager:new("AgreementOptionInstance", "AgreementOptionButton", Controls.ValueEditStack)
+local ms_PlayerPanelIM 		:table = InstanceManager:new("PlayerAvailablePanel", "Root");
+local ms_LeftRightListIM 	:table = InstanceManager:new("LeftRightList", "List", Controls.LeftRightListContainer);
+local ms_TopDownListIM 		:table = InstanceManager:new("TopDownList", "List", Controls.TopDownListContainer);
+local ms_AgreementOptionIM	:table = InstanceManager:new("AgreementOptionInstance", "AgreementOptionButton", Controls.ValueEditStack);
+--local ms_CityDetailsIM		:table		= InstanceManager:new( "CityIconAndDetails", "CityDetailsContainer", Controls.IconAndTextContainer );
+--local ms_MinimizedSectionIM :table		= InstanceManager:new( "MinimizedSection","MinimizedSectionContainer" );
+
+local OTHER_PLAYER = 0;
+local LOCAL_PLAYER = 1;
+
+ms_OtherPlayerID =  -1;
+local ms_OtherPlayerIsHuman = false;
+
+ms_InitiatedByPlayerID = -1;
+
+ms_bIsGift = false;
+ms_bIsDemand = false;
+local ms_bExiting = false;
+
+local ms_LastIncomingDealProposalAction = DealProposalAction.PENDING;
+
+local m_kPopupDialog			:table;  -- Will use custom "popup" since in leader mode the Popup stack is disabled.
+
+local ms_DealGroups = {};
+
+local ms_DealAgreementsGroup = {};
+
+local ms_DefaultOneTimeGoldAmount = 100;
+
+local ms_DefaultMultiTurnGoldAmount = 10;
+local ms_DefaultMultiTurnGoldDuration = 30;
+
+local ms_bForceUpdateOnCommit = false;
+
+local ms_bDontUpdateOnBack = false;
+
+local MAX_DEAL_ITEM_EDIT_HEIGHT = 300;
+
+--local m_kCollapsedCityDetails : table = {};
+
+--Panel resizing variables
+--local m_StartingMouseX	: number;
+--local m_StartingMouseY	: number;
+--local m_OffersStartSizeY: number;
+--local m_InvStartSizeY	: number;
+
+--local m_MaxDragResizeY : number = 81;
+--local m_MinDragResizeY : number = 193; -- Will be dynamically set to account for different resolutions
 
 -- CUI: instances
 local CuiIconOnlyIM = InstanceManager:new("CuiIconOnly", "SelectButton", Controls.IconOnlyContainer)
 local CuiGroupListIM = InstanceManager:new("CuiGroupList", "List", Controls.LeftRightListContainer)
 local CuiEditGroupIM = InstanceManager:new("CuiEditGroup", "Top", Controls.IconOnlyContainer)
 
-local OTHER_PLAYER = 0
-local LOCAL_PLAYER = 1
-
-ms_OtherPlayerID = -1
-local ms_OtherPlayerIsHuman = false
-
-ms_InitiatedByPlayerID = -1
-
-ms_bIsGift = false
-ms_bIsDemand = false
-local ms_bExiting = false
-
-local ms_LastIncomingDealProposalAction = DealProposalAction.PENDING
-
-local m_kPopupDialog  -- Will use custom "popup" since in leader mode the Popup stack is disabled.
-
-local ms_DealGroups = {}
-
-local ms_DealAgreementsGroup = {}
-
-local ms_DefaultOneTimeGoldAmount = 100
-
-local ms_DefaultMultiTurnGoldAmount = 10
-local ms_DefaultMultiTurnGoldDuration = 30
-
-local ms_bForceUpdateOnCommit = false
-
-local ms_bDontUpdateOnBack = false
-
-local MAX_DEAL_ITEM_EDIT_HEIGHT = 300
-
 -- ===========================================================================
 function SetIconToSize(iconControl, iconName, iconSize)
     if iconSize == nil then
-        iconSize = 50
+        iconSize = 50;
     end
-    local x, y, szIconName, iconSize = IconManager:FindIconAtlasNearestSize(iconName, iconSize, true)
-    iconControl:SetTexture(x, y, szIconName)
-    iconControl:SetSizeVal(iconSize, iconSize)
+    local x, y, szIconName, iconSize = IconManager:FindIconAtlasNearestSize(iconName, iconSize, true);
+    iconControl:SetTexture(x, y, szIconName);
+    iconControl:SetSizeVal(iconSize, iconSize);
 end
 
 -- ===========================================================================
 function InitializeDealGroups()
+
     for i = 1, table.count(AvailableDealItemGroupTypes), 1 do
-        g_AvailableGroups[i] = {}
+        g_AvailableGroups[i] = {};
     end
 
     for i = 1, table.count(DealItemGroupTypes), 1 do
-        ms_DealGroups[i] = {}
+        ms_DealGroups[i] = {};
     end
+	
 end
 
 -- ===========================================================================
-function GetPlayerType(player)
+function GetPlayerType(player : table)
     if (player:GetID() == g_LocalPlayer:GetID()) then
-        return LOCAL_PLAYER
+        return LOCAL_PLAYER;
     end
 
-    return OTHER_PLAYER
+    return OTHER_PLAYER;
 end
 
 -- ===========================================================================
-function GetPlayerOfType(playerType)
+function GetPlayerOfType(playerType : number)
     if (playerType == LOCAL_PLAYER) then
-        return g_LocalPlayer
+        return g_LocalPlayer;
     end
 
-    return g_OtherPlayer
+    return g_OtherPlayer;
 end
 
 -- ===========================================================================
-function GetOtherPlayer(player)
+function GetOtherPlayer(player : table)
     if (player ~= nil and player:GetID() == g_OtherPlayer:GetID()) then
-        return g_LocalPlayer
+        return g_LocalPlayer;
     end
 
-    return g_OtherPlayer
+    return g_OtherPlayer;
 end
 
 -- ===========================================================================
 function SetDefaultLeaderDialogText()
     if (ms_bIsDemand == true and ms_InitiatedByPlayerID == ms_OtherPlayerID) then
-        SetLeaderDialog("LOC_DIPLO_DEMAND_INTRO", "")
+        SetLeaderDialog("LOC_DIPLO_DEMAND_INTRO", "");
     else
-        SetLeaderDialog("LOC_DIPLO_DEAL_INTRO", "")
+        SetLeaderDialog("LOC_DIPLO_DEAL_INTRO", "");
     end
 end
 
 -- ===========================================================================
-function ProposeWorkingDeal(bIsAutoPropose)
+function ProposeWorkingDeal(bIsAutoPropose : boolean)
     if (bIsAutoPropose == nil) then
-        bIsAutoPropose = false
+        bIsAutoPropose = false;
     end
 
     if (not DealManager.HasPendingDeal(g_LocalPlayer:GetID(), g_OtherPlayer:GetID())) then
         if (ms_bIsDemand) then
-            DealManager.SendWorkingDeal(DealProposalAction.DEMANDED, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
+            DealManager.SendWorkingDeal(DealProposalAction.DEMANDED, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
         else
             if (bIsAutoPropose) then
-                DealManager.SendWorkingDeal(DealProposalAction.INSPECT, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
+                DealManager.SendWorkingDeal(DealProposalAction.INSPECT, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
             else
-                DealManager.SendWorkingDeal(DealProposalAction.PROPOSED, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
+                DealManager.SendWorkingDeal(DealProposalAction.PROPOSED, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
             end
         end
     end
@@ -152,18 +171,18 @@ end
 -- ===========================================================================
 function RequestEqualizeWorkingDeal()
     if (not DealManager.HasPendingDeal(g_LocalPlayer:GetID(), g_OtherPlayer:GetID())) then
-        DealManager.SendWorkingDeal(DealProposalAction.EQUALIZE, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
+        DealManager.SendWorkingDeal(DealProposalAction.EQUALIZE, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
     end
 end
 
 -- ===========================================================================
 function DealIsEmpty()
-    local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
+    local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
     if (pDeal == nil or pDeal:GetItemCount() == 0) then
-        return true
+        return true;
     end
 
-    return false
+    return false;
 end
 
 -- ===========================================================================
@@ -171,14 +190,15 @@ end
 -- It is primarily used to 'auto-propose' the deal when working with an AI.
 function UpdateProposedWorkingDeal()
     if (ms_LastIncomingDealProposalAction ~= DealProposalAction.PENDING or IsAutoPropose()) then
-        local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
+
+        local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
         if (pDeal == nil or pDeal:GetItemCount() == 0 or ms_bIsDemand) then
             -- Is a demand or no items, restart
-            ms_LastIncomingDealProposalAction = DealProposalAction.PENDING
-            UpdateDealStatus()
+            ms_LastIncomingDealProposalAction = DealProposalAction.PENDING;
+            UpdateDealStatus();
         else
             if (IsAutoPropose()) then
-                ProposeWorkingDeal(true)
+                ProposeWorkingDeal(true);
             end
         end
     end
@@ -186,61 +206,59 @@ end
 
 -- ===========================================================================
 function UpdateOtherPlayerText(otherPlayerSays)
-    local bHide = true
+    local bHide = true;
     if (g_OtherPlayer ~= nil and otherPlayerSays ~= nil) then
-        local playerConfig = PlayerConfigurations[g_OtherPlayer:GetID()]
+        local playerConfig = PlayerConfigurations[g_OtherPlayer:GetID()];
         if (playerConfig ~= nil) then
             -- leader icon
-            local otherPlayerController = CivilizationIcon:AttachInstance(Controls.OtherPlayerBubbleIcon)
-            otherPlayerController:UpdateIconFromPlayerID(g_OtherPlayer:GetID())
+            local otherPlayerController = CivilizationIcon:AttachInstance(Controls.OtherPlayerBubbleIcon);
+            otherPlayerController:UpdateIconFromPlayerID(g_OtherPlayer:GetID());
 
             -- Set the leader name
-            local leaderDesc = playerConfig:GetLeaderName()
-            Controls.OtherPlayerBubbleName:SetText(
-                Locale.ToUpper(Locale.Lookup("LOC_DIPLOMACY_DEAL_OTHER_PLAYER_SAYS", leaderDesc))
-            )
+            local leaderDesc = playerConfig:GetLeaderName();
+            Controls.OtherPlayerBubbleName:SetText(Locale.ToUpper(Locale.Lookup("LOC_DIPLOMACY_DEAL_OTHER_PLAYER_SAYS", leaderDesc)));
         end
     end
     -- When we get dialog for what the leaders say during a trade, we can add it here!
 end
 
 -- ===========================================================================
-function OnToggleCollapseGroup(iconList)
+function OnToggleCollapseGroup(iconList : table)
     if (iconList.ListStack:IsHidden()) then
-        iconList.ListStack:SetHide(false)
+        iconList.ListStack:SetHide(false);
     else
-        iconList.ListStack:SetHide(true)
+        iconList.ListStack:SetHide(true);
     end
 
-    iconList.List:CalculateSize()
+    iconList.List:CalculateSize();
     iconList.List:ReprocessAnchoring()
 end
 -- ===========================================================================
-function CreateHorizontalGroup(rootStack, title)
-    local iconList = ms_LeftRightListIM:GetInstance(rootStack)
+function CreateHorizontalGroup(rootStack : table, title : string)
+    local iconList = ms_LeftRightListIM:GetInstance(rootStack);
     if (title == nil or title == "") then
-        iconList.Title:SetHide(true) -- No title
+        iconList.Title:SetHide(true); -- No title
     else
-        iconList.TitleText:LocalizeAndSetText(title)
+        iconList.TitleText:LocalizeAndSetText(title);
     end
-    iconList.List:CalculateSize()
+    iconList.List:CalculateSize();
     iconList.List:ReprocessAnchoring()
 
-    return iconList
+    return iconList;
 end
 
 -- ===========================================================================
-function CreateVerticalGroup(rootStack, title)
-    local iconList = ms_TopDownListIM:GetInstance(rootStack)
+function CreateVerticalGroup(rootStack : table, title : string)
+    local iconList = ms_TopDownListIM:GetInstance(rootStack);
     if (title == nil or title == "") then
-        iconList.Title:SetHide(true) -- No title
+        iconList.Title:SetHide(true); -- No title
     else
-        iconList.TitleText:LocalizeAndSetText(title)
+        iconList.TitleText:LocalizeAndSetText(title);
     end
-    iconList.List:CalculateSize()
+    iconList.List:CalculateSize();
     iconList.List:ReprocessAnchoring()
 
-    return iconList
+    return iconList;
 end
 
 -- CUI -----------------------------------------------------------------------
@@ -252,131 +270,107 @@ function CuiCreateEditGroup(rootStack)
 end
 
 -- ===========================================================================
-function CreatePlayerAvailablePanel(playerType, rootControl)
+function CreatePlayerAvailablePanel(playerType : number, rootControl : table)
+
     -- local playerPanel = ms_PlayerPanelIM:GetInstance(rootControl);
-    g_AvailableGroups[AvailableDealItemGroupTypes.GOLD][playerType] =
-        g_AvailableGroups[AvailableDealItemGroupTypes.FAVOR][playerType]
-    g_AvailableGroups[AvailableDealItemGroupTypes.LUXURY_RESOURCES][playerType] =
-        CreateHorizontalGroup(rootControl, "LOC_DIPLOMACY_DEAL_LUXURY_RESOURCES")
-    g_AvailableGroups[AvailableDealItemGroupTypes.STRATEGIC_RESOURCES][playerType] =
-        CreateHorizontalGroup(rootControl, "LOC_DIPLOMACY_DEAL_STRATEGIC_RESOURCES")
-    g_AvailableGroups[AvailableDealItemGroupTypes.AGREEMENTS][playerType] =
-        CreateVerticalGroup(rootControl, "LOC_DIPLOMACY_DEAL_AGREEMENTS")
-    g_AvailableGroups[AvailableDealItemGroupTypes.CITIES][playerType] =
-        CreateVerticalGroup(rootControl, "LOC_DIPLOMACY_DEAL_CITIES")
-    g_AvailableGroups[AvailableDealItemGroupTypes.OTHER_PLAYERS][playerType] =
-        CreateVerticalGroup(rootControl, "LOC_DIPLOMACY_DEAL_OTHER_PLAYERS")
-    g_AvailableGroups[AvailableDealItemGroupTypes.GREAT_WORKS][playerType] =
-        CreateVerticalGroup(rootControl, "LOC_DIPLOMACY_DEAL_GREAT_WORKS")
-    g_AvailableGroups[AvailableDealItemGroupTypes.CAPTIVES][playerType] =
-        CreateVerticalGroup(rootControl, "LOC_DIPLOMACY_DEAL_CAPTIVES")
+	
+    g_AvailableGroups[AvailableDealItemGroupTypes.GOLD][playerType] = g_AvailableGroups[AvailableDealItemGroupTypes.FAVOR][playerType];
+    g_AvailableGroups[AvailableDealItemGroupTypes.LUXURY_RESOURCES][playerType] = CreateHorizontalGroup(rootControl, "LOC_DIPLOMACY_DEAL_LUXURY_RESOURCES");
+    g_AvailableGroups[AvailableDealItemGroupTypes.STRATEGIC_RESOURCES][playerType] = CreateHorizontalGroup(rootControl, "LOC_DIPLOMACY_DEAL_STRATEGIC_RESOURCES");
+    g_AvailableGroups[AvailableDealItemGroupTypes.AGREEMENTS][playerType] = CreateVerticalGroup(rootControl, "LOC_DIPLOMACY_DEAL_AGREEMENTS");
+    g_AvailableGroups[AvailableDealItemGroupTypes.CITIES][playerType] = CreateVerticalGroup(rootControl, "LOC_DIPLOMACY_DEAL_CITIES");
+    g_AvailableGroups[AvailableDealItemGroupTypes.OTHER_PLAYERS][playerType] = CreateVerticalGroup(rootControl, "LOC_DIPLOMACY_DEAL_OTHER_PLAYERS");
+    g_AvailableGroups[AvailableDealItemGroupTypes.GREAT_WORKS][playerType] = CreateVerticalGroup(rootControl, "LOC_DIPLOMACY_DEAL_GREAT_WORKS");
+    g_AvailableGroups[AvailableDealItemGroupTypes.CAPTIVES][playerType] = CreateVerticalGroup(rootControl, "LOC_DIPLOMACY_DEAL_CAPTIVES");
 
-    rootControl:CalculateSize()
-    rootControl:ReprocessAnchoring()
+    rootControl:CalculateSize();
+    rootControl:ReprocessAnchoring();
 
-    return playerPanel
+    return playerPanel;
 end
 
 -- ===========================================================================
-function CreatePlayerDealPanel(playerType, rootControl)
+function CreatePlayerDealPanel(playerType : number, rootControl : table)
     -- This creates the containers for the offer area...
     -- ms_DealGroups[DealItemGroupTypes.RESOURCES][playerType]    = CreateHorizontalGroup(rootControl);
     -- ms_DealGroups[DealItemGroupTypes.AGREEMENTS][playerType]    = CreateVerticalGroup(rootControl);
     -- **********************************************************************
     -- Currently putting them all in the same control.
-    ms_DealGroups[DealItemGroupTypes.RESOURCES][playerType] = rootControl
-    ms_DealGroups[DealItemGroupTypes.AGREEMENTS][playerType] = rootControl
-    ms_DealGroups[DealItemGroupTypes.CITIES][playerType] = rootControl
-    ms_DealGroups[DealItemGroupTypes.GREAT_WORKS][playerType] = rootControl
-    ms_DealGroups[DealItemGroupTypes.CAPTIVES][playerType] = rootControl
+    ms_DealGroups[DealItemGroupTypes.RESOURCES][playerType] = rootControl;
+    ms_DealGroups[DealItemGroupTypes.AGREEMENTS][playerType] = rootControl;
+    ms_DealGroups[DealItemGroupTypes.CITIES][playerType] = rootControl;
+    ms_DealGroups[DealItemGroupTypes.GREAT_WORKS][playerType] = rootControl;
+    ms_DealGroups[DealItemGroupTypes.CAPTIVES][playerType] = rootControl;
+	
 end
 
 -- ===========================================================================
 function OnValuePulldownCommit(forType)
-    local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
-    if (pDeal ~= nil) then
-        local pDealItem = pDeal:FindItemByID(g_ValueEditDealItemID)
-        if (pDealItem ~= nil) then
-            pDealItem:SetValueType(forType)
 
-            local valueName = pDealItem:GetValueTypeNameID()
+    local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
+    if (pDeal ~= nil) then
+	
+        local pDealItem = pDeal:FindItemByID(g_ValueEditDealItemID);
+        if (pDealItem ~= nil) then
+            pDealItem:SetValueType(forType);
+
+            local valueName = pDealItem:GetValueTypeNameID();
             if (g_ValueEditDealItemControlTable ~= nil) then
                 -- Keep the text on the icon, that is currently hidden, up to date too.
-                g_ValueEditDealItemControlTable.ValueText:LocalizeAndSetText(pDealItem:GetValueTypeNameID(valueName))
+                g_ValueEditDealItemControlTable.ValueText:LocalizeAndSetText(pDealItem:GetValueTypeNameID(valueName));
             end
 
-            UpdateDealStatus()
-            UpdateProposedWorkingDeal()
+            UpdateDealStatus();
+            UpdateProposedWorkingDeal();
         end
     end
 
-    Controls.ValueEditPopupBackground:SetHide(true)
+    Controls.ValueEditPopupBackground:SetHide(true);
+	
 end
 
 -- ===========================================================================
-function SetValueText(icon, pDealItem)
-    if (icon.ValueText ~= nil) then
-        local valueName = pDealItem:GetValueTypeNameID()
+function SetValueText(uiIcon, pDealItem)
+
+    if (uiIcon.ValueText ~= nil) then
+        local valueName = pDealItem:GetValueTypeNameID();
         if (valueName == nil) then
             if (pDealItem:HasPossibleValues()) then
-                valueName = "LOC_DIPLOMACY_DEAL_CLICK_TO_CHANGE_DEAL_PARAMETER"
+                valueName = "LOC_DIPLOMACY_DEAL_CLICK_TO_CHANGE_DEAL_PARAMETER";
             end
         end
         if (valueName ~= nil) then
-            icon.ValueText:LocalizeAndSetText(valueName)
-            icon.ValueText:SetHide(false)
+            uiIcon.ValueText:LocalizeAndSetText(valueName);
+            uiIcon.ValueText:SetHide(false);
         else
-            icon.ValueText:SetHide(true)
+            uiIcon.ValueText:SetHide(true);
         end
     end
 end
 
 -- ===========================================================================
 function CreatePanels()
+
     -- Create the Other Player Panels
-    CreatePlayerAvailablePanel(OTHER_PLAYER, Controls.TheirInventoryStack)
+    CreatePlayerAvailablePanel(OTHER_PLAYER, Controls.TheirInventoryStack);
 
     -- Create the Local Player Panels
-    CreatePlayerAvailablePanel(LOCAL_PLAYER, Controls.MyInventoryStack)
+    CreatePlayerAvailablePanel(LOCAL_PLAYER, Controls.MyInventoryStack);
 
-    CreatePlayerDealPanel(OTHER_PLAYER, Controls.TheirOfferStack)
-    CreatePlayerDealPanel(LOCAL_PLAYER, Controls.MyOfferStack)
+    CreatePlayerDealPanel(OTHER_PLAYER, Controls.TheirOfferStack);
+    CreatePlayerDealPanel(LOCAL_PLAYER, Controls.MyOfferStack);
 
-    Controls.EqualizeDeal:RegisterCallback(Mouse.eLClick, OnEqualizeDeal)
-    Controls.EqualizeDeal:RegisterCallback(
-        Mouse.eMouseEnter,
-        function()
-            UI.PlaySound("Main_Menu_Mouse_Over")
-        end
-    )
-    Controls.AcceptDeal:RegisterCallback(Mouse.eLClick, OnProposeOrAcceptDeal)
-    Controls.AcceptDeal:RegisterCallback(
-        Mouse.eMouseEnter,
-        function()
-            UI.PlaySound("Main_Menu_Mouse_Over")
-        end
-    )
-    Controls.DemandDeal:RegisterCallback(Mouse.eLClick, OnProposeOrAcceptDeal)
-    Controls.DemandDeal:RegisterCallback(
-        Mouse.eMouseEnter,
-        function()
-            UI.PlaySound("Main_Menu_Mouse_Over")
-        end
-    )
-    Controls.RefuseDeal:RegisterCallback(Mouse.eLClick, OnRefuseDeal)
-    Controls.RefuseDeal:RegisterCallback(
-        Mouse.eMouseEnter,
-        function()
-            UI.PlaySound("Main_Menu_Mouse_Over")
-        end
-    )
-    Controls.ResumeGame:RegisterCallback(Mouse.eLClick, OnResumeGame)
-    Controls.ResumeGame:RegisterCallback(
-        Mouse.eMouseEnter,
-        function()
-            UI.PlaySound("Main_Menu_Mouse_Over")
-        end
-    )
+    Controls.EqualizeDeal:RegisterCallback(Mouse.eLClick, OnEqualizeDeal);
+    Controls.EqualizeDeal:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
+    Controls.AcceptDeal:RegisterCallback(Mouse.eLClick, OnProposeOrAcceptDeal);
+    Controls.AcceptDeal:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
+    Controls.DemandDeal:RegisterCallback(Mouse.eLClick, OnProposeOrAcceptDeal);
+    Controls.DemandDeal:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
+    Controls.RefuseDeal:RegisterCallback(Mouse.eLClick, OnRefuseDeal);
+    Controls.RefuseDeal:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
+    Controls.ResumeGame:RegisterCallback(Mouse.eLClick, OnResumeGame);
+    Controls.ResumeGame:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
+	
 end
 
 function CreateGroupTypes()
@@ -388,36 +382,45 @@ function CreateGroupTypes()
         CITIES = 5,
         OTHER_PLAYERS = 6,
         GREAT_WORKS = 7,
-        CAPTIVES = 8
-    }
+        CAPTIVES = 8,
+    };
 
-    DealItemGroupTypes = {GOLD = 1, RESOURCES = 2, AGREEMENTS = 3, CITIES = 4, GREAT_WORKS = 5, CAPTIVES = 6}
+    DealItemGroupTypes = {
+		GOLD = 1,
+		RESOURCES = 2,
+		AGREEMENTS = 3,
+		CITIES = 4,
+		GREAT_WORKS = 5,
+		CAPTIVES = 6
+	};
 end
 
 -- ===========================================================================
 -- Find the 'instance' table from the control
-function FindIconInstanceFromControl(rootControl)
+function FindIconInstanceFromControl(rootControl : table)
+
     if (rootControl ~= nil) then
-        local controlTable = g_IconOnlyIM:FindInstanceByControl(rootControl)
+        local controlTable = g_IconOnlyIM:FindInstanceByControl(rootControl);
         if (controlTable == nil) then
-            controlTable = g_IconAndTextIM:FindInstanceByControl(rootControl)
+            controlTable = g_IconAndTextIM:FindInstanceByControl(rootControl);
         end
 
-        return controlTable
+        return controlTable;
     end
 
-    return nil
+    return nil;
 end
 
 -- ===========================================================================
 -- Show or hide the "amount text" or the "Value Text" sub-control of the supplied control instance
-function SetHideValueText(controlTable, bHide)
+function SetHideValueText(controlTable : table, bHide : boolean)
+
     if (controlTable ~= nil) then
         if (controlTable.AmountText ~= nil) then
-            controlTable.AmountText:SetHide(bHide)
+            controlTable.AmountText:SetHide(bHide);
         end
         if (controlTable.ValueText ~= nil) then
-            controlTable.ValueText:SetHide(bHide)
+            controlTable.ValueText:SetHide(bHide);
         end
     end
 end
@@ -425,203 +428,180 @@ end
 -- ===========================================================================
 -- Detach the value edit overlay from anything it is attached to.
 function ClearValueEdit()
-    SetHideValueText(g_ValueEditDealItemControlTable, false)
+
+    SetHideValueText(g_ValueEditDealItemControlTable, false);
 
     g_ValueEditDealItemControlTable = nil
-    g_ValueEditDealItemID = -1
+    g_ValueEditDealItemID = -1;
+	
 end
 
 -- ===========================================================================
 function UpdateDealStatus()
-    local bDealValid = false
-    ClearValueEdit()
-    local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
+    local bDealValid = false;
+    ClearValueEdit();
+    local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
     if (pDeal ~= nil) then
         if (pDeal:GetItemCount() > 0) then
-            bDealValid = true
+            bDealValid = true;
         end
     end
 
     if (bDealValid) then
         if pDeal:Validate() ~= DealValidationResult.VALID then
-            bDealValid = false
+            bDealValid = false;
         end
     end
 
-    Controls.EqualizeDeal:SetHide(ms_bIsDemand)
+    Controls.EqualizeDeal:SetHide(ms_bIsDemand);
 
     -- Have we sent out a deal?
-    local bHasPendingDeal = DealManager.HasPendingDeal(g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
+    local bHasPendingDeal = DealManager.HasPendingDeal(g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
 
     if (not bHasPendingDeal and ms_LastIncomingDealProposalAction == DealProposalAction.PENDING) then
         -- We have yet to send out a deal.
-        Controls.AcceptDeal:SetHide(true)
-        local showDemand = bDealValid and ms_bIsDemand
-        Controls.DemandDeal:SetHide(not showDemand)
+        Controls.AcceptDeal:SetHide(true);
+        local showDemand = bDealValid and ms_bIsDemand;
+        Controls.DemandDeal:SetHide(not showDemand);
     else
-        local cantAccept =
-            (ms_LastIncomingDealProposalAction ~= DealProposalAction.ACCEPTED and
-            ms_LastIncomingDealProposalAction ~= DealProposalAction.PROPOSED and
-            ms_LastIncomingDealProposalAction ~= DealProposalAction.ADJUSTED) or
-            not bDealValid or
-            bHasPendingDeal
-        Controls.AcceptDeal:SetHide(cantAccept)
+        local cantAccept = (ms_LastIncomingDealProposalAction ~= DealProposalAction.ACCEPTED and ms_LastIncomingDealProposalAction ~= DealProposalAction.PROPOSED and ms_LastIncomingDealProposalAction ~= DealProposalAction.ADJUSTED) or not bDealValid or bHasPendingDeal;
+        Controls.AcceptDeal:SetHide(cantAccept);
         if (ms_bIsDemand) then
             if (g_LocalPlayer:GetID() == ms_InitiatedByPlayerID) then
                 -- Local human is making a demand
                 if (ms_LastIncomingDealProposalAction == DealProposalAction.ACCEPTED) then
-                    Controls.DemandDeal:SetHide(cantAccept)
+                    Controls.DemandDeal:SetHide(cantAccept);
                     -- The other player has accepted the demand, but we must enact it.
                     -- We won't have the human need to press the accept button, just do it and exit.
-                    OnProposeOrAcceptDeal()
-                    return
+                    OnProposeOrAcceptDeal();
+                    return;
                 else
-                    Controls.AcceptDeal:SetHide(true)
-                    Controls.DemandDeal:SetHide(false)
+                    Controls.AcceptDeal:SetHide(true);
+                    Controls.DemandDeal:SetHide(false);
                 end
             else
-                Controls.DemandDeal:SetHide(true)
+                Controls.DemandDeal:SetHide(true);
             end
         else
-            Controls.DemandDeal:SetHide(true)
+            Controls.DemandDeal:SetHide(true);
         end
     end
+	-- Hide/show directions if either side has no items
+	--local itemsFromLocal : number = pDeal:GetItemCount(g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
+	--local itemsFromOther : number = pDeal:GetItemCount(g_OtherPlayer:GetID(), g_LocalPlayer:GetID());
+	--g_uiMyOffers.DirectionsBracket:SetHide( itemsFromLocal > 0);
+	--g_uiTheirOffers.DirectionsBracket:SetHide( itemsFromOther > 0);
 
-    UpdateProposalButtons(bDealValid)
+    UpdateProposalButtons(bDealValid);
 
-    ResizeDealAndButtons()
+    ResizeDealAndButtons();
 end
 
 -- ===========================================================================
 function ResizeDealAndButtons()
     -- Find the widest deal button text and size others to match
-    local refuseX, refuseY = AutoSizeGridButton(Controls.RefuseDeal, 200, 41, 10, "1") -- CUI
-    local equalizeX, equalizeY = AutoSizeGridButton(Controls.EqualizeDeal, 200, 32, 10, "1")
-    local acceptX, acceptY = AutoSizeGridButton(Controls.AcceptDeal, 200, 41, 10, "1")
+    local refuseX, refuseY = AutoSizeGridButton(Controls.RefuseDeal, 200, 41, 10, "1"); -- CUI
+    local equalizeX, equalizeY = AutoSizeGridButton(Controls.EqualizeDeal, 200, 32, 10, "1");
+    local acceptX, acceptY = AutoSizeGridButton(Controls.AcceptDeal, 200, 41, 10, "1");
 
-    local minX = refuseX
+    local minX = refuseX;
     if not Controls.EqualizeDeal:IsHidden() and minX < equalizeX then
-        minX = equalizeX
+        minX = equalizeX;
     end
     if not Controls.AcceptDeal:IsHidden() and minX < acceptX then
-        minX = acceptX
+        minX = acceptX;
     end
 
     if Controls.RefuseDeal:GetSizeX() < minX then
-        Controls.RefuseDeal:SetSizeX(minX)
+        Controls.RefuseDeal:SetSizeX(minX);
     end
     if Controls.EqualizeDeal:GetSizeX() < minX then
-        Controls.EqualizeDeal:SetSizeX(minX)
+        Controls.EqualizeDeal:SetSizeX(minX);
     end
     if Controls.AcceptDeal:GetSizeX() < minX then
-        Controls.AcceptDeal:SetSizeX(minX)
+        Controls.AcceptDeal:SetSizeX(minX);
     end
 
-    Controls.DealOptionsStack:CalculateSize()
-    Controls.DealOptionsStack:ReprocessAnchoring()
+    Controls.DealOptionsStack:CalculateSize();
+    Controls.DealOptionsStack:ReprocessAnchoring();
 
-    Controls.TheirOfferStack:CalculateSize()
-    Controls.TheirOfferBracket:DoAutoSize()
-    Controls.TheirOfferScroll:CalculateSize()
+    Controls.TheirOfferStack:CalculateSize();
+    Controls.TheirOfferBracket:DoAutoSize();
+    Controls.TheirOfferScroll:CalculateSize();
 
-    Controls.MyOfferStack:CalculateSize()
-    Controls.MyOfferBracket:DoAutoSize()
-    Controls.MyOfferScroll:CalculateSize()
+    Controls.MyOfferStack:CalculateSize();
+    Controls.MyOfferBracket:DoAutoSize();
+    Controls.MyOfferScroll:CalculateSize();
 end
 
 -- ===========================================================================
 -- The Human has ask to have the deal equalized.  Well, what the AI is
 -- willing to take.
 function OnEqualizeDeal()
-    ClearValueEdit()
-    RequestEqualizeWorkingDeal()
+    ClearValueEdit();
+    RequestEqualizeWorkingDeal();
 end
 
 -- ===========================================================================
 -- Propose the deal, if this is the first time, or accept it, if the other player has
 -- accepted it.
 function OnProposeOrAcceptDeal()
-    ClearValueEdit()
 
-    if
-        (ms_LastIncomingDealProposalAction == DealProposalAction.PENDING or
+    ClearValueEdit();
+
+    if (ms_LastIncomingDealProposalAction == DealProposalAction.PENDING or
             ms_LastIncomingDealProposalAction == DealProposalAction.REJECTED or
-            ms_LastIncomingDealProposalAction == DealProposalAction.EQUALIZE_FAILED)
-     then
-        ProposeWorkingDeal()
-        UpdateDealStatus()
-        UI.PlaySound("Confirm_Bed_Positive")
+            ms_LastIncomingDealProposalAction == DealProposalAction.EQUALIZE_FAILED) then
+        ProposeWorkingDeal();
+        UpdateDealStatus();
+        UI.PlaySound("Confirm_Bed_Positive");
     else
-        if
-            (ms_LastIncomingDealProposalAction == DealProposalAction.ACCEPTED or
-                ms_LastIncomingDealProposalAction == DealProposalAction.PROPOSED or
-                ms_LastIncomingDealProposalAction == DealProposalAction.ADJUSTED)
-         then
+        if (ms_LastIncomingDealProposalAction == DealProposalAction.ACCEPTED or ms_LastIncomingDealProposalAction == DealProposalAction.PROPOSED or ms_LastIncomingDealProposalAction == DealProposalAction.ADJUSTED) then
             -- Any adjustments?
             if (DealManager.AreWorkingDealsEqual(g_LocalPlayer:GetID(), g_OtherPlayer:GetID())) then
                 -- Yes, we can accept
                 -- if deal will trigger war, prompt user before confirming deal
                 local sendDealAndContinue = function()
                     -- Send the deal.  This will also send out a POSITIVE response statement
-                    DealManager.SendWorkingDeal(
-                        DealProposalAction.ACCEPTED,
-                        g_LocalPlayer:GetID(),
-                        g_OtherPlayer:GetID()
-                    )
-                    OnContinue()
-                    UI.PlaySound("Confirm_Bed_Positive")
-                end
+                    DealManager.SendWorkingDeal(DealProposalAction.ACCEPTED, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
+                    OnContinue();
+                    UI.PlaySound("Confirm_Bed_Positive");
+                end;
 
-                local pDeal =
-                    DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
-                local pJointWarItem = pDeal:FindItemByType(DealItemTypes.AGREEMENTS, DealAgreementTypes.JOINT_WAR)
+                local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
+                local pJointWarItem = pDeal:FindItemByType(DealItemTypes.AGREEMENTS, DealAgreementTypes.JOINT_WAR);
                 if DealAgreementTypes.JOINT_WAR and pJointWarItem then
-                    local iWarType = pJointWarItem:GetParameterValue("WarType")
+                    local iWarType = pJointWarItem:GetParameterValue("WarType");
 
-                    if (iWarType == nil) then
-                        iWarType = WarTypes.FORMAL_WAR
-                    end
+                    if (iWarType == nil) then iWarType = WarTypes.FORMAL_WAR; end
 
-                    local targetPlayerID = pJointWarItem:GetValueType()
+                    local targetPlayerID = pJointWarItem:GetValueType();
                     if (targetPlayerID >= 0) then
-                        LuaEvents.DiplomacyActionView_ConfirmWarDialog(
-                            g_LocalPlayer:GetID(),
-                            targetPlayerID,
-                            iWarType,
-                            sendDealAndContinue
-                        )
+                        LuaEvents.DiplomacyActionView_ConfirmWarDialog(g_LocalPlayer:GetID(), targetPlayerID, iWarType, sendDealAndContinue);
                     else
-                        UI.DataError("Invalid Player ID to declare Joint War to: " .. targetPlayerID)
+                        UI.DataError("Invalid Player ID to declare Joint War to: " .. targetPlayerID);
                     end
                 else
-                    local pThirdPartyWarItem =
-                        pDeal:FindItemByType(DealItemTypes.AGREEMENTS, DealAgreementTypes.THIRD_PARTY_WAR)
+                    local pThirdPartyWarItem = pDeal:FindItemByType(DealItemTypes.AGREEMENTS, DealAgreementTypes.THIRD_PARTY_WAR);
                     if (DealAgreementTypes.THIRD_PARTY_WAR and pThirdPartyWarItem) then
-                        local iWarType = pThirdPartyWarItem:GetParameterValue("WarType")
+                        local iWarType = pThirdPartyWarItem:GetParameterValue("WarType");
 
-                        if (iWarType == nil) then
-                            iWarType = WarTypes.FORMAL_WAR
-                        end
+                        if (iWarType == nil) then iWarType = WarTypes.FORMAL_WAR; end
 
-                        local targetPlayerID = pThirdPartyWarItem:GetValueType()
+                        local targetPlayerID = pThirdPartyWarItem:GetValueType();
                         if (targetPlayerID >= 0) then
-                            LuaEvents.DiplomacyActionView_ConfirmWarDialog(
-                                g_LocalPlayer:GetID(),
-                                targetPlayerID,
-                                iWarType,
-                                sendDealAndContinue
-                            )
+                            LuaEvents.DiplomacyActionView_ConfirmWarDialog(g_LocalPlayer:GetID(), targetPlayerID, iWarType, sendDealAndContinue);
                         else
-                            UI.DataError("Invalid Player ID to declare Third Party War to: " .. targetPlayerID)
+                            UI.DataError("Invalid Player ID to declare Third Party War to: " .. targetPlayerID);
                         end
                     else
-                        sendDealAndContinue()
+                        sendDealAndContinue();
                     end
                 end
             else
                 -- No, send an adjustment and stay in the deal view.
-                DealManager.SendWorkingDeal(DealProposalAction.ADJUSTED, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
-                UpdateDealStatus()
+                DealManager.SendWorkingDeal(DealProposalAction.ADJUSTED, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
+                UpdateDealStatus();
             end
         end
     end
@@ -629,65 +609,61 @@ end
 
 -- ===========================================================================
 function OnRefuseDeal(bForceClose)
+
     if (bForceClose == nil) then
-        bForceClose = false
+        bForceClose = false;
     end
 
-    local bHasPendingDeal = DealManager.HasPendingDeal(g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
+	local localPlayerID : number = Game.GetLocalPlayer();
+	local otherPlayerID : number = g_OtherPlayer:GetID();
+    local bHasPendingDeal = DealManager.HasPendingDeal(localPlayerID, otherPlayerID);
 
-    local sessionID = DiplomacyManager.FindOpenSessionID(Game.GetLocalPlayer(), g_OtherPlayer:GetID())
+    local sessionID = DiplomacyManager.FindOpenSessionID(localPlayerID, otherPlayerID);
     if (sessionID ~= nil) then
         if (not ms_OtherPlayerIsHuman and not bHasPendingDeal) then
             -- Refusing an AI's deal
-            ClearValueEdit()
+            ClearValueEdit();
 
             if (ms_InitiatedByPlayerID == ms_OtherPlayerID) then
                 -- AI started this, so tell them that we don't want the deal
                 if (bForceClose == true) then
                     -- Forcing the close, usually because the turn timer expired
-                    DealManager.SendWorkingDeal(
-                        DealProposalAction.REJECTED,
-                        g_LocalPlayer:GetID(),
-                        g_OtherPlayer:GetID()
-                    )
-                    DiplomacyManager.CloseSession(sessionID)
-                    StartExitAnimation()
+                    DealManager.SendWorkingDeal(DealProposalAction.REJECTED, localPlayerID, otherPlayerID);
+                    DiplomacyManager.CloseSession(sessionID);
+                    StartExitAnimation();
                 else
-                    DiplomacyManager.AddResponse(sessionID, Game.GetLocalPlayer(), "NEGATIVE")
+                    DiplomacyManager.AddResponse(sessionID, localPlayerID, "NEGATIVE");
                 end
             else
                 -- Else close the session
-                DiplomacyManager.CloseSession(sessionID)
-                StartExitAnimation()
+                DiplomacyManager.CloseSession(sessionID);
+                StartExitAnimation();
             end
         else
             if (ms_OtherPlayerIsHuman) then
                 if (bHasPendingDeal) then
                     -- Canceling the deal with the other player.
-                    DealManager.SendWorkingDeal(DealProposalAction.CLOSED, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
+                    DealManager.SendWorkingDeal(DealProposalAction.CLOSED, localPlayerID, otherPlayerID);
                 else
-                    if (ms_InitiatedByPlayerID ~= Game.GetLocalPlayer()) then
+                    if (ms_InitiatedByPlayerID ~= localPlayerID) then
                         -- Refusing the deal with the other player.
-                        DealManager.SendWorkingDeal(
-                            DealProposalAction.REJECTED,
-                            g_LocalPlayer:GetID(),
-                            g_OtherPlayer:GetID()
-                        )
+                        DealManager.SendWorkingDeal(DealProposalAction.REJECTED, localPlayerID, otherPlayerID);
                     end
                 end
 
-                DiplomacyManager.CloseSession(sessionID)
-                StartExitAnimation()
+                DiplomacyManager.CloseSession(sessionID);
+                StartExitAnimation();
             end
         end
     else
         -- We have lost our session!
         if (not ContextPtr:IsHidden()) then
             if (not ms_bExiting) then
-                OnResumeGame()
+                OnResumeGame();
             end
         end
     end
+	
 end
 
 -- ===========================================================================
@@ -3022,6 +2998,12 @@ function Initialize()
     m_kPopupDialog = PopupDialog:new("DiplomacyDealView")
 end
 
+-- This wildcard include will include all loaded files beginning with "DiplomacyDealView_"
+-- This method replaces the uses of include("DiplomacyDealView") in files that want to override
+-- functions from this file. If you're implementing a new "DiplomacyDealView_" file DO NOT include this file.
+include("DiplomacyDealView_", true);
+
+
 Initialize()
 
-print("Loaded DiplomacyDealView.lua from Better Deal View (CUI)");
+print("Loaded diplomacydealview.lua (cui) from CQUI");
