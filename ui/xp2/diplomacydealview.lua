@@ -668,207 +668,208 @@ end
 
 -- ===========================================================================
 function OnResumeGame()
-    -- Exiting back to wait for a response
-    ClearValueEdit()
 
-    local sessionID = DiplomacyManager.FindOpenSessionID(Game.GetLocalPlayer(), g_OtherPlayer:GetID())
+    -- Exiting back to wait for a response
+    ClearValueEdit();
+
+    local sessionID = DiplomacyManager.FindOpenSessionID(Game.GetLocalPlayer(), g_OtherPlayer:GetID());
     if (sessionID ~= nil) then
-        DiplomacyManager.CloseSession(sessionID)
+        DiplomacyManager.CloseSession(sessionID);
     end
 
     -- Start the exit animation, it will call OnContinue when complete
-    StartExitAnimation()
+    StartExitAnimation();
 end
 
 -- ===========================================================================
 function OnExitFadeComplete()
     if (Controls.TradePanelFade:IsReversing()) then
-        Controls.TradePanelFade:SetSpeed(2)
-        Controls.TradePanelSlide:SetSpeed(2)
+        Controls.TradePanelFade:SetSpeed(2);
+        Controls.TradePanelSlide:SetSpeed(2);
 
-        OnContinue()
+        OnContinue();
     end
 end
-Controls.TradePanelFade:RegisterEndCallback(OnExitFadeComplete)
+Controls.TradePanelFade:RegisterEndCallback(OnExitFadeComplete);
 -- ===========================================================================
 -- Change the value number edit by a delta
-function OnValueAmountEditDelta(dealItemID, delta)
-    local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
+function OnValueAmountEditDelta(dealItemID:number, delta:number)
+
+    local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
     if (pDeal ~= nil) then
-        local pDealItem = pDeal:FindItemByID(dealItemID)
+	
+        local pDealItem = pDeal:FindItemByID(dealItemID);
         if (pDealItem ~= nil) then
-            local iNewAmount = tonumber(Controls.ValueAmountEditBox:GetText() or 0) + delta
-            iNewAmount = clip(iNewAmount, 1, pDealItem:GetMaxAmount())
-            Controls.ValueAmountEditBox:SetText(tostring(iNewAmount))
+            local iNewAmount = tonumber(Controls.ValueAmountEditBox:GetText() or 0) + delta;
+            iNewAmount = clip(iNewAmount, 1, pDealItem:GetMaxAmount());
+            Controls.ValueAmountEditBox:SetText(tostring(iNewAmount));
         end
     end
 end
 
 -- ===========================================================================
 -- Detach the value edit if it is attached to the control
-function DetachValueEdit(itemID)
+function DetachValueEdit(itemID: number)
     if (itemID == g_ValueEditDealItemID) then
-        ClearValueEdit()
+        ClearValueEdit();
     end
+	
 end
 
 -- ===========================================================================
-function IsItemValueEditable(itemType)
-    return itemType == DealItemTypes.GOLD or itemType == DealItemTypes.RESOURCES
+function IsItemValueEditable(itemType: number)
+    return itemType == DealItemTypes.GOLD or itemType == DealItemTypes.RESOURCES;
 end
 
 -- ===========================================================================
-function GetItemTypeIcon(pDealItem)
-    local itemType = pDealItem:GetType()
+function GetItemTypeIcon(pDealItem: table)
+    local itemType = pDealItem:GetType();
     if (itemType == DealItemTypes.GOLD) then
-        return "ICON_YIELD_GOLD_5"
+        return "ICON_YIELD_GOLD_5";
     elseif (itemType == DealItemTypes.RESOURCES) then
-        local resourceType = pDealItem:GetValueType()
-        local resourceDesc = GameInfo.Resources[resourceType]
-        return "ICON_" .. resourceDesc.ResourceType
+        local resourceType = pDealItem:GetValueType();
+        local resourceDesc = GameInfo.Resources[resourceType];
+        return "ICON_" .. resourceDesc.ResourceType;
     end
-    return nil
+    return nil;
 end
 
 -- ===========================================================================
 -- Reattach the value edit overlay to the control set it is editing.
 function ReAttachValueEdit()
+
     if (g_ValueEditDealItemControlTable ~= nil) then
-        SetHideValueText(g_ValueEditDealItemControlTable, true)
+	
+        SetHideValueText(g_ValueEditDealItemControlTable, true);
 
         -- Display the number in the value edit field
-        local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
+        local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
         if (pDeal ~= nil) then
-            local pDealItem = pDeal:FindItemByID(g_ValueEditDealItemID)
+		
+            local pDealItem = pDeal:FindItemByID(g_ValueEditDealItemID);
             if (pDealItem ~= nil) then
-                local itemID = pDealItem:GetID()
-                local itemType = pDealItem:GetType()
+			
+                local itemID = pDealItem:GetID();
+                local itemType = pDealItem:GetType();
                 if (IsItemValueEditable(itemType)) then
                     -- Hide/show everything for GOLD and RESOURCE options
-                    ms_AgreementOptionIM:ResetInstances()
-                    Controls.ValueEditIconGrid:SetHide(false)
-                    Controls.ValueAmountEditBoxContainer:SetHide(false)
+                    ms_AgreementOptionIM:ResetInstances();
+                    Controls.ValueEditIconGrid:SetHide(false);
+                    Controls.ValueAmountEditBoxContainer:SetHide(false);
 
-                    local iDuration = pDealItem:GetDuration()
+                    local iDuration = pDealItem:GetDuration();
 
-                    Controls.ValueEditHeaderLabel:SetText(Locale.Lookup("LOC_DIPLOMACY_DEAL_HOW_MANY"))
+                    Controls.ValueEditHeaderLabel:SetText(Locale.Lookup("LOC_DIPLOMACY_DEAL_HOW_MANY"));
 
                     if (iDuration == 0) then
                         ---- One time
-                        Controls.ValueEditValueText:SetHide(true)
+                        Controls.ValueEditValueText:SetHide(true);
                     else
                         ---- Multi-turn
-                        Controls.ValueEditValueText:LocalizeAndSetText("LOC_DIPLOMACY_DEAL_FOR_TURNS", iDuration)
-                        Controls.ValueEditValueText:SetHide(false)
+                        Controls.ValueEditValueText:LocalizeAndSetText("LOC_DIPLOMACY_DEAL_FOR_TURNS", iDuration);
+                        Controls.ValueEditValueText:SetHide(false);
                     end
 
-                    SetIconToSize(Controls.ValueEditIcon, GetItemTypeIcon(pDealItem))
+                    SetIconToSize(Controls.ValueEditIcon, GetItemTypeIcon(pDealItem));
 
-                    Controls.ValueEditAmountText:SetText(tostring(pDealItem:GetAmount()))
-                    Controls.ValueEditAmountText:SetHide(false)
+                    Controls.ValueEditAmountText:SetText(tostring(pDealItem:GetAmount()));
+                    Controls.ValueEditAmountText:SetHide(false);
 
-                    Controls.ValueAmountEditBox:SetText(tostring(pDealItem:GetAmount()))
-                    Controls.ValueEditButton:RegisterCallback(
-                        Mouse.eLClick,
-                        function()
-                            OnValueEditButton(itemID)
-                        end
-                    )
-                    Controls.ValueAmountEditLeftButton:RegisterCallback(
-                        Mouse.eLClick,
-                        function()
-                            OnValueAmountEditDelta(itemID, -1)
-                        end
-                    )
-                    Controls.ValueAmountEditRightButton:RegisterCallback(
-                        Mouse.eLClick,
-                        function()
-                            OnValueAmountEditDelta(itemID, 1)
-                        end
-                    )
+                    Controls.ValueAmountEditBox:SetText(tostring(pDealItem:GetAmount()));
+                    Controls.ValueEditButton:RegisterCallback( Mouse.eLClick, function() OnValueEditButton(itemID); end);
+                    Controls.ValueAmountEditLeftButton:RegisterCallback( Mouse.eLClick, function() OnValueAmountEditDelta(itemID, -1); end);
+                    Controls.ValueAmountEditRightButton:RegisterCallback( Mouse.eLClick, function() OnValueAmountEditDelta(itemID, 1); end);
                 elseif (itemType == DealItemTypes.AGREEMENTS) then
-                    local subType = pDealItem:GetSubType()
-                    local iDuration = pDealItem:GetDuration()
+                    local subType = pDealItem:GetSubType();
+                    local iDuration = pDealItem:GetDuration();
 
-                    ShowAgreementOptionPopup(subType, iDuration, pDealItem:GetFromPlayerID())
+                    ShowAgreementOptionPopup(subType, iDuration, pDealItem:GetFromPlayerID());
                 else
                     -- The value of the item cannot be adjusted so don't show a popup
-                    return
+                    return;
                 end
             end
         end
 
-        Controls.ValueEditIconGrid:DoAutoSize()
+        Controls.ValueEditIconGrid:DoAutoSize();
 
-        ResizeValueEditScrollPanel()
+        ResizeValueEditScrollPanel();
 
-        Controls.ValueEditPopup:DoAutoSize()
-        Controls.ValueEditPopupBackground:SetHide(false)
+        Controls.ValueEditPopup:DoAutoSize();
+        Controls.ValueEditPopupBackground:SetHide(false);
     end
+	
 end
 
 -- ===========================================================================
 -- Attach the value edit overlay to a control set.
-function AttachValueEdit(rootControl, dealItemID)
-    ClearValueEdit()
+function AttachValueEdit(rootControl : table, dealItemID : number)
 
-    local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
+    ClearValueEdit();
+
+    local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
     if (pDeal ~= nil) then
-        local pDealItem = pDeal:FindItemByID(dealItemID)
+	
+        local pDealItem = pDeal:FindItemByID(dealItemID);
         if (pDealItem ~= nil) then
             -- Do we have something to edit?
             if (pDealItem:HasPossibleValues() or pDealItem:HasPossibleAmounts()) then
                 -- Yes
-                g_ValueEditDealItemControlTable = FindIconInstanceFromControl(rootControl)
-                g_ValueEditDealItemID = dealItemID
+                g_ValueEditDealItemControlTable = FindIconInstanceFromControl(rootControl);
+                g_ValueEditDealItemID = dealItemID;
 
-                ReAttachValueEdit()
+                ReAttachValueEdit();
             end
         end
     end
+	
 end
 
 -- ===========================================================================
 -- Update the deal panel for a player
 function UpdateDealPanel(player)
+
     -- If we modify the deal without sending it to the AI then reset the status to PENDING
-    ms_LastIncomingDealProposalAction = DealProposalAction.PENDING
+    ms_LastIncomingDealProposalAction = DealProposalAction.PENDING;
 
-    UpdateDealStatus()
+    UpdateDealStatus();
 
-    PopulatePlayerDealPanel(Controls.TheirOfferStack, g_OtherPlayer)
-    PopulatePlayerDealPanel(Controls.MyOfferStack, g_LocalPlayer)
+    PopulatePlayerDealPanel(Controls.TheirOfferStack, g_OtherPlayer);
+    PopulatePlayerDealPanel(Controls.MyOfferStack, g_LocalPlayer);
 
-    ResizeDealAndButtons()
+    ResizeDealAndButtons();
+	
 end
 
 -- ===========================================================================
-function OnClickAvailableOneTimeGold(player, iAddAmount)
+function OnClickAvailableOneTimeGold(player, iAddAmount : number)
+
     if ((ms_bIsDemand == true or ms_bIsGift == true) and ms_InitiatedByPlayerID == ms_OtherPlayerID) then
         -- Can't modifiy demand that is not ours
-        return
+        return;
     end
 
-    local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
+    local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
     if (pDeal ~= nil) then
-        local pPlayerTreasury = player:GetTreasury()
-        local bFound = false
+	
+        local pPlayerTreasury = player:GetTreasury();
+        local bFound = false;
 
         -- Already there?
-        local dealItems = pDeal:FindItemsByType(DealItemTypes.GOLD, DealItemSubTypes.NONE, player:GetID())
-        local pDealItem
+        local dealItems = pDeal:FindItemsByType(DealItemTypes.GOLD, DealItemSubTypes.NONE, player:GetID());
+        local pDealItem;
         if (dealItems ~= nil) then
             for i, pDealItem in ipairs(dealItems) do
                 if (pDealItem:GetDuration() == 0) then
                     -- Already have a one time gold.  Up the amount
-                    iAddAmount = pDealItem:GetAmount() + iAddAmount
-                    iAddAmount = clip(iAddAmount, nil, pDealItem:GetMaxAmount())
+                    iAddAmount = pDealItem:GetAmount() + iAddAmount;
+                    iAddAmount = clip(iAddAmount, nil, pDealItem:GetMaxAmount());
                     if (iAddAmount ~= pDealItem:GetAmount()) then
-                        pDealItem:SetAmount(iAddAmount)
-                        bFound = true
-                        break
+                        pDealItem:SetAmount(iAddAmount);
+                        bFound = true;
+                        break;
                     else
-                        return -- No change, just exit
+                        return; -- No change, just exit
                     end
                 end
             end
@@ -876,61 +877,66 @@ function OnClickAvailableOneTimeGold(player, iAddAmount)
 
         -- Doesn't exist yet, add it.
         if (not bFound) then
+		
             -- Going to add anything?
-            pDealItem = pDeal:AddItemOfType(DealItemTypes.GOLD, player:GetID())
+            pDealItem = pDeal:AddItemOfType(DealItemTypes.GOLD, player:GetID());
             if (pDealItem ~= nil) then
+			
                 -- Set the duration, so the max amount calculation knows what we are doing
-                pDealItem:SetDuration(0)
+                pDealItem:SetDuration(0);
 
                 -- Adjust the gold to our max
-                iAddAmount = clip(iAddAmount, nil, pDealItem:GetMaxAmount())
+                iAddAmount = clip(iAddAmount, nil, pDealItem:GetMaxAmount());
                 if (iAddAmount > 0) then
-                    pDealItem:SetAmount(iAddAmount)
-                    bFound = true
+                    pDealItem:SetAmount(iAddAmount);
+                    bFound = true;
                 else
                     -- It is empty, remove it.
-                    local itemID = pDealItem:GetID()
-                    pDeal:RemoveItemByID(itemID)
+                    local itemID = pDealItem:GetID();
+                    pDeal:RemoveItemByID(itemID);
                 end
             end
         end
 
+
         if (bFound) then
-            UpdateProposedWorkingDeal()
-            UpdateDealPanel(player)
+            UpdateProposedWorkingDeal();
+            UpdateDealPanel(player);
         end
     end
 end
 
 -- ===========================================================================
-function OnClickAvailableMultiTurnGold(player, iAddAmount, iDuration)
+function OnClickAvailableMultiTurnGold(player, iAddAmount : number, iDuration : number)
+
     if ((ms_bIsDemand == true or ms_bIsGift == true) and ms_InitiatedByPlayerID == ms_OtherPlayerID) then
         -- Can't modifiy demand that is not ours
-        return
+        return;
     end
 
-    local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
+    local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
     if (pDeal ~= nil) then
-        local pPlayerTreasury = player:GetTreasury()
+	
+        local pPlayerTreasury = player:GetTreasury();
 
-        local bFound = false
-        UI.PlaySound("UI_GreatWorks_Put_Down")
+        local bFound = false;
+        UI.PlaySound("UI_GreatWorks_Put_Down");
 
         -- Already there?
-        local dealItems = pDeal:FindItemsByType(DealItemTypes.GOLD, DealItemSubTypes.NONE, player:GetID())
-        local pDealItem
+        local dealItems = pDeal:FindItemsByType(DealItemTypes.GOLD, DealItemSubTypes.NONE, player:GetID());
+        local pDealItem;
         if (dealItems ~= nil) then
             for i, pDealItem in ipairs(dealItems) do
                 if (pDealItem:GetDuration() ~= 0) then
                     -- Already have a multi-turn gold.  Up the amount
-                    iAddAmount = pDealItem:GetAmount() + iAddAmount
-                    iAddAmount = clip(iAddAmount, nil, pDealItem:GetMaxAmount())
+                    iAddAmount = pDealItem:GetAmount() + iAddAmount;
+                    iAddAmount = clip(iAddAmount, nil, pDealItem:GetMaxAmount());
                     if (iAddAmount ~= pDealItem:GetAmount()) then
-                        pDealItem:SetAmount(iAddAmount)
-                        bFound = true
-                        break
+                        pDealItem:SetAmount(iAddAmount);
+                        bFound = true;
+                        break;
                     else
-                        return -- No change, just exit
+                        return; -- No change, just exit
                     end
                 end
             end
@@ -939,77 +945,75 @@ function OnClickAvailableMultiTurnGold(player, iAddAmount, iDuration)
         -- Doesn't exist yet, add it.
         if (not bFound) then
             -- Going to add anything?
-            pDealItem = pDeal:AddItemOfType(DealItemTypes.GOLD, player:GetID())
+            pDealItem = pDeal:AddItemOfType(DealItemTypes.GOLD, player:GetID());
             if (pDealItem ~= nil) then
+			
                 -- Set the duration, so the max amount calculation knows what we are doing
-                pDealItem:SetDuration(iDuration)
+                pDealItem:SetDuration(iDuration);
 
                 -- Adjust the gold to our max
-                iAddAmount = clip(iAddAmount, nil, pDealItem:GetMaxAmount())
+                iAddAmount = clip(iAddAmount, nil, pDealItem:GetMaxAmount());
 
                 if (iAddAmount > 0) then
-                    pDealItem:SetAmount(iAddAmount)
-                    bFound = true
+                    pDealItem:SetAmount(iAddAmount);
+                    bFound = true;
                 else
                     -- It is empty, remove it.
-                    local itemID = pDealItem:GetID()
-                    pDeal:RemoveItemByID(itemID)
+                    local itemID = pDealItem:GetID();
+                    pDeal:RemoveItemByID(itemID);
                 end
             end
         end
 
         if (bFound) then
-            UpdateProposedWorkingDeal()
-            UpdateDealPanel(player)
+            UpdateProposedWorkingDeal();
+            UpdateDealPanel(player);
         end
     end
 end
 
 -- ===========================================================================
 -- Clip val to be within the range of min and max
-function clip(val, min, max)
+function clip(val: number, min: number, max: number)
     -- CUI >>
     if min == nil then
-        min = 1
+        min = 1;
     end
     -- << CUI
     if min and val < min then
-        val = min
+        val = min;
     elseif max and val > max then
-        val = max
+        val = max;
     end
-    return val
+    return val;
 end
 
 -- ===========================================================================
 -- Check to see if the deal should be auto-proposed.
 function IsAutoPropose()
     if (not ms_OtherPlayerIsHuman) then
-        local pDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
-        pDeal:Validate()
-        if
-            (pDeal ~= nil and not ms_bIsDemand and pDeal:IsValid() and
-                not DealManager.HasPendingDeal(g_LocalPlayer:GetID(), g_OtherPlayer:GetID()))
-         then
-            local iItemsFromLocal = pDeal:GetItemCount(g_LocalPlayer:GetID(), g_OtherPlayer:GetID())
-            local iItemsFromOther = pDeal:GetItemCount(g_OtherPlayer:GetID(), g_LocalPlayer:GetID())
+        local pDeal : table = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
+        pDeal:Validate();
+        if (pDeal ~= nil and not ms_bIsDemand and pDeal:IsValid() and not DealManager.HasPendingDeal(g_LocalPlayer:GetID(), g_OtherPlayer:GetID())) then
+            local itemsFromLocal : number = pDeal:GetItemCount(g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
+            local itemsFromOther : number = pDeal:GetItemCount(g_OtherPlayer:GetID(), g_LocalPlayer:GetID());
 
-            if (iItemsFromLocal > 0 or iItemsFromOther > 0) then
-                return true
+            if (itemsFromLocal > 0 or itemsFromOther > 0) then
+                return true;
             end
         end
     end
-    return false
+    return false;
 end
 
 -- ===========================================================================
 -- Check the state of the deal and show/hide the special proposal buttons for a possible gift (not actually possible until XP2)
-function UpdateProposalButtonsForGift(iItemsFromLocal, iItemsFromOther)
-    if (iItemsFromLocal == 0 and iItemsFromOther > 0) then
-        return true
+function UpdateProposalButtonsForGift(itemsFromLocal : number, itemsFromOther : number)
+    if (itemsFromLocal == 0 and itemsFromOther > 0) then
+        return true;
     end
 
-    return false
+    return false;
 end
 
 -- ===========================================================================
