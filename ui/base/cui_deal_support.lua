@@ -2,8 +2,6 @@
 -- cui_deal_support.lua
 -- ===========================================================================
 
-include("cui_utils")
-
 -- ===========================================================================
 -- Tooltips
 -- ===========================================================================
@@ -159,7 +157,7 @@ function CuiGetButtonStyleByData(data)
         tooltip = tooltip .. OnlyOneTT
     end
 
-    if not isNil(tooltip) then
+    if tooltip ~= "" then
         tooltip = "[COLOR_Red]" .. tooltip .. "[ENDCOLOR]"
     end
     return color, tooltip
@@ -181,7 +179,7 @@ function CuiGetButtonStyleByDataXP2(data)
         end
     end
 
-    if not isNil(tooltip) then
+    if tooltip ~= "" then
         tooltip = "[NEWLINE][COLOR_Red]" .. tooltip .. "[ENDCOLOR]"
     end
     return color, tooltip

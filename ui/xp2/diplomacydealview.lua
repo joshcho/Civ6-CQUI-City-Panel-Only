@@ -11,7 +11,7 @@ include("PopupDialog");
 include("ToolTipHelper_PlayerYields");
 include("CivilizationIcon");
 include("GreatWorksSupport");
-include("cui_utils"); -- CUI
+--include("cui_utils"); -- CUI
 include("cui_deal_support"); -- CUI
 
 
@@ -30,8 +30,8 @@ g_ValueEditDealItemControlTable = nil; -- The control table of the deal item tha
 DealItemGroupTypes = nil;
 AvailableDealItemGroupTypes = nil;
 
---g_uiMyOffers = {};
---g_uiTheirOffers = {};
+g_uiMyOffers = {};
+g_uiTheirOffers = {};
 
 -- ===========================================================================
 --    VARIABLES
@@ -40,8 +40,8 @@ local ms_PlayerPanelIM 		:table = InstanceManager:new("PlayerAvailablePanel", "R
 local ms_LeftRightListIM 	:table = InstanceManager:new("LeftRightList", "List", Controls.LeftRightListContainer);
 local ms_TopDownListIM 		:table = InstanceManager:new("TopDownList", "List", Controls.TopDownListContainer);
 local ms_AgreementOptionIM	:table = InstanceManager:new("AgreementOptionInstance", "AgreementOptionButton", Controls.ValueEditStack);
---local ms_CityDetailsIM		:table		= InstanceManager:new( "CityIconAndDetails", "CityDetailsContainer", Controls.IconAndTextContainer );
---local ms_MinimizedSectionIM :table		= InstanceManager:new( "MinimizedSection","MinimizedSectionContainer" );
+local ms_CityDetailsIM		:table		= InstanceManager:new( "CityIconAndDetails", "CityDetailsContainer", Controls.IconAndTextContainer );
+local ms_MinimizedSectionIM :table		= InstanceManager:new( "MinimizedSection","MinimizedSectionContainer" );
 
 local OTHER_PLAYER = 0;
 local LOCAL_PLAYER = 1;
@@ -74,16 +74,16 @@ local ms_bDontUpdateOnBack = false;
 
 local MAX_DEAL_ITEM_EDIT_HEIGHT = 300;
 
---local m_kCollapsedCityDetails : table = {};
+local m_kCollapsedCityDetails : table = {};
 
 --Panel resizing variables
---local m_StartingMouseX	: number;
---local m_StartingMouseY	: number;
---local m_OffersStartSizeY: number;
---local m_InvStartSizeY	: number;
+local m_StartingMouseX	: number;
+local m_StartingMouseY	: number;
+local m_OffersStartSizeY: number;
+local m_InvStartSizeY	: number;
 
---local m_MaxDragResizeY : number = 81;
---local m_MinDragResizeY : number = 193; -- Will be dynamically set to account for different resolutions
+local m_MaxDragResizeY : number = 81;
+local m_MinDragResizeY : number = 193; -- Will be dynamically set to account for different resolutions
 
 -- CUI: instances
 local CuiIconOnlyIM = InstanceManager:new("CuiIconOnly", "SelectButton", Controls.IconOnlyContainer)
@@ -357,8 +357,8 @@ function CreatePanels()
     -- Create the Local Player Panels
     CreatePlayerAvailablePanel(LOCAL_PLAYER, Controls.MyInventoryStack);
 
-    CreatePlayerDealPanel(OTHER_PLAYER, Controls.TheirOfferStack);
-    CreatePlayerDealPanel(LOCAL_PLAYER, Controls.MyOfferStack);
+    CreatePlayerDealPanel(OTHER_PLAYER, g_uiTheirOffers);
+    CreatePlayerDealPanel(LOCAL_PLAYER, g_uiMyOffers);
 
     Controls.EqualizeDeal:RegisterCallback(Mouse.eLClick, OnEqualizeDeal);
     Controls.EqualizeDeal:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
@@ -487,10 +487,10 @@ function UpdateDealStatus()
         end
     end
 	-- Hide/show directions if either side has no items
-	--local itemsFromLocal : number = pDeal:GetItemCount(g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
-	--local itemsFromOther : number = pDeal:GetItemCount(g_OtherPlayer:GetID(), g_LocalPlayer:GetID());
-	--g_uiMyOffers.DirectionsBracket:SetHide( itemsFromLocal > 0);
-	--g_uiTheirOffers.DirectionsBracket:SetHide( itemsFromOther > 0);
+	local itemsFromLocal : number = pDeal:GetItemCount(g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
+	local itemsFromOther : number = pDeal:GetItemCount(g_OtherPlayer:GetID(), g_LocalPlayer:GetID());
+	g_uiMyOffers.DirectionsBracket:SetHide( itemsFromLocal > 0);
+	g_uiTheirOffers.DirectionsBracket:SetHide( itemsFromOther > 0);
 
     UpdateProposalButtons(bDealValid);
 
@@ -499,6 +499,7 @@ end
 
 -- ===========================================================================
 function ResizeDealAndButtons()
+
     -- Find the widest deal button text and size others to match
     local refuseX, refuseY = AutoSizeGridButton(Controls.RefuseDeal, 200, 41, 10, "1"); -- CUI
     local equalizeX, equalizeY = AutoSizeGridButton(Controls.EqualizeDeal, 200, 32, 10, "1");
@@ -525,12 +526,14 @@ function ResizeDealAndButtons()
     Controls.DealOptionsStack:CalculateSize();
     Controls.DealOptionsStack:ReprocessAnchoring();
 
-    Controls.TheirOfferStack:CalculateSize();
-    Controls.TheirOfferBracket:DoAutoSize();
+	g_uiTheirOffers.OfferStack:CalculateSize();
+    --Controls.TheirOfferStack:CalculateSize();
+    --Controls.TheirOfferBracket:DoAutoSize();
     Controls.TheirOfferScroll:CalculateSize();
 
-    Controls.MyOfferStack:CalculateSize();
-    Controls.MyOfferBracket:DoAutoSize();
+	g_uiMyOffers.OfferStack:CalculateSize();
+    --Controls.MyOfferStack:CalculateSize();
+    --Controls.MyOfferBracket:DoAutoSize();
     Controls.MyOfferScroll:CalculateSize();
 end
 
@@ -834,8 +837,8 @@ function UpdateDealPanel(player)
 
     UpdateDealStatus();
 
-    PopulatePlayerDealPanel(Controls.TheirOfferStack, g_OtherPlayer);
-    PopulatePlayerDealPanel(Controls.MyOfferStack, g_LocalPlayer);
+	PopulatePlayerDealPanel(g_uiTheirOffers, g_OtherPlayer);
+	PopulatePlayerDealPanel(g_uiMyOffers, g_LocalPlayer);
 
     ResizeDealAndButtons();
 	
@@ -1119,20 +1122,20 @@ function UpdateProposalButtons(bDealValid)
                         -- Just starting the deal
                         if (itemsFromLocal > 0 and itemsFromOther == 0) then
                             -- Is this one way to them?
-                            Controls.MyDirections:SetHide(true);
-                            Controls.TheirDirections:SetHide(false);
+							g_uiMyOffers.Directions:SetHide(true);
+							g_uiTheirOffers.Directions:SetHide(false);
                             Controls.AcceptDeal:LocalizeAndSetText("LOC_DIPLOMACY_DEAL_GIFT_DEAL");
                         else
                             -- Everything else is a proposal to another human
-                            Controls.MyDirections:SetHide(true);
-                            Controls.TheirDirections:SetHide(true);
+							g_uiMyOffers.Directions:SetHide(true);
+							g_uiTheirOffers.Directions:SetHide(true);
                             Controls.AcceptDeal:LocalizeAndSetText("LOC_DIPLOMACY_DEAL_PROPOSE_DEAL");
                         end
                         -- Make sure the leader text is set to something appropriate.
                         SetDefaultLeaderDialogText();
                     else
-                        Controls.MyDirections:SetHide(true);
-                        Controls.TheirDirections:SetHide(true);
+						g_uiMyOffers.Directions:SetHide(true);
+						g_uiTheirOffers.Directions:SetHide(true);
                         -- Are the incoming and outgoing deals the same?
                         if (DealManager.AreWorkingDealsEqual(g_LocalPlayer:GetID(), g_OtherPlayer:GetID())) then
                             Controls.AcceptDeal:LocalizeAndSetText("LOC_DIPLOMACY_DEAL_ACCEPT_DEAL");
@@ -1144,14 +1147,14 @@ function UpdateProposalButtons(bDealValid)
             else
                 -- Is a Demand
                 if (ms_InitiatedByPlayerID == ms_OtherPlayerID) then
-                    Controls.MyDirections:SetHide(true);
-                    Controls.TheirDirections:SetHide(true);
+					g_uiMyOffers.Directions:SetHide(true);
+					g_uiTheirOffers.Directions:SetHide(true);
                     SetDefaultLeaderDialogText();
                 else
                     if (itemsFromOther == 0) then
-                        Controls.TheirDirections:SetHide(false);
+						g_uiTheirOffers.Directions:SetHide(false);
                     else
-                        Controls.TheirDirections:SetHide(true);
+						g_uiTheirOffers.Directions:SetHide(true);
                     end
                     -- Demand against another player
                     SetLeaderDialog("LOC_DIPLO_DEAL_LEADER_DEMAND", "LOC_DIPLO_DEAL_LEADER_DEMAND_EFFECT");
@@ -1174,8 +1177,8 @@ function UpdateProposalButtons(bDealValid)
             itemsFromOther = pDeal:GetItemCount(g_OtherPlayer:GetID(), g_LocalPlayer:GetID());
         end
 
-        Controls.MyDirections:SetHide(bIsViewing or itemsFromLocal > 0);
-        Controls.TheirDirections:SetHide(bIsViewing or itemsFromOther > 0);
+		g_uiMyOffers.Directions:SetHide( bIsViewing or itemsFromLocal > 0);
+		g_uiTheirOffers.Directions:SetHide( bIsViewing or itemsFromOther > 0);
         Controls.EqualizeDeal:SetHide(true);
         Controls.AcceptDeal:SetHide(true);
         Controls.DemandDeal:SetHide(true);
@@ -1225,22 +1228,28 @@ function UpdateProposalButtons(bDealValid)
     if (ms_bIsDemand) then
         if (ms_InitiatedByPlayerID == ms_OtherPlayerID) then
             -- Demand from the other player and we are responding
-            Controls.MyOfferBracket:SetHide(false);
+            --Controls.MyOfferBracket:SetHide(false);
             Controls.MyOfferLabel:SetHide(false);
             Controls.TheirOfferLabel:SetHide(true);
-            Controls.TheirOfferBracket:SetHide(true);
+            --Controls.TheirOfferBracket:SetHide(true);
+			g_uiTheirOffers.OfferStack:SetHide(true);
+			g_uiMyOffers.OfferStack:SetHide(false);
         else
             -- Demand from us, to the other player
-            Controls.MyOfferBracket:SetHide(true);
+            --Controls.MyOfferBracket:SetHide(true);
             Controls.MyOfferLabel:SetHide(true);
+			g_uiMyOffers.OfferStack:SetHide(true);
             Controls.TheirOfferLabel:SetHide(false);
-            Controls.TheirOfferBracket:SetHide(false);
+            --Controls.TheirOfferBracket:SetHide(false);
+			g_uiTheirOffers.OfferStack:SetHide(false);
         end
     else
         Controls.MyOfferLabel:SetHide(false);
-        Controls.MyOfferBracket:SetHide(false);
+        --Controls.MyOfferBracket:SetHide(false);
         Controls.TheirOfferLabel:SetHide(false);
-        Controls.TheirOfferBracket:SetHide(false);
+		g_uiTheirOffers.OfferStack:SetHide(false);
+		g_uiMyOffers.OfferStack:SetHide(false);
+        --Controls.TheirOfferBracket:SetHide(false);
     end
 end
 
@@ -2125,9 +2134,10 @@ function PopulateDealBasic(player : table, iconList : table, populateType : numb
             end
         end
 
-        iconList:CalculateSize();
-        iconList:ReprocessAnchoring();
+        iconList.OfferStack:CalculateSize();
+        --iconList:ReprocessAnchoring();
     end
+	
 end
 
 -- ===========================================================================
@@ -2153,8 +2163,9 @@ function PopulateDealResources(player : table, iconList : table)
     local pDeal : table = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
     local playerType : number = GetPlayerType(player);
     if (pDeal ~= nil) then
-        g_IconOnlyIM:ReleaseInstanceByParent(iconList);
-        g_IconAndTextIM:ReleaseInstanceByParent(iconList);
+		g_IconOnlyIM:ReleaseInstanceByParent(iconList.OneTimeDealsStack);
+		g_IconOnlyIM:ReleaseInstanceByParent(iconList.For30TurnsDealsStack);
+        --g_IconAndTextIM:ReleaseInstanceByParent(iconList);
 
         local pDealItem : table;
         for pDealItem in pDeal:Items() do
@@ -2242,9 +2253,10 @@ function PopulateDealResources(player : table, iconList : table)
             end -- end if deal
         end
 
-        iconList:CalculateSize();
-        iconList:ReprocessAnchoring();
+        iconList.OfferStack:CalculateSize();
+        --iconList:ReprocessAnchoring();
     end
+	
 end
 
 -- ===========================================================================
@@ -2294,9 +2306,10 @@ function PopulateDealAgreements(player : table, iconList : table)
             end
         end
 
-        iconList:CalculateSize();
-        iconList:ReprocessAnchoring();
+        iconList.OfferStack:CalculateSize();
+        --iconList:ReprocessAnchoring();
     end
+	
 end
 
 -- ===========================================================================
@@ -2365,9 +2378,10 @@ function PopulateDealGreatWorks(player : table, iconList : table)
             end
         end
 
-        iconList:CalculateSize();
-        iconList:ReprocessAnchoring();
+        iconList.OfferStack:CalculateSize();
+        --iconList:ReprocessAnchoring();
     end
+	
 end
 
 -- ===========================================================================
@@ -2412,9 +2426,10 @@ function PopulateDealCities(player : table, iconList : table)
             end
         end
 
-        iconList:CalculateSize();
-        iconList:ReprocessAnchoring();
+        iconList.OfferStack:CalculateSize();
+        --iconList:ReprocessAnchoring();
     end
+	
 end
 
 -- ===========================================================================
@@ -2429,8 +2444,8 @@ function PopulatePlayerDealPanel(rootControl : table, player : table)
         PopulateDealGreatWorks(player, ms_DealGroups[DealItemGroupTypes.GREAT_WORKS][playerType]);
         PopulateDealCities(player, ms_DealGroups[DealItemGroupTypes.CITIES][playerType]);
 
-        rootControl:CalculateSize();
-        rootControl:ReprocessAnchoring();
+        rootControl.OfferStack:CalculateSize();
+        --rootControl:ReprocessAnchoring();
     end
 end
 
@@ -2521,8 +2536,8 @@ function OnDiplomacyIncomingDeal(eFromPlayer, eToPlayer, eAction)
             DealManager.CopyIncomingToOutgoingWorkingDeal(g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
             ms_LastIncomingDealProposalAction = eAction;
 
-            PopulatePlayerDealPanel(Controls.TheirOfferStack, g_OtherPlayer);
-            PopulatePlayerDealPanel(Controls.MyOfferStack, g_LocalPlayer);
+			PopulatePlayerDealPanel(g_uiTheirOffers, g_OtherPlayer);
+			PopulatePlayerDealPanel(g_uiMyOffers, g_LocalPlayer);
             UpdateDealStatus();
         end
     end
@@ -2787,8 +2802,8 @@ function OnShow()
         m_kPopupDialog:Open();
     end
 
-    PopulatePlayerDealPanel(Controls.TheirOfferStack, g_OtherPlayer)
-    PopulatePlayerDealPanel(Controls.MyOfferStack, g_LocalPlayer)
+	PopulatePlayerDealPanel(g_uiTheirOffers, g_OtherPlayer);
+	PopulatePlayerDealPanel(g_uiMyOffers, g_LocalPlayer);
     UpdateDealStatus();
 
     -- We may be coming into this screen with a deal already set, which needs to be sent to the AI for inspection. Check that.
@@ -2889,6 +2904,38 @@ end
 -- CUI -----------------------------------------------------------------------
 function CuiGetEditGroup(iconList)
     return CuiEditGroupIM:GetInstance(iconList.ListStack)
+end
+
+-- CUI -----------------------------------------------------------------------
+function CuiRegCallback(control, callbackLClick, callbackRClick, sound)
+    if callbackLClick then
+        control:RegisterCallback(Mouse.eLClick, callbackLClick)
+    end
+    if callbackRClick then
+        if sound then
+            control:RegisterCallback(
+                Mouse.eRClick,
+                function()
+                    callbackRClick()
+                    UI.PlaySound(sound)
+                end
+            )
+        else
+            control:RegisterCallback(
+                Mouse.eRClick,
+                function()
+                    callbackRClick()
+                    UI.PlaySound("Play_UI_Click")
+                end
+            )
+        end
+    end
+    control:RegisterCallback(
+        Mouse.eMouseEnter,
+        function()
+            UI.PlaySound("Main_Menu_Mouse_Over")
+        end
+    )
 end
 
 -- CUI -----------------------------------------------------------------------
@@ -3003,6 +3050,38 @@ function Initialize()
     Events.UserRequestClose.Add(OnUserRequestClose);
 
     m_kPopupDialog = PopupDialog:new("DiplomacyDealView");
+	
+	ContextPtr:BuildInstanceForControl("MyOffers", g_uiMyOffers, Controls.MyOfferScroll);
+	ContextPtr:BuildInstanceForControl("TheirOffers", g_uiTheirOffers, Controls.TheirOfferScroll);
+
+	g_uiMyOffers.CityDealsExpandButton:RegisterCallback(Mouse.eLClick, function() OnDealsHeaderCollapseButton(g_uiMyOffers.CityDealsStack, g_uiMyOffers.MinimizedCityDealsStack, g_uiMyOffers.CityDealsExpandButton); end);
+	g_uiTheirOffers.CityDealsExpandButton:RegisterCallback(Mouse.eLClick, function() OnDealsHeaderCollapseButton(g_uiTheirOffers.CityDealsStack, g_uiTheirOffers.MinimizedCityDealsStack, g_uiTheirOffers.CityDealsExpandButton); end);
+
+	g_uiMyOffers.GreatWorksDealsExpandButton:RegisterCallback(Mouse.eLClick, function() OnDealsHeaderCollapseButton(g_uiMyOffers.GreatWorksDealsStack, g_uiMyOffers.MinimizedGreatWorksDealsStack, g_uiMyOffers.GreatWorksDealsExpandButton); end);
+	g_uiTheirOffers.GreatWorksDealsExpandButton:RegisterCallback(Mouse.eLClick, function() OnDealsHeaderCollapseButton(g_uiTheirOffers.GreatWorksDealsStack, g_uiTheirOffers.MinimizedGreatWorksDealsStack, g_uiTheirOffers.GreatWorksDealsExpandButton); end);
+
+	g_uiMyOffers.AgreementDealsExpandButton:RegisterCallback(Mouse.eLClick, function() OnDealsHeaderCollapseButton(g_uiMyOffers.AgreementDealsStack, g_uiMyOffers.MinimizedAgreementDealsStack, g_uiMyOffers.AgreementDealsExpandButton); end);
+	g_uiTheirOffers.AgreementDealsExpandButton:RegisterCallback(Mouse.eLClick, function() OnDealsHeaderCollapseButton(g_uiTheirOffers.AgreementDealsStack, g_uiTheirOffers.MinimizedAgreementDealsStack, g_uiTheirOffers.AgreementDealsExpandButton); end);
+
+	g_uiMyOffers.CaptivesDealsExpandButton:RegisterCallback(Mouse.eLClick, function() OnDealsHeaderCollapseButton(g_uiMyOffers.CaptivesDealsStack, g_uiMyOffers.MinimizedCaptivesDealsStack, g_uiMyOffers.CaptivesDealsExpandButton); end);
+	g_uiTheirOffers.CaptivesDealsExpandButton:RegisterCallback(Mouse.eLClick, function() OnDealsHeaderCollapseButton(g_uiTheirOffers.CaptivesDealsStack, g_uiTheirOffers.MinimizedCaptivesDealsStack, g_uiTheirOffers.CaptivesDealsExpandButton); end);
+
+	m_OffersStartSizeY = Controls.OfferColumns:GetSizeY();
+	m_InvStartSizeY = Controls.InventoryColumns:GetSizeY();
+
+	Controls.DragButton:SetOffsetY(m_InvStartSizeY - 20);
+
+	m_StartingMouseX, m_StartingMouseY = Controls.DragButton:GetScreenOffset();
+	m_StartingMouseY = m_StartingMouseY + 24;
+	m_MinDragResizeY = m_MinDragResizeY - m_InvStartSizeY;
+
+	Controls.DragSizer:RegisterCallback(Drag.eDrag, function() OnDragResizer(); end);
+
+	--This option requires a restart after changing, so we only need to check it at initialize
+	local replaceDragWithClick : number = Options.GetUserOption("Interface", "ReplaceDragWithClick");
+	if(replaceDragWithClick == 1)then
+		Controls.DragButton:LocalizeAndSetToolTip("LOC_DIPLOMACY_DRAG_BUTTON_CLICK_TOOLTIP");
+	end
 end
 
 -- This wildcard include will include all loaded files beginning with "DiplomacyDealView_"

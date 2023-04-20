@@ -3,6 +3,7 @@
 <!-- ==== There is significant customization in this file, the unmodified found in the CivFanatics Civ6-UIFiles Repo on GitHub ==== -->
 <!-- ==== Repo link: https://github.com/civfanatics/Civ6-UIFiles ================================================================== -->
 <Context Style="FontNormal16" ColorSet="BodyTextCool" FontStyle="Shadow" Size="parent,parent" ConsumeMouse="1">
+
     <Include File="CivilizationIcon"/>
     <Include File="PopupDialog"/>
 
@@ -15,6 +16,51 @@
     <!-- The full screen container, so they player can't click through. -->
     <Container Size="parent,parent"/>
 
+    <!-- CUI: edit group instance -->
+    <Instance Name="CuiEditGroup">
+        <Grid ID="Top" Size="auto,82">
+
+            <Image ID="Icon" StretchMode="None" Anchor="L,C" Offset="-10,-6" Size="50,76">
+                <Label ID="AmountText" Style="FontNormalBold14" Anchor="C,B" Offset="0,-6" FontStyle="Stroke" Color="White"/>
+                <Label ID="Turns" Anchor="L,T" Offset="6,10" String="[Icon_Turn]" />
+            </Image>
+
+            <Stack StackGrowth="Bottom" Anchor="L,T" Size="60,82" Offset="50,6" StackPadding="2">
+                <GridButton ID="Edit100" Size="60,24" Style="ButtonControlTan" ToolTip="LOC_CUI_DP_GOLD_EDIT_TOOLTIP">
+                    <Label Anchor="L,C" String="[COLOR_GREEN]+[ENDCOLOR][COLOR_RED]-[ENDCOLOR] 100" Offset="6,2" Style="FontNormal14"/>
+                </GridButton>
+
+                <GridButton ID="Edit10" Size="60,24" Style="ButtonControlTan" ToolTip="LOC_CUI_DP_GOLD_EDIT_TOOLTIP">
+                    <Label Anchor="L,C" String="[COLOR_GREEN]+[ENDCOLOR][COLOR_RED]-[ENDCOLOR] 10" Offset="6,2" Style="FontNormal14"/>
+                </GridButton>
+
+                <GridButton ID="Edit1" Size="60,24" Style="ButtonControlTan" ToolTip="LOC_CUI_DP_GOLD_EDIT_TOOLTIP">
+                    <Label Anchor="L,C" String="[COLOR_GREEN]+[ENDCOLOR][COLOR_RED]-[ENDCOLOR] 1" Offset="6,2" Style="FontNormal14"/>
+                </GridButton>
+            </Stack>
+        </Grid>
+    </Instance>
+
+    <!-- CUI: custom group list -->
+    <Instance Name="CuiGroupList">
+        <Stack ID="List" Size="parent,0">
+            <Stack ID="ListStack" StackGrowth="Right" StackPadding="22" Offset="10,0"/>
+        </Stack>
+    </Instance>
+
+    <Instance Name="CuiIconOnly">
+        <!-- <GridButton ID="SelectButton" Style="ButtonDraggableGrid" Size="56,56" Offset="0,0" Anchor="L,T"> -->
+        <GridButton ID="SelectButton" Size="56,56" Offset="0,0" Anchor="L,T">
+            <Image ID="ColorBG" Size="56,56" Anchor="C,C" Texture="button_resource.dds" InnerPadding="22,22" MinSize="50,50" StateOffsetIncrement="0,50" SliceCorner="25,25" SliceTextureSize="50,50">
+                <Image ID="Icon" StretchMode="None" Size="64,64" Anchor="C,C"/>
+                <Label ID="AmountText" Style="FontNormalBold14" Anchor="R,B" Offset="-5,-9" FontStyle="Stroke" Color="White"/>
+                <Image ID="UnacceptableIcon" Anchor="R,T" Offset="-8,-8" Texture="Alert18" Size="18,18" ToolTip="LOC_DIPLO_DEAL_UNACCEPTABLE_ITEM_TOOLTIP" Hidden="1"/>
+			    <Button ID="StopAskingButton" Anchor="C,C" Offset ="0,0" Texture="Controls_DontAskAgainSmall" Size="16,16" ToolTip="LOC_DIPLO_DEAL_REMOVE_ITEM" Hidden="1"/>
+                <Label ID="Turns" Style="FontNormal14" Anchor="L,T" Offset="-10,-6" String="[Icon_Turn]" Hidden="1"/>
+            </Image>
+        </GridButton>
+    </Instance>
+	
     <!-- An instance of an Icon, with optional Amount Text that overlaps the icon -->
     <Instance Name="IconOnly">
         <GridButton ID="SelectButton" Style="ButtonDraggableGrid" Size="56,56" Offset="0,0" Anchor="L,T">
@@ -334,7 +380,7 @@
 
                         <Stack ID="DealContentStack" StackGrowth="Right" Offset="5,10">
 
-                            <!-- CQUI : Removd the divider -->
+                            <!-- CQUI : Removed the divider -->
                             <!-- Static: Horizontal divider for offers and inventories-->
                             <!-- <Grid Style="Divider4Grid" Size="parent-2,10" Anchor="C,C" Hidden="1">
                 <Image Texture="Controls_Deco2" Size="41,26" Anchor="C,T" Offset="0,-12"/>
