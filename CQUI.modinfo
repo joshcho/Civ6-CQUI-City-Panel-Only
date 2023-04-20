@@ -1202,6 +1202,35 @@
 			<File>ui/new/diplomacyactionview_qd.lua</File>
 		</ImportFiles>
 		
+		<!-- Diplomacy Deal View from CUI -->
+		<!-- Vanilla actions - simply import lua and xml -->
+        <ImportFiles id="BDV_ImportFiles">
+			<Properties>
+				<LoadOrder>15000</LoadOrder> <!-- Huge load order because CQUI has 13000+ -->
+			</Properties>
+            <Items>
+				<File>ui/base/diplomacydealview.lua</File>
+				<File>ui/base/diplomacydealview.xml</File>
+				<File>ui/base/cui_utils.lua</File>
+				<File>ui/base/cui_deal_support.lua</File>
+            </Items>
+        </ImportFiles>
+		<!-- Gathering Storm actions - import lua and xml, replace lua -->
+        <ImportFiles id="BDV_ImportFiles_XP2" criteria="Expansion2">
+			<Properties><LoadOrder>15001</LoadOrder></Properties>
+            <Items>
+				<File>ui/xp2/diplomacydealview.lua</File>
+				<File>ui/xp2/diplomacydealview_expansion2.lua</File>
+            </Items>
+        </ImportFiles>
+   		<ReplaceUIScript id="BDV_Replace_DiplomacyDealView_XP2" criteria="Expansion2">
+			<Properties>
+				<LoadOrder>15002</LoadOrder>
+				<LuaContext>DiplomacyDealView</LuaContext>
+				<LuaReplace>ui/xp2/diplomacydealview_expansion2.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		
     </InGameActions>
 
     <Settings />
@@ -1424,5 +1453,14 @@
 		<File>ui/new/cui_spy_info.xml</File>
 		<!-- #19 compatibility with Quick Deals -->
 		<File>ui/new/diplomacyactionview_qd.lua</File>
+		<!-- Diplomacy Deal View from CUI -->
+		<!-- Base files -->
+		<File>ui/base/diplomacydealview.lua</File>
+		<File>ui/base/diplomacydealview.xml</File>
+		<File>ui/base/cui_utils.lua</File>
+		<File>ui/base/cui_deal_support.lua</File>
+		<!-- Gathering Storm files -->
+		<File>ui/xp2/diplomacydealview.lua</File>
+		<File>ui/xp2/diplomacydealview_expansion2.lua</File>
     </Files>
 </Mod>
