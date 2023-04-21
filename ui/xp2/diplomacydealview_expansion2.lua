@@ -154,7 +154,7 @@ function PopulateDealResources(player: table, iconList: table)
                     local uiIcon : table;
                     if (iDuration == 0) then
                         -- One time
-                        uiIcon = g_IconOnlyIM:GetInstance(iconList.OneTimeDealsStack);
+                        uiIcon = g_IconOnlyIM:GetInstance(iconList); -- CQUI: use old controls
                         SetIconToSize(uiIcon.Icon, "ICON_YIELD_FAVOR");
                         uiIcon.AmountText:SetText(tostring(pDealItem:GetAmount()));
                         uiIcon.AmountText:SetHide(false);
@@ -183,12 +183,12 @@ function PopulateDealResources(player: table, iconList: table)
         end
     end
 
-	iconList.OneTimeDealsHeader:SetHide(table.count(iconList.OneTimeDealsStack:GetChildren()) == 0);
-	iconList.For30TurnsDealsHeader:SetHide(table.count(iconList.For30TurnsDealsStack:GetChildren()) == 0);
+	--iconList.OneTimeDealsHeader:SetHide(table.count(iconList.OneTimeDealsStack:GetChildren()) == 0);
+	--iconList.For30TurnsDealsHeader:SetHide(table.count(iconList.For30TurnsDealsStack:GetChildren()) == 0);
 	
 	-- CQUI: Minicons and collapse headers not used
-	iconList.OneTimeDealsHeader:SetHide(true);
-	iconList.For30TurnsDealsHeader:SetHide(true);
+	--iconList.OneTimeDealsHeader:SetHide(true);
+	--iconList.For30TurnsDealsHeader:SetHide(true);
 end
 
 -- ===========================================================================

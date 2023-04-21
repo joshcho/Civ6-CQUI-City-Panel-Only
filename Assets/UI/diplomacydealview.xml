@@ -214,8 +214,9 @@
     </Instance>
 
     <!--Instance container to hold all of the items offered by the local player-->
-	<!-- CQUI: To save space all headers should be removed but this woould break lots of code -->
+	<!-- CQUI: To save space all headers should be removed but this would break lots of code -->
 	<!-- CQUI: Thus they will be hidden every time the stack is populated in functions like PopulateDealAgreements -->
+	<!-- This is a new collapsable stack with collapsable sections; it is designed for long vertical boxes -->
     <Instance Name ="MyOffers">
 		<!-- CQUI: Stack grows to the right and then wraps down, this was a LOT of window space is saved -->
         <Stack ID="OfferStack" StackGrowth="Right" Size ="auto, auto" Anchor="C,C" WrapWidth="360" WrapGrowth="Bottom">
@@ -488,13 +489,11 @@
                                                     <Thumb Size="13,13" Texture="Controls_ScrollBarHandleV_Brown" StateOffsetIncrement="0,0" SliceCorner="6,6" SliceTextureSize="13,13"/>
                                                 </ScrollBar>
 												<!-- CQUI: Here an instance of "MyOffers" is attached -->
-												<!-- CQUI: This is an old approach that didn't have headers; CUI was created back then; left for reference
+												<!-- CQUI: This is an old approach that didn't have headers; CUI was created back then; left for reference -->
 												<Grid ID="MyOfferBracket" Style="DecoGrid" Size="auto,auto" Offset="4,0" Color="Dark_Gray" Anchor="C,C" Offset="-2,0" InnerPadding="30,25" MinSize="39,49">
-													<Stack ID="MyOfferStack" StackGrowth="Right" WrapWidth="360" WrapGrowth="Bottom">
-														<Label ID="MyDirections" String="LOC_DIPLOMACY_TRADE_UI_SELECT_TEXT" Anchor="C,C" Style="FontNormalMedium16" Color0="GrayMedium" Color1="Black" FontStyle="Shadow" WrapWidth="160" Align="Center" Hidden="0"/>
-													</Stack>
+													<Label ID="MyDirections" String="LOC_DIPLOMACY_TRADE_UI_SELECT_TEXT" Anchor="C,C" Style="FontNormalMedium16" Color0="GrayMedium" Color1="Black" FontStyle="Shadow" WrapWidth="160" Align="Center" Hidden="0"/>
 												</Grid>
-												-->
+												<Stack ID="MyOfferStack" StackGrowth="Right" WrapWidth="380" WrapGrowth="Bottom"/>
                                             </ScrollPanel>
                                             <!-- CQUI : Changed offset and size of gradients -->
                                             <Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="L,B" Color="0,0,0,255" FlipY="1"/>
@@ -510,13 +509,11 @@
                                                     <Thumb Size="13,13" Texture="Controls_ScrollBarHandleV_Brown" StateOffsetIncrement="0,0" SliceCorner="6,6" SliceTextureSize="13,13"/>
                                                 </ScrollBar>
 												<!-- CQUI: here an instance of "TheirOffers" is attached -->
-												<!-- CQUI: This is an old approach that didn't have headers; CUI was created back then; left for reference
+												<!-- CQUI: This is an old approach that didn't have headers; CUI was created back then; left for reference -->
 												<Grid ID="TheirOfferBracket" Style="DecoGrid" Size="auto,auto" Offset="-4,0" Color="Dark_Gray" Anchor="C,C" Offset="-2,0" InnerPadding="30,25" MinSize="39,49">
-													<Stack ID="TheirOfferStack" StackGrowth="Right" WrapWidth="360" WrapGrowth="Bottom">
-														<Label ID="TheirDirections" String="LOC_DIPLOMACY_TRADE_UI_SELECT_THEIR_TEXT" LeadingOffset="0,-2" Anchor="C,C" Style="FontNormalMedium16" Color0="GrayMedium" Color1="Black" FontStyle="Shadow" WrapWidth="160" Align="Center" Hidden="0"/>
-													</Stack>
+													<Label ID="TheirDirections" String="LOC_DIPLOMACY_TRADE_UI_SELECT_THEIR_TEXT" LeadingOffset="0,-2" Anchor="C,C" Style="FontNormalMedium16" Color0="GrayMedium" Color1="Black" FontStyle="Shadow" WrapWidth="160" Align="Center" Hidden="0"/>
 												</Grid>
-												-->
+												<Stack ID="TheirOfferStack" StackGrowth="Right" WrapWidth="360" WrapGrowth="Bottom"/>
                                             </ScrollPanel>
                                             <!-- CQUI : Changed offset and size of gradients -->
                                             <Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="R,B" Color="0,0,0,255" FlipY="1"/>
