@@ -1210,7 +1210,7 @@
 			</Properties>
             <Items>
 				<File>ui/base/diplomacydealview.lua</File>
-				<File>ui/base/cui_deal_support.lua</File>
+				<!--<File>ui/base/cui_deal_support.lua</File>-->
             </Items>
         </ImportFiles>
 		<!-- Gathering Storm actions - import lua and xml, replace lua -->
@@ -1445,7 +1445,7 @@
 		<File>ui/new/diplomacyactionview_qd.lua</File>
 		<!-- Diplomacy Deal View from CUI -->
 		<File>ui/base/diplomacydealview.lua</File>
-		<File>ui/base/cui_deal_support.lua</File>
+		<!--<File>ui/base/cui_deal_support.lua</File>-->
 		<File>ui/xp2/diplomacydealview.lua</File>
 		<File>ui/xp2/diplomacydealview_expansion2.lua</File>
     </Files>

@@ -154,7 +154,7 @@ function PopulateDealResources(player: table, iconList: table)
                     local uiIcon : table;
                     if (iDuration == 0) then
                         -- One time
-                        uiIcon = g_IconOnlyIM:GetInstance(iconList);
+                        uiIcon = g_IconOnlyIM:GetInstance(iconList.OneTimeDealsStack);
                         SetIconToSize(uiIcon.Icon, "ICON_YIELD_FAVOR");
                         uiIcon.AmountText:SetText(tostring(pDealItem:GetAmount()));
                         uiIcon.AmountText:SetHide(false);
@@ -163,7 +163,10 @@ function PopulateDealResources(player: table, iconList: table)
 
                         -- Show/hide unacceptable item notification
                         uiIcon.UnacceptableIcon:SetHide(not pDealItem:IsUnacceptable());
+						uiIcon.RemoveButton:SetHide(false);
+						uiIcon.StopAskingButton:SetHide(true);
 
+						uiIcon.RemoveButton:RegisterCallback(Mouse.eLClick, function(void1, void2, self) OnRemoveDealItem(player, dealItemID, self); end);
                         uiIcon.SelectButton:RegisterCallback( Mouse.eRClick, function(void1, void2, self) OnRemoveDealItem(player, dealItemID, self); end );
                         uiIcon.SelectButton:RegisterCallback( Mouse.eLClick, function(void1, void2, self) OnSelectValueDealItem(player, dealItemID, self); end );
                         uiIcon.SelectButton:SetToolTipString(nil); -- We recycle the entries, so make sure this is clear.
@@ -179,6 +182,13 @@ function PopulateDealResources(player: table, iconList: table)
             end -- end if deal
         end
     end
+
+	iconList.OneTimeDealsHeader:SetHide(table.count(iconList.OneTimeDealsStack:GetChildren()) == 0);
+	iconList.For30TurnsDealsHeader:SetHide(table.count(iconList.For30TurnsDealsStack:GetChildren()) == 0);
+	
+	-- CQUI: Minicons and collapse headers not used
+	iconList.OneTimeDealsHeader:SetHide(true);
+	iconList.For30TurnsDealsHeader:SetHide(true);
 end
 
 -- ===========================================================================
@@ -197,6 +207,7 @@ function PopulatePlayerAvailablePanel(rootControl: table, player: table)
     return iAvailableItemCount;
 end
 
+-- MUST STAY
 function PopulateAvailableFavor(player: table, iconList: table)
 
     local iAvailableItemCount : number = 0;
