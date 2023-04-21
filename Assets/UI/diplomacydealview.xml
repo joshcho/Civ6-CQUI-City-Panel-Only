@@ -114,7 +114,7 @@
                 <Container Size="parent-44, parent">
                     <Stack StackGrowth="Bottom" Anchor="L,C">
                         <Label ID="IconText" Size="parent, 0" Style="FontNormalBold12" FontStyle="Stroke"/>
-                        <ScrollTextField ID="ValueText" Size="parent, 0" Style="FontNormalBold12" FontStyle="Stroke"/>
+                        <ScrollTextField ID="ValueText" Size="125, 0" Style="FontNormalBold12" FontStyle="Stroke"/>
                     </Stack>
                 </Container>
             </Stack>
@@ -196,7 +196,7 @@
             <Grid Style="ColumnHeader" ID="Title" Size="parent-12,26" Offset="-2,0" Anchor="C,T" Color="25,25,25,200">
                 <Label ID="TitleText" Anchor="C,C" Offset="4,0" Style="HeaderSmallCaps" Hidden="false" Color0="89,85,85"/>
             </Grid>
-            <Stack ID="ListStack" StackGrowth="Right" Anchor="L,T" WrapWidth="parent">
+            <Stack ID="ListStack" StackGrowth="Right" Anchor="L,T" WrapWidth="parent" WrapGrowth="Bottom">
             </Stack>
         </Stack>
     </Instance>
@@ -204,151 +204,148 @@
     <!-- Instance container for a list of icons with descriptions, that grows top down. -->
     <Instance Name="TopDownList">
         <Stack ID="List" Size="parent, 0">
-            <Grid Style="ColumnHeader" ID="Title" Size="parent-12,26" Offset="-2,0" Anchor="C,T" Color="50,50,50">
+            <Grid Style="ColumnHeader" ID="Title" Size="parent-12,26" Offset="-2,0" Anchor="C,T" "25,25,25,200">
                 <Label ID="TitleText" Anchor="C,C" Offset="4,0" Style="HeaderSmallCaps" Hidden="false" Color0="89,85,85"/>
                 <Button ID ="HeaderExpandButton" Anchor ="C,C" Offset ="75,0" Size="16,16" Texture="Controls_CategoryCollapse" Hidden="0" ToolTip="LOC_DIPLO_DEAL_COLLAPSE_CATEGORY"/>
             </Grid>
-            <Stack ID="ListStack" StackGrowth="Right" WrapWidth="500" WrapGrowth="Bottom" StackPadding="-2" Anchor="L,T">
+            <Stack ID="ListStack" StackGrowth="Right" Anchor="L,T" WrapWidth="parent" WrapGrowth="Bottom">
             </Stack>
         </Stack>
     </Instance>
 
-    <!--Instance container to hold all of the items offered by the local player-->
-	<!-- CQUI: To save space all headers should be removed but this would break lots of code -->
-	<!-- CQUI: Thus they will be hidden every time the stack is populated in functions like PopulateDealAgreements -->
-	<!-- This is a new collapsable stack with collapsable sections; it is designed for long vertical boxes -->
-    <Instance Name ="MyOffers">
-		<!-- CQUI: Stack grows to the right and then wraps down, this was a LOT of window space is saved -->
-        <Stack ID="OfferStack" StackGrowth="Right" Size ="auto, auto" Anchor="C,C" WrapWidth="360" WrapGrowth="Bottom">
-		
-            <Grid ID="DirectionsBracket" Style="DecoGrid" Size="auto,auto" Color="Dark_Gray" Anchor="C,C" Offset="0,0" InnerPadding="25,25" MinSize="39,49">
-                <Label ID="Directions" String="LOC_DIPLOMACY_TRADE_UI_SELECT_TEXT" Anchor="C,C" Style="FontNormalMedium16" Color0="GrayMedium" Color1="Black" FontStyle="Shadow" WrapWidth="160" Align="Center" Hidden="0"/>
-            </Grid>
+<!-- CQUI note from merging CUI's deal panel into CQUI
+There are 2 panels for each trade participant, one for actual deal items (top) and the other for available items (bottom).
+They have separate stacks and populate functions in lua.
+The 2 following instances, MyOffers and TheirOffers were added along the way by the devs instead of original straigth stacks i.e. MyOfferStack and TheirOfferStack.
+In the original code, where _OfferStack was used, they introduced globals g_uiMyOffer and g_uiTheirOffer that are instantiated using the below instances.
+Thus the old code, on which CUI was based, cannot be used - there are lots of changes because of that.
+I consider the CUI design i.e. 2x2 columns, superior than the vanilla one, i.e. wide window with long columns on both sides.
+To fully utilize this I've decided to go back to the original controls. That means that some functions need to be fully overwritten.
+-->
 
-            <!--Immediate Deals-->
-            <Grid Style="ColumnHeader" ID="OneTimeDealsHeader" Size="150,22" Offset="0,0" Anchor="C,C" Color="50,50,50" Hidden="1">
-                <Label String="LOC_DIPLOMACY_DEAL_ONE_TIME" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="1" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
-            </Grid>
-            <Stack ID="OneTimeDealsStack" StackGrowth="Right" WrapWidth="360" WrapGrowth="Bottom" Anchor ="C,C"/>
+  <!--Instance container to hold all of the items offered by the local player-->
+  <Instance Name ="MyOffers">
+    <Stack ID="OfferStack" StackGrowth="Bottom" Size ="auto, auto" Anchor="C,C" Hidden="1"> <!-- CQUI: hidden to not mess with old controls -->
+      <Grid  ID="DirectionsBracket" Style="DecoGrid" Size="auto,auto" Color="Dark_Gray" Anchor="C,C" Offset="0,0" InnerPadding="25,25" MinSize="39,49">
+        <Label ID="Directions" String="LOC_DIPLOMACY_TRADE_UI_SELECT_TEXT" Anchor="C,C" Style="FontNormalMedium16" Color0="GrayMedium" Color1="Black" FontStyle="Shadow" WrapWidth="160" Align="Center" Hidden="0"/>
+      </Grid>
+      
+      <!--Immediate Deals-->
+      <Grid Style="ColumnHeader" ID="OneTimeDealsHeader" Size="150,22" Offset="0,0" Anchor="C,T" Color="50,50,50" Hidden="1" >
+        <Label String="LOC_DIPLOMACY_DEAL_ONE_TIME" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="false" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
+      </Grid>
+      <Stack ID="OneTimeDealsStack" StackGrowth="Right" WrapWidth="240" WrapGrowth="Bottom" Anchor ="C,C"/>
+      
+      <!--30 Turn Deals-->
+      <Grid Style="ColumnHeader" ID="For30TurnsDealsHeader" Size="150,22" Offset="0,10" Anchor="C,T" Color="50,50,50" Hidden="1">
+        <Label String="LOC_DIPLOMACY_DEAL_FOR_30_TURNS" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="false" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
+      </Grid>
+      <Stack ID="For30TurnsDealsStack" StackGrowth="Right" WrapWidth="240" WrapGrowth="Bottom" Anchor ="C,C" />
 
-            <!--30 Turn Deals-->
-            <Grid Style="ColumnHeader" ID="For30TurnsDealsHeader" Size="150,22" Offset="0,10" Anchor="C,C" Color="50,50,50" Hidden="1">
-                <Label String="LOC_DIPLOMACY_DEAL_FOR_30_TURNS" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="1" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
-            </Grid>
-            <Stack ID="For30TurnsDealsStack" StackGrowth="Right" WrapWidth="360" WrapGrowth="Bottom" Anchor ="C,C" />
+      <!--Agreement Deals-->
+      <Grid Style="ColumnHeader" ID="AgreementDealsHeader" Size="150,22" Offset="0,10" Anchor="C,T" Color="50,50,50" Hidden="1">
+        <Label String="LOC_DIPLOMACY_DEAL_AGREEMENTS" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="false" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
+        <Button ID ="AgreementDealsExpandButton" Anchor ="R,T" Offset ="-16,5" Size="16,16" Texture="Controls_CategoryCollapse" Hidden="1" ToolTip="LOC_DIPLO_DEAL_COLLAPSE_CATEGORY"/>
+      </Grid>
+      <Grid ID="AgreementDealsGrid" Style="ButtonDraggableGrid" Anchor="C,T" Size="Auto,Auto" MinSize="232,60">
+        <Stack  ID="AgreementDealsStack" Anchor ="C,T" Size="Auto,Auto"/>
+        <Stack  ID="MinimizedAgreementDealsStack" Anchor ="C,T" Size="Auto,Auto" StackGrowth="Right" WrapGrowth="Bottom" WrapWidth="227" Hidden="1"/>
+      </Grid>
 
-            <!--Agreement Deals-->
-            <Grid Style="ColumnHeader" ID="AgreementDealsHeader" Size="150,22" Offset="0,10" Anchor="C,C" Color="50,50,50" Hidden="1">
-                <Label String="LOC_DIPLOMACY_DEAL_AGREEMENTS" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="1" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
-                <Button ID ="AgreementDealsExpandButton" Anchor ="R,T" Offset ="-16,5" Size="16,16" Texture="Controls_CategoryCollapse" Hidden="1" ToolTip="LOC_DIPLO_DEAL_COLLAPSE_CATEGORY"/>
-            </Grid>
-            <Grid ID="AgreementDealsGrid" Style="ButtonDraggableGrid" Anchor="C,C" Size="Auto,Auto" MinSize="200,60" Hidden="1"/>
-                <Stack ID="AgreementDealsStack" Anchor ="C,C" Size="Auto,Auto"/>
-                <Stack ID="MinimizedAgreementDealsStack" Anchor ="C,C" Size="Auto,Auto" StackGrowth="Right" WrapGrowth="Bottom" WrapWidth="360" Hidden="1"/>
-            <!--</Grid>-->
+      <!--City Deals-->
+      <Grid Style="ColumnHeader" ID="CityDealsHeader" Size="150,22" Offset="0,10" Anchor="C,T" Color="50,50,50" Hidden="1">
+        <Label String="LOC_DIPLOMACY_DEAL_CITIES" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="false" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
+        <Button ID ="CityDealsExpandButton" Anchor ="R,T" Offset ="-16,5" Size="16,16" Texture="Controls_CategoryCollapse" Hidden="1" ToolTip="LOC_DIPLO_DEAL_COLLAPSE_CATEGORY"/>
+      </Grid>
+      <Grid ID="CityDealsGrid" Style="ButtonDraggableGrid" Anchor="C,T" Size="Auto,Auto" MinSize="232,60">
+        <Stack  ID="CityDealsStack" Anchor ="C,T" Size="Auto,Auto"/>
+        <Stack  ID="MinimizedCityDealsStack" Anchor ="C,T" Size="Auto,Auto" StackGrowth="Right" WrapGrowth="Bottom" WrapWidth="227" Hidden="1"/>
+      </Grid>
 
-            <!--City Deals-->
-            <Grid Style="ColumnHeader" ID="CityDealsHeader" Size="150,22" Offset="0,10" Anchor="C,C" Color="50,50,50" Hidden="1">
-                <Label String="LOC_DIPLOMACY_DEAL_CITIES" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="1" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
-                <Button ID ="CityDealsExpandButton" Anchor ="R,T" Offset ="-16,5" Size="16,16" Texture="Controls_CategoryCollapse" Hidden="1" ToolTip="LOC_DIPLO_DEAL_COLLAPSE_CATEGORY"/>
-            </Grid>
-            <Grid ID="CityDealsGrid" Style="ButtonDraggableGrid" Anchor="C,C" Size="Auto,Auto" MinSize="200,60" Hidden="1"/>
-                <Stack ID="CityDealsStack" Anchor ="C,C" Size="Auto,Auto"/>
-                <Stack ID="MinimizedCityDealsStack" Anchor ="C,C" Size="Auto,Auto" StackGrowth="Right" WrapGrowth="Bottom" WrapWidth="360" Hidden="1"/>
-            <!--</Grid>-->
+      <!--Great Work Deals-->
+      <Grid Style="ColumnHeader" ID="GreatWorksDealsHeader" Size="150,22" Offset="0,10" Anchor="C,T" Color="50,50,50" Hidden="1">
+        <Label String="LOC_DIPLOMACY_DEAL_GREAT_WORKS" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="false" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
+        <Button ID ="GreatWorksDealsExpandButton" Anchor ="R,T" Offset ="-16,5" Size="16,16" Texture="Controls_CategoryCollapse" Hidden="1" ToolTip="LOC_DIPLO_DEAL_COLLAPSE_CATEGORY"/>
+      </Grid>
+      <Grid ID="GreatWorksDealsGrid" Style="ButtonDraggableGrid" Anchor="C,T" Size="Auto,Auto" MinSize="232,60">
+        <Stack  ID="GreatWorksDealsStack" Anchor ="C,T" Size="Auto,Auto"/>
+        <Stack  ID="MinimizedGreatWorksDealsStack" Anchor ="C,T" Size="Auto,Auto" StackGrowth="Right" WrapGrowth="Bottom" WrapWidth="227" Hidden="1"/>
+      </Grid>
 
-            <!--Great Work Deals-->
-            <Grid Style="ColumnHeader" ID="GreatWorksDealsHeader" Size="150,22" Offset="0,10" Anchor="C,T" Color="50,50,50" Hidden="1">
-                <Label String="LOC_DIPLOMACY_DEAL_GREAT_WORKS" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="1" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
-                <Button ID ="GreatWorksDealsExpandButton" Anchor ="R,T" Offset ="-16,5" Size="16,16" Texture="Controls_CategoryCollapse" Hidden="1" ToolTip="LOC_DIPLO_DEAL_COLLAPSE_CATEGORY"/>
-            </Grid>
-            <Grid ID="GreatWorksDealsGrid" Style="ButtonDraggableGrid" Anchor="C,C" Size="Auto,Auto" MinSize="232,60" Hidden="1"/>
-                <Stack ID="GreatWorksDealsStack" Anchor ="C,C" Size="Auto,Auto"/>
-                <Stack ID="MinimizedGreatWorksDealsStack" Anchor ="C,C" Size="Auto,Auto" StackGrowth="Right" WrapGrowth="Bottom" WrapWidth="360" Hidden="1"/>
-            <!--</Grid>-->
+      <!--Captives Deals-->
+      <Grid Style="ColumnHeader" ID="CaptivesDealsHeader" Size="150,22" Offset="0,10" Anchor="C,T" Color="50,50,50" Hidden="1">
+        <Label String="LOC_DIPLOMACY_DEAL_CAPTIVES" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="false" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
+        <Button ID ="CaptivesDealsExpandButton" Anchor ="R,T" Offset ="-16,5" Size="16,16" Texture="Controls_CategoryCollapse" Hidden="1" ToolTip="LOC_DIPLO_DEAL_COLLAPSE_CATEGORY"/>
+      </Grid>
+      <Grid ID="CaptivesDealsGrid" Style="ButtonDraggableGrid" Anchor="C,T" Size="Auto,Auto" MinSize="232,60">
+        <Stack  ID="CaptivesDealsStack" Anchor ="C,T" Size="Auto,Auto"/>
+        <Stack  ID="MinimizedCaptivesDealsStack" Anchor ="C,T" Size="Auto,Auto" StackGrowth="Right" WrapGrowth="Bottom" WrapWidth="227" Hidden="1"/>
+      </Grid>
 
-            <!--Captives Deals-->
-            <Grid Style="ColumnHeader" ID="CaptivesDealsHeader" Size="150,22" Offset="0,10" Anchor="C,C" Color="50,50,50" Hidden="1">
-                <Label String="LOC_DIPLOMACY_DEAL_CAPTIVES" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="1" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
-                <Button ID ="CaptivesDealsExpandButton" Anchor ="R,T" Offset ="-16,5" Size="16,16" Texture="Controls_CategoryCollapse" Hidden="1" ToolTip="LOC_DIPLO_DEAL_COLLAPSE_CATEGORY"/>
-            </Grid>
-            <Grid ID="CaptivesDealsGrid" Style="ButtonDraggableGrid" Anchor="C,C" Size="Auto,Auto" MinSize="200,60" Hidden="1"/>
-                <Stack ID="CaptivesDealsStack" Anchor ="C,C" Size="Auto,Auto"/>
-                <Stack ID="MinimizedCaptivesDealsStack" Anchor ="C,C" Size="Auto,Auto" StackGrowth="Right" WrapGrowth="Bottom" WrapWidth="360" Hidden="1"/>
-            <!--</Grid>-->
+    </Stack>
+  </Instance>
 
-        </Stack>
-    </Instance>
+  <!--Instance container to hold all of the items offered by the other player-->
+  <Instance Name="TheirOffers">
+    <Stack ID="OfferStack" StackGrowth="Bottom" Size ="auto, auto" Anchor="C,C" Hidden="1"> <!-- CQUI: hidden to not mess with old controls -->
+      <Grid  ID="DirectionsBracket" Style="DecoGrid" Size="auto,auto" Color="Dark_Gray" Anchor="C,C" Offset="0,0" InnerPadding="25,25" MinSize="39,49">
+        <Label ID="Directions" String="LOC_DIPLOMACY_TRADE_UI_SELECT_THEIR_TEXT" LeadingOffset="0,-2" Anchor="C,C" Style="FontNormalMedium16" Color0="GrayMedium" Color1="Black" FontStyle="Shadow" WrapWidth="160" Align="Center" Hidden="0"/>
+      </Grid>
+        
+      <!--Immediate Deals-->
+      <Grid Style="ColumnHeader" ID="OneTimeDealsHeader" Size="150,22" Offset="0,0" Anchor="C,T" Color="50,50,50" Hidden="1">
+        <Label String="LOC_DIPLOMACY_DEAL_ONE_TIME" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="false" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
+      </Grid>
+      <Stack ID="OneTimeDealsStack" StackGrowth="Right" WrapWidth="240" WrapGrowth="Bottom" Anchor ="C,C"/>
 
-    <!--Instance container to hold all of the items offered by the other player-->
-	<!-- CQUI: To save space all headers should be removed but this woould break lots of code -->
-	<!-- CQUI: Thus they will be hidden every time the stack is populated in functions like PopulateDealAgreements -->
-    <Instance Name="TheirOffers">
-		<!-- CQUI: Stack grows to the right and then wraps down, this was a LOT of window space is saved -->
-        <Stack ID="OfferStack" StackGrowth="Right" Size ="auto, auto" Anchor="C,T" WrapWidth="360" WrapGrowth="Bottom">
+      <!--30 Turn Deals-->
+      <Grid Style="ColumnHeader" ID="For30TurnsDealsHeader" Size="150,22" Offset="0,10" Anchor="C,T" Color="50,50,50" Hidden="1">
+        <Label String="LOC_DIPLOMACY_DEAL_FOR_30_TURNS" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="false" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
+      </Grid>
+      <Stack ID="For30TurnsDealsStack" StackGrowth="Right" WrapWidth="240" WrapGrowth="Bottom" Anchor ="C,C"/>
 
-            <Grid ID="DirectionsBracket" Style="DecoGrid" Size="auto,auto" Color="Dark_Gray" Anchor="C,C" Offset="0,0" InnerPadding="25,25" MinSize="39,49">
-                <Label ID="Directions" String="LOC_DIPLOMACY_TRADE_UI_SELECT_THEIR_TEXT" LeadingOffset="0,-2" Anchor="C,C" Style="FontNormalMedium16" Color0="GrayMedium" Color1="Black" FontStyle="Shadow" WrapWidth="160" Align="Center" Hidden="0"/>
-            </Grid>
+      <!--Agreement Deals-->
+      <Grid Style="ColumnHeader" ID="AgreementDealsHeader" Size="150,22" Offset="0,10" Anchor="C,T" Color="50,50,50" Hidden="1">
+        <Label String="LOC_DIPLOMACY_DEAL_AGREEMENTS" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="false" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
+        <Button ID ="AgreementDealsExpandButton" Anchor ="R,T" Offset ="-16,5" Size="16,16" Texture="Controls_CategoryCollapse" Hidden="1" ToolTip="LOC_DIPLO_DEAL_COLLAPSE_CATEGORY"/>
+      </Grid>
+      <Grid ID="AgreementDealsGrid" Style="ButtonDraggableGrid" Anchor="C,T" Size="Auto,Auto" MinSize="232,60">
+        <Stack  ID="AgreementDealsStack" Anchor ="C,T" Size="Auto,Auto"/>
+        <Stack  ID="MinimizedAgreementDealsStack" Anchor ="C,T" Size="Auto,Auto" StackGrowth="Right" WrapGrowth="Bottom" WrapWidth="227" Hidden="1"/>
+      </Grid>
 
-            <!--Immediate Deals-->
-            <Grid Style="ColumnHeader" ID="OneTimeDealsHeader" Size="150,22" Offset="0,0" Anchor="C,T" Color="50,50,50" Hidden="1">
-                <Label String="LOC_DIPLOMACY_DEAL_ONE_TIME" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="1" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
-            </Grid>
-            <Stack ID="OneTimeDealsStack" StackGrowth="Right" WrapWidth="360" WrapGrowth="Bottom" Anchor ="C,C"/>
+      <!--City Deals-->
+      <Grid Style="ColumnHeader" ID="CityDealsHeader" Size="150,22" Offset="0,10" Anchor="C,T" Color="50,50,50" Hidden="1">
+        <Label String="LOC_DIPLOMACY_DEAL_CITIES" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="false" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
+        <Button ID ="CityDealsExpandButton" Anchor ="R,T" Offset ="-16,5" Size="16,16" Texture="Controls_CategoryCollapse" Hidden="1" ToolTip="LOC_DIPLO_DEAL_COLLAPSE_CATEGORY"/>
+      </Grid>
+      <Grid ID="CityDealsGrid" Style="ButtonDraggableGrid" Anchor="C,T" Size="Auto,Auto" MinSize="232,60">
+        <Stack  ID="CityDealsStack" Anchor ="C,T" Size="Auto,Auto"/>
+        <Stack  ID="MinimizedCityDealsStack" Anchor ="C,T" Size="Auto,Auto" StackGrowth="Right" WrapGrowth="Bottom" WrapWidth="227" Hidden="1"/>
+      </Grid>
 
-            <!--30 Turn Deals-->
-            <Grid Style="ColumnHeader" ID="For30TurnsDealsHeader" Size="150,22" Offset="0,10" Anchor="C,T" Color="50,50,50" Hidden="1">
-                <Label String="LOC_DIPLOMACY_DEAL_FOR_30_TURNS" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="1" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
-            </Grid>
-            <Stack ID="For30TurnsDealsStack" StackGrowth="Right" WrapWidth="360" WrapGrowth="Bottom" Anchor ="C,C"/>
-
-            <!--Agreement Deals-->
-            <Grid Style="ColumnHeader" ID="AgreementDealsHeader" Size="150,22" Offset="0,10" Anchor="C,T" Color="50,50,50" Hidden="1">
-                <Label String="LOC_DIPLOMACY_DEAL_AGREEMENTS" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="1" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
-                <Button ID ="AgreementDealsExpandButton" Anchor ="R,T" Offset ="-16,5" Size="16,16" Texture="Controls_CategoryCollapse" Hidden="1" ToolTip="LOC_DIPLO_DEAL_COLLAPSE_CATEGORY"/>
-            </Grid>
-            <!-- CQUI : Modified MinSize and added ClampSize -->
-            <Grid ID="AgreementDealsGrid" Style="ButtonDraggableGrid" Anchor="C,T" Size="Auto,Auto" MinSize="200,60" ClampSize="Horizontal">
-                <Stack ID="AgreementDealsStack" Anchor ="C,T" Size="Auto,Auto"/>
-                <Stack ID="MinimizedAgreementDealsStack" Anchor ="C,T" Size="Auto,Auto" StackGrowth="Right" WrapGrowth="Bottom" WrapWidth="360" Hidden="1"/>
-            </Grid>
-
-            <!--City Deals-->
-            <Grid Style="ColumnHeader" ID="CityDealsHeader" Size="150,22" Offset="0,10" Anchor="C,T" Color="50,50,50" Hidden="1">
-                <Label String="LOC_DIPLOMACY_DEAL_CITIES" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="1" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
-                <Button ID ="CityDealsExpandButton" Anchor ="R,T" Offset ="-16,5" Size="16,16" Texture="Controls_CategoryCollapse" Hidden="1" ToolTip="LOC_DIPLO_DEAL_COLLAPSE_CATEGORY"/>
-            </Grid>
-            <!-- CQUI : Modified MinSize and added ClampSize -->
-            <Grid ID="CityDealsGrid" Style="ButtonDraggableGrid" Anchor="C,T" Size="Auto,Auto" MinSize="200,60" ClampSize="Horizontal">
-                <Stack ID="CityDealsStack" Anchor ="C,T" Size="Auto,Auto"/>
-                <Stack ID="MinimizedCityDealsStack" Anchor ="C,T" Size="Auto,Auto" StackGrowth="Right" WrapGrowth="Bottom" WrapWidth="360" Hidden="1"/>
-            </Grid>
-
-            <!--Great Work Deals-->
-            <Grid Style="ColumnHeader" ID="GreatWorksDealsHeader" Size="150,22" Offset="0,10" Anchor="C,T" Color="50,50,50" Hidden="1">
-                <Label String="LOC_DIPLOMACY_DEAL_GREAT_WORKS" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="1" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
-                <Button ID ="GreatWorksDealsExpandButton" Anchor ="R,T" Offset ="-16,5" Size="16,16" Texture="Controls_CategoryCollapse" Hidden="1" ToolTip="LOC_DIPLO_DEAL_COLLAPSE_CATEGORY"/>
-            </Grid>
-            <!-- CQUI : Modified MinSize and added ClampSize -->
-            <Grid ID="GreatWorksDealsGrid" Style="ButtonDraggableGrid" Anchor="C,T" Size="Auto,Auto" MinSize="200,60" ClampSize="Horizontal">
-                <Stack ID="GreatWorksDealsStack" Anchor ="C,T" Size="Auto,Auto"/>
-                <Stack ID="MinimizedGreatWorksDealsStack" Anchor ="C,T" Size="Auto,Auto" StackGrowth="Right" WrapGrowth="Bottom" WrapWidth="360" Hidden="1"/>
-            </Grid>
-
-            <!--Captives Deals-->
-            <Grid Style="ColumnHeader" ID="CaptivesDealsHeader" Size="150,22" Offset="0,10" Anchor="C,T" Color="50,50,50" Hidden="1">
-                <Label String="LOC_DIPLOMACY_DEAL_CAPTIVES" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="1" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
-                <Button ID ="CaptivesDealsExpandButton" Anchor ="R,T" Offset ="-16,5" Size="16,16" Texture="Controls_CategoryCollapse" Hidden="1" ToolTip="LOC_DIPLO_DEAL_COLLAPSE_CATEGORY"/>
-            </Grid>
-            <!-- CQUI : Modified MinSize and added ClampSize -->
-            <Grid ID="CaptivesDealsGrid" Style="ButtonDraggableGrid" Anchor="C,T" Size="Auto,Auto" MinSize="200,60" ClampSize="Horizontal">
-                <Stack ID="CaptivesDealsStack" Anchor ="C,T" Size="Auto,Auto"/>
-                <Stack ID="MinimizedCaptivesDealsStack" Anchor ="C,T" Size="Auto,Auto" StackGrowth="Right" WrapGrowth="Bottom" WrapWidth="360" Hidden="1"/>
-            </Grid>
-
-        </Stack>
-    </Instance>
+      <!--Great Work Deals-->
+      <Grid Style="ColumnHeader" ID="GreatWorksDealsHeader" Size="150,22" Offset="0,10" Anchor="C,T" Color="50,50,50" Hidden="1">
+        <Label String="LOC_DIPLOMACY_DEAL_GREAT_WORKS" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="false" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
+        <Button ID ="GreatWorksDealsExpandButton" Anchor ="R,T" Offset ="-16,5" Size="16,16" Texture="Controls_CategoryCollapse" Hidden="1" ToolTip="LOC_DIPLO_DEAL_COLLAPSE_CATEGORY"/>
+      </Grid>
+      <Grid ID="GreatWorksDealsGrid" Style="ButtonDraggableGrid" Anchor="C,T" Size="Auto,Auto" MinSize="232,60">
+        <Stack  ID="GreatWorksDealsStack" Anchor ="C,T" Size="Auto,Auto"/>
+        <Stack  ID="MinimizedGreatWorksDealsStack" Anchor ="C,T" Size="Auto,Auto" StackGrowth="Right" WrapGrowth="Bottom" WrapWidth="227" Hidden="1"/>
+      </Grid>
+      
+      <!--Captives Deals-->
+      <Grid Style="ColumnHeader" ID="CaptivesDealsHeader" Size="150,22" Offset="0,10" Anchor="C,T" Color="50,50,50" Hidden="1">
+        <Label String="LOC_DIPLOMACY_DEAL_CAPTIVES" Anchor="C,C" Offset="0,0" Style="HeaderSmallCaps" Hidden="false" Color0="89,85,85" TruncateWidth = "145" TruncatedTooltip="1"/>
+        <Button ID ="CaptivesDealsExpandButton" Anchor ="R,T" Offset ="-16,5" Size="16,16" Texture="Controls_CategoryCollapse" Hidden="1" ToolTip="LOC_DIPLO_DEAL_COLLAPSE_CATEGORY"/>
+      </Grid>
+      <Grid ID="CaptivesDealsGrid" Style="ButtonDraggableGrid" Anchor="C,T" Size="Auto,Auto" MinSize="232,60">
+        <Stack  ID="CaptivesDealsStack" Anchor ="C,T" Size="Auto,Auto"/>
+        <Stack  ID="MinimizedCaptivesDealsStack" Anchor ="C,T" Size="Auto,Auto" StackGrowth="Right" WrapGrowth="Bottom" WrapWidth="227" Hidden="1"/>
+      </Grid>
+    
+    </Stack>
+  </Instance>
 
     <Container ID="TradePanel" Size="parent,parent">
         <!-- The background of the panel, enclosing all contents -->
@@ -363,7 +360,6 @@
 
                     <Grid Style="DiplomacyInfoWindowGrid" Size="parent,parent-120" Offset="0,108">
                         <!-- Content-Set-At-Runtime: Leader dialog area -Does not resize currently -Can accommodate up to 3 lines of text -->
-                        <!-- CQUI: hide the conversation bubble -->
                         <Grid Style="DiplomacyWordBubbleRightGrid" Size="parent-20,88" AnchorSide="I,O" Anchor="C,T">
                             <Stack Anchor="L,T" AnchorSide="I,O" Offset="-15,-40" StackGrowth="Right" StackPadding="8">
                                 <MakeInstance Name="CivilizationIcon22" ID="OtherPlayerBubbleIcon"/>
@@ -393,8 +389,8 @@
                             <!-- CQUI : Removed the divider -->
                             <!-- Static: Horizontal divider for offers and inventories-->
                             <!-- <Grid Style="Divider4Grid" Size="parent-2,10" Anchor="C,C" Hidden="1">
-                <Image Texture="Controls_Deco2" Size="41,26" Anchor="C,T" Offset="0,-12"/>
-              </Grid> -->
+								<Image Texture="Controls_Deco2" Size="41,26" Anchor="C,T" Offset="0,-12"/>
+							</Grid> -->
                             <!-- CQUI : Changed height -->
                             <!--<Container ID="MyInventory" Size="249,parent-30" Anchor="L,T">-->
 
@@ -455,91 +451,76 @@
 
                                     <!--<Label ID="DealTermsLabel" String="{LOC_IDS_DEAL_TERMS:upper}" Offset="0,15" Anchor="C,T" Style="FontFlair22" FontStyle="glow" Color0="208,212,217,255" Color1="0,0,0,200" SmallCaps="26" SmallCapsLeading="0" SmallCapsType="EveryWord"/>-->
 
-                                    <!-- Dynamic: Button Area - where we accept the deal-->
-                                    <Grid Style="SubContainer4" Size="parent-14,95" Anchor="C,T" Offset="0,-3" Color="Dark_Gray">
-                                        <Stack ID="DealOptionsStack" StackGrowth="Right" Anchor="C,C" Padding="4" WrapWidth="800">
-                                            <GridButton ID="AcceptDeal" Style="ButtonConfirm" Size="200,41" String="LOC_DIPLOMACY_DEAL_ACCEPT_DEAL"/>
-											<!-- CQUI: Red button style for easier identification -->
-                                            <GridButton ID="RefuseDeal" Style="ButtonRed" Size="200,41"/>
-                                            <GridButton ID="ResumeGame" Style="ButtonLightWeight" Size="200,32" String="LOC_DIPLOMACY_DEAL_RESUME_GAME"/>
-                                            <GridButton ID="EqualizeDeal" Style="ButtonLightWeight" Size="200,32" String="LOC_DIPLOMACY_DEAL_WHAT_WOULD_IT_TAKE" ToolTip="LOC_DIPLOMACY_MAKE_DEAL_EQUITABLE_TOOLTIP"/>
-                                            <GridButton ID="DemandDeal" Style="ButtonRed" Size="200,41" String="LOC_DIPLOMACY_DEAL_DEMAND_DEAL"/>
-                                        </Stack>
-                                    </Grid>
+							<!-- Dynamic: Button Area - where we accept the deal-->
+							<Grid Style="SubContainer4" Size="parent-14,95" Anchor="C,T" Offset="0,-3" Color="Dark_Gray">
+								<Stack ID="DealOptionsStack" StackGrowth="Right" Anchor="C,C" Padding="4" WrapWidth="800">
+									<GridButton ID="AcceptDeal" Style="ButtonConfirm" Size="200,41" String="LOC_DIPLOMACY_DEAL_ACCEPT_DEAL"/>
+									<!-- CQUI: Red button style for easier identification -->
+									<GridButton ID="RefuseDeal" Style="ButtonRed" Size="200,41"/>
+									<GridButton ID="ResumeGame" Style="ButtonLightWeight" Size="200,32" String="LOC_DIPLOMACY_DEAL_RESUME_GAME"/>
+									<GridButton ID="EqualizeDeal" Style="ButtonLightWeight" Size="200,32" String="LOC_DIPLOMACY_DEAL_WHAT_WOULD_IT_TAKE" ToolTip="LOC_DIPLOMACY_MAKE_DEAL_EQUITABLE_TOOLTIP"/>
+									<GridButton ID="DemandDeal" Style="ButtonRed" Size="200,41" String="LOC_DIPLOMACY_DEAL_DEMAND_DEAL"/>
+								</Stack>
+							</Grid>
 
-                                    <!-- Static: Header for the deal area-->
-                                    <Grid Anchor="C,T" Size="parent, 38" Offset="1,0" Style="DiplomacyTitleBarGrid">
-                                        <Container Size="410,parent" Anchor="L,T">
-                                            <Label ID="MyOfferLabel" Anchor="C,C" String="LOC_DIPLOMACY_DEAL_MY_OFFER" Style="DiplomacyIntelHeader" Offset="0,2"/>
-                                        </Container>
-                                        <Container Size="410,parent" Anchor="R,T">
-                                            <Label ID="TheirOfferLabel" Anchor="C,C" String="LOC_DIPLOMACY_DEAL_THEIR_OFFER" Style="DiplomacyIntelHeader" Offset="0,2"/>
-                                        </Container>
-                                    </Grid>
+							<!-- Static: Header for the deal area-->
+							<Grid Anchor="C,T" Size="parent, 38" Offset="1,0" Style="DiplomacyTitleBarGrid">
+								<Container Size="410,parent" Anchor="L,T">
+									<Label ID="MyOfferLabel" Anchor="C,C" String="LOC_DIPLOMACY_DEAL_MY_OFFER" Style="DiplomacyIntelHeader" Offset="0,2"/>
+								</Container>
+								<Container Size="410,parent" Anchor="R,T">
+									<Label ID="TheirOfferLabel" Anchor="C,C" String="LOC_DIPLOMACY_DEAL_THEIR_OFFER" Style="DiplomacyIntelHeader" Offset="0,2"/>
+								</Container>
+							</Grid>
 
+							<!-- Dynamic: Offer area-->
+							<Container ID="OfferColumns" Size="parent-12,180" Anchor="C,T">
+								<Container ID="MyOffer" Size="410,parent" Anchor="L,T">
+									<Image Texture="Controls_Gradient" Size="parent,150" Anchor="L,B" Color="24,47,70,230"/>
+									<ScrollPanel ID="MyOfferScroll" Size="parent, parent" Vertical="1" AutoScollbar="1">
+										<ScrollBar Size="15,parent" SliceTextureSize="11,11" SliceCorner="5,5" Anchor="L,B" Color="111,101,94,250" Offset="-6,0" AnchorSide="O,I" Texture="Controls_ScrollBarBacking" StateOffsetIncrement="0,0" Vertical="1">
+											<Thumb Size="13,13" Texture="Controls_ScrollBarHandleV_Brown" StateOffsetIncrement="0,0" SliceCorner="6,6" SliceTextureSize="13,13"/>
+										</ScrollBar>
+										<!-- CQUI: Here an instance of "MyOffers" is attached -->
+										<!-- CQUI: This is an old approach that didn't have headers; CUI was created back then; left for reference -->
+										<Grid ID="MyOfferBracket" Style="DecoGrid" Size="auto,auto" Offset="4,0" Color="Dark_Gray" Anchor="C,C" Offset="-2,0" InnerPadding="30,25" MinSize="39,49">
+											<Label String="LOC_DIPLOMACY_TRADE_UI_SELECT_TEXT" Anchor="C,C" Style="FontNormalMedium16" Color0="GrayMedium" Color1="Black" FontStyle="Shadow" WrapWidth="160" Align="Center"/>
+										</Grid>
+										<Stack ID="MyOfferStack" Anchor="C,C" StackGrowth="Right" WrapWidth="410" WrapGrowth="Bottom"/>
+									</ScrollPanel>
+									<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="L,B" Color="0,0,0,255" FlipY="1"/>
+									<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="L,T" Color="0,0,0,255"/>
+									<GridButton ID="WhatWouldItTakeButton" Offset="0,3" Style="ButtonLightweightSmall" Anchor="C,B" String="LOC_DIPLOMACY_DEAL_WHAT_WOULD_IT_TAKE" WrapWidth="170" FontSize="14" Size="190,25" Hidden="1" ToolTip="LOC_DIPLOMACY_DEAL_WHAT_IT_WILL_TAKE_TOOLTIP"/>
+								</Container>
 
-                                    <!-- Dynamic: Offer area-->
-                                    <!-- CQUI : Changed size -->
-                                    <Container ID="OfferColumns" Size="parent-12,180" Anchor="C,T">
-                                        <Container ID="MyOffer" Size="400,parent" Anchor="L,T">
-                                            <!-- CQUI : Changed size -->
-                                            <Image Texture="Controls_Gradient" Size="parent,150" Anchor="L,B" Color="24,47,70,230"/>
-                                            <ScrollPanel ID="MyOfferScroll" Size="parent, parent" Vertical="1" AutoScollbar="1">
-                                                <ScrollBar Size="15,parent" SliceTextureSize="11,11" SliceCorner="5,5" Anchor="L,B" Color="111,101,94,250" Offset="-6,0" AnchorSide="O,I" Texture="Controls_ScrollBarBacking" StateOffsetIncrement="0,0" Vertical="1">
-                                                    <Thumb Size="13,13" Texture="Controls_ScrollBarHandleV_Brown" StateOffsetIncrement="0,0" SliceCorner="6,6" SliceTextureSize="13,13"/>
-                                                </ScrollBar>
-												<!-- CQUI: Here an instance of "MyOffers" is attached -->
-												<!-- CQUI: This is an old approach that didn't have headers; CUI was created back then; left for reference -->
-												<Grid ID="MyOfferBracket" Style="DecoGrid" Size="auto,auto" Offset="4,0" Color="Dark_Gray" Anchor="C,C" Offset="-2,0" InnerPadding="30,25" MinSize="39,49">
-													<Label ID="MyDirections" String="LOC_DIPLOMACY_TRADE_UI_SELECT_TEXT" Anchor="C,C" Style="FontNormalMedium16" Color0="GrayMedium" Color1="Black" FontStyle="Shadow" WrapWidth="160" Align="Center" Hidden="0"/>
-												</Grid>
-												<Stack ID="MyOfferStack" StackGrowth="Right" WrapWidth="380" WrapGrowth="Bottom"/>
-                                            </ScrollPanel>
-                                            <!-- CQUI : Changed offset and size of gradients -->
-                                            <Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="L,B" Color="0,0,0,255" FlipY="1"/>
-                                            <Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="L,T" Color="0,0,0,255"/>
-                                            <GridButton ID="WhatWouldItTakeButton" Offset="0,3" Style="ButtonLightweightSmall" Anchor="C,B" String="LOC_DIPLOMACY_DEAL_WHAT_WOULD_IT_TAKE" WrapWidth="170" FontSize="14" Size="190,25" Hidden="1" ToolTip="LOC_DIPLOMACY_DEAL_WHAT_IT_WILL_TAKE_TOOLTIP"/>
-                                        </Container>
+								<Container ID="TheirOffer" Size="410,parent" Anchor="R,T">
+									<Image Texture="Controls_Gradient" Size="parent, 150" Offset="0,0" Anchor="R,B" Color="24,47,70,230"/>
+									<ScrollPanel ID="TheirOfferScroll" Size="parent, parent" Vertical="1" AutoScollbar="1">
+										<ScrollBar Size="15,parent" SliceTextureSize="11,11" SliceCorner="5,5" Anchor="R,B" Color="111,101,94,250" Offset="-6,0" AnchorSide="O,I" Texture="Controls_ScrollBarBacking" StateOffsetIncrement="0,0" Vertical="1">
+											<Thumb Size="13,13" Texture="Controls_ScrollBarHandleV_Brown" StateOffsetIncrement="0,0" SliceCorner="6,6" SliceTextureSize="13,13"/>
+										</ScrollBar>
+										<!-- CQUI: here an instance of "TheirOffers" is attached -->
+										<!-- CQUI: This is an old approach that didn't have headers; CUI was created back then; left for reference -->
+										<Grid ID="TheirOfferBracket" Style="DecoGrid" Size="auto,auto" Offset="-4,0" Color="Dark_Gray" Anchor="C,C" Offset="-2,0" InnerPadding="30,25" MinSize="39,49">
+											<Label String="LOC_DIPLOMACY_TRADE_UI_SELECT_THEIR_TEXT" LeadingOffset="0,-2" Anchor="C,C" Style="FontNormalMedium16" Color0="GrayMedium" Color1="Black" FontStyle="Shadow" WrapWidth="160" Align="Center"/>
+										</Grid>
+										<Stack ID="TheirOfferStack" Anchor="C,C" StackGrowth="Right" WrapWidth="410" WrapGrowth="Bottom"/>
+									</ScrollPanel>
+									<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="R,B" Color="0,0,0,255" FlipY="1"/>
+									<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="R,T" Color="0,0,0,255"/>
+								</Container>
+							</Container>
 
-                                        <Container ID="TheirOffer" Size="400,parent" Anchor="R,T">
-                                            <!-- CQUI : Changed size -->
-                                            <Image Texture="Controls_Gradient" Size="parent, 150" Offset="0,0" Anchor="R,B" Color="24,47,70,230"/>
-                                            <ScrollPanel ID="TheirOfferScroll" Size="parent, parent" Vertical="1" AutoScollbar="1">
-                                                <ScrollBar Size="15,parent" SliceTextureSize="11,11" SliceCorner="5,5" Anchor="R,B" Color="111,101,94,250" Offset="-6,0" AnchorSide="O,I" Texture="Controls_ScrollBarBacking" StateOffsetIncrement="0,0" Vertical="1">
-                                                    <Thumb Size="13,13" Texture="Controls_ScrollBarHandleV_Brown" StateOffsetIncrement="0,0" SliceCorner="6,6" SliceTextureSize="13,13"/>
-                                                </ScrollBar>
-												<!-- CQUI: here an instance of "TheirOffers" is attached -->
-												<!-- CQUI: This is an old approach that didn't have headers; CUI was created back then; left for reference -->
-												<Grid ID="TheirOfferBracket" Style="DecoGrid" Size="auto,auto" Offset="-4,0" Color="Dark_Gray" Anchor="C,C" Offset="-2,0" InnerPadding="30,25" MinSize="39,49">
-													<Label ID="TheirDirections" String="LOC_DIPLOMACY_TRADE_UI_SELECT_THEIR_TEXT" LeadingOffset="0,-2" Anchor="C,C" Style="FontNormalMedium16" Color0="GrayMedium" Color1="Black" FontStyle="Shadow" WrapWidth="160" Align="Center" Hidden="0"/>
-												</Grid>
-												<Stack ID="TheirOfferStack" StackGrowth="Right" WrapWidth="360" WrapGrowth="Bottom"/>
-                                            </ScrollPanel>
-                                            <!-- CQUI : Changed offset and size of gradients -->
-                                            <Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="R,B" Color="0,0,0,255" FlipY="1"/>
-                                            <Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="R,T" Color="0,0,0,255"/>
-                                        </Container>
-                                    </Container>
-
-                                <!--</Stack>-->
+                            <!--</Stack>-->
                             <!-- Static: Horizontal divider for offers and inventories-->
                             <Grid ID="HorizontalDivider" Style="Divider4Grid" Size="parent-2,10" Anchor="C,C"/>
 
                             <!--</Container>-->
-                            <!-- Dynamic: Inventory area-->
-                            <!-- CQUI : hide the unused controls -->
+							
                             <!-- Dynamic: Inventory area-->
                             <Container ID="InventoryColumns" Size="parent-12, parent-351" Anchor="C,T">
 
-                            <!-- CQUI : Added a seprator here, changed the size and the Offset -->
-                            <!-- Aesthetics (static): The vertical bar which divides the two areas -->
-                            <!--<Container Size="1, parent-23" Offset="1,-5">
-                                <Grid Style="Divider3VGrid" Size="7,parent" Anchor="C,B">
-                                    <Image Size="10,parent-10" Texture="Controls_GradientSmall" Anchor="R,T" Rotate="270" AnchorSide="O,I" Color="0,0,0,255"/>
-                                    <Image Size="10,parent-10" Texture="Controls_GradientSmall" Anchor="L,T" Rotate="90" AnchorSide="O,I" Color="0,0,0,255"/>
-                                </Grid>
-                            </Container>-->
-                                <Container ID="MyInventory" Size="400,parent" Offset="4,0" Anchor="L,T">
+                                <Container ID="MyInventory" Size="400,parent" Anchor="L,T">
                                     <Image Texture="Controls_Gradient" Size="parent, 150" Offset="0,0" Anchor="L,B" Color="24,47,70,230"/>
                                     <ScrollPanel ID="MyInventoryScroll" Size="parent, parent" Vertical="1" AutoScollbar="1">
                                         <ScrollBar Size="15,parent" SliceTextureSize="11,11" SliceCorner="5,5" Anchor="L,B" Color="111,101,94,250" Offset="-2,0" AnchorSide="O,I" Texture="Controls_ScrollBarBacking" StateOffsetIncrement="0,0" Vertical="1">
@@ -551,8 +532,8 @@
                                     <Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="L,T" Color="0,0,0,255"/>
                                 </Container>
 
-                            <Container ID="TheirInventory" Size="400,parent" Anchor="R,T">
-                                <Image Texture="Controls_Gradient" Size="parent, 150" Offset="0,0" Anchor="R,B" Color="24,47,70,230"/>
+								<Container ID="TheirInventory" Size="400,parent" Anchor="R,T">
+									<Image Texture="Controls_Gradient" Size="parent, 150" Offset="0,0" Anchor="R,B" Color="24,47,70,230"/>
 
                                 <!-- CQUI : Added a vertical stack for the inventory -->
                                 <!--<Stack ID="OtherPlayerStack" StackGrowth="Down">-->
@@ -582,9 +563,9 @@
                                     </ScrollPanel>
                                 <!--</Stack>-->
 
-                                <Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="R,B" Color="0,0,0,255" FlipY="1"/>
-                                <Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="R,T" Color="0,0,0,255"/>
-                            </Container>
+									<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="R,B" Color="0,0,0,255" FlipY="1"/>
+									<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="R,T" Color="0,0,0,255"/>
+								</Container>
 
                                 <!--Drag Resize Button-->
                                 <Button ID="DragButton" Texture="Controls_DealResizeButton" Size="50,48" Anchor="C,B" Offset="2,0" ToolTip="LOC_DIPLOMACY_DRAG_BUTTON_TOOLTIP">

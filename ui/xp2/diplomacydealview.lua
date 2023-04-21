@@ -543,6 +543,8 @@ function ResizeDealAndButtons()
     Controls.MyOfferScroll:CalculateSize();
 	
 	-- CQUI: using old controls
+	g_uiMyOffers.OfferStack:SetHide(true);
+	g_uiTheirOffers.OfferStack:SetHide(true);
     Controls.MyOfferStack:CalculateSize();
     Controls.MyOfferBracket:DoAutoSize();
     Controls.MyOfferScroll:CalculateSize();
@@ -1265,6 +1267,10 @@ function UpdateProposalButtons(bDealValid)
         --Controls.TheirOfferBracket:SetHide(false);
     end
 	
+	-- CQUI: using old controls, hide new ones
+	g_uiMyOffers.OfferStack:SetHide(true);
+	g_uiTheirOffers.OfferStack:SetHide(true);
+	
 	-- CQUI: logic to show/hide offer stacks
     if (ms_bIsDemand) then
         if (ms_InitiatedByPlayerID == ms_OtherPlayerID) then
@@ -1294,8 +1300,8 @@ function UpdateProposalButtons(bDealValid)
         if (pDeal ~= nil) then
             local itemsFromLocal : number = pDeal:GetItemCount(g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
             local itemsFromOther : number = pDeal:GetItemCount(g_OtherPlayer:GetID(), g_LocalPlayer:GetID());
-            Controls.MyDirections:SetHide(itemsFromLocal > 0);
-            Controls.TheirDirections:SetHide(itemsFromOther > 0);
+            Controls.MyOfferBracket:SetHide(itemsFromLocal > 0);
+            Controls.TheirOfferBracket:SetHide(itemsFromOther > 0);
 		end
 	end
 end
@@ -3402,9 +3408,7 @@ function Initialize()
 	
 	-- CQUI: hide and disable not used controls
 	g_uiMyOffers.OfferStack:SetHide(true);
-	g_uiMyOffers.OfferStack:SetDisabled(true);
 	g_uiTheirOffers.OfferStack:SetHide(true);
-	g_uiTheirOffers.OfferStack:SetDisabled(true);
 end
 
 -- This wildcard include will include all loaded files beginning with "DiplomacyDealView_"
