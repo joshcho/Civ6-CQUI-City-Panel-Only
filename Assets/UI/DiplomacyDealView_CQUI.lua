@@ -1,8 +1,9 @@
-print("*** CQUI: DiplomacyDealView_CQUI loaded");
+print("CQUI-Lite: Loading DiplomacyDealView_CQUI.lua");
 -- ===========================================================================
 -- Base File
 -- ===========================================================================
 include("CitySupport");
+include("CQUICommon");
 
 -- ===========================================================================
 -- Cached Base Functions
@@ -434,8 +435,10 @@ function UpdateOtherPlayerText(otherPlayerSays)
         CQUI_IconAndTextForCitiesIM:ResetInstances();
         CQUI_IconAndTextForGreatWorkIM:ResetInstances();
 
-        PopulateSignatureArea(g_LocalPlayer, Controls.PlayerCivIcon, Controls.PlayerLeaderName, Controls.PlayerCivName);  -- Expansion 2 added global variable for local and other player
-        PopulateSignatureArea(g_OtherPlayer, Controls.OtherPlayerCivIcon, Controls.OtherPlayerLeaderName, Controls.OtherPlayerCivName);
+		if not g_bIsGatheringStorm then
+			PopulateSignatureArea(g_LocalPlayer, Controls.PlayerCivIcon, Controls.PlayerLeaderName, Controls.PlayerCivName);  -- Expansion 2 added global variable for local and other player
+			PopulateSignatureArea(g_OtherPlayer, Controls.OtherPlayerCivIcon, Controls.OtherPlayerLeaderName, Controls.OtherPlayerCivName);
+		end
     end
 end
 
@@ -777,13 +780,19 @@ local CQUI_IssuedMissingXMLWarning = false;
 function CQUI_IsCQUIXmlLoaded()
     -- Check and see if the Controls unique to CQUI are not-nil, and if so, the CQUI DiplomacyDealView XML must be loaded
     isCquiXmlActive = true;
-    isCquiXmlActive = isCquiXmlActive and (Controls.PlayerCivIcon ~= nil);
-    isCquiXmlActive = isCquiXmlActive and (Controls.PlayerLeaderName ~= nil);
-    isCquiXmlActive = isCquiXmlActive and (Controls.PlayerCivName ~= nil);
-    isCquiXmlActive = isCquiXmlActive and (Controls.OtherPlayerCivIcon ~= nil);
-    isCquiXmlActive = isCquiXmlActive and (Controls.OtherPlayerLeaderName ~= nil);
-    isCquiXmlActive = isCquiXmlActive and (Controls.OtherPlayerCivName ~= nil);
-
+	
+	if g_bIsGatheringStorm then
+		isCquiXmlActive = isCquiXmlActive and (Controls.MyOfferStack ~= nil);
+		isCquiXmlActive = isCquiXmlActive and (Controls.TheirOfferStack ~= nil);
+	else
+		isCquiXmlActive = isCquiXmlActive and (Controls.PlayerCivIcon ~= nil);
+		isCquiXmlActive = isCquiXmlActive and (Controls.PlayerLeaderName ~= nil);
+		isCquiXmlActive = isCquiXmlActive and (Controls.PlayerCivName ~= nil);
+		isCquiXmlActive = isCquiXmlActive and (Controls.OtherPlayerCivIcon ~= nil);
+		isCquiXmlActive = isCquiXmlActive and (Controls.OtherPlayerLeaderName ~= nil);
+		isCquiXmlActive = isCquiXmlActive and (Controls.OtherPlayerCivName ~= nil);
+	end
+	
     if (isCquiXmlActive == false and CQUI_IssuedMissingXMLWarning == false) then
         -- Prints in the log once, so we don't spam the thing
         print("****** CQUI ERROR: It appears the CQUI version of the DiplomacyDealView XML file did not load properly!  CQUI effects cannot be applied!");
@@ -823,3 +832,5 @@ function Initialize_DiplomacyDealView_CQUI()
     end
 end
 Initialize_DiplomacyDealView_CQUI();
+
+print("CQUI-Lite: Loaded DiplomacyDealView_CQUI.lua OK");
