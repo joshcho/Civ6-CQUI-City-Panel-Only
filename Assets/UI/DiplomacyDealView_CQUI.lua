@@ -210,7 +210,6 @@ end
 --  resourceCategory: default, scarce, duplicate, imported, none
 -- ===========================================================================
 function CQUI_RenderResourceButton(resource, resourceCategory, iconList, howAcquired)
-	print("CQUI_RenderResourceButton()", resource, resourceCategory, iconList, howAcquired);
 	
     local icon = g_IconOnlyIM:GetInstance(iconList.ListStack); -- SelectButton, Icon, AmountText
     icon.SelectButton:SetTexture("Controls_DraggableButton");
@@ -220,18 +219,16 @@ function CQUI_RenderResourceButton(resource, resourceCategory, iconList, howAcqu
     icon.Icon:SetAlpha(1);
     icon.AmountText:SetText(tostring(resource.MaxAmount));
     --icon.AmountText:SetColor(UI.GetColorValue(194/255,194/255,204/255)); -- Color : BodyTextCool
-	icon.AmountText:SetColor(UI.GetColorValue("White"));
+	icon.AmountText:SetColor(UI.GetColorValue(0.9, 0.9, 0.9, 1)); -- white
     icon.AmountText:SetAlpha(1);
     icon.AmountText:SetHide(false);
     icon.SelectButton:SetDisabled( not resource.IsValid or resource.MaxAmount == 0 );
 
     if resource.IsScarce then -- 'scarce' is when there is a single copy left
-        --icon.AmountText:SetColor(UI.GetColorValue(224/255,124/255,124/255,230/255));
-		icon.AmountText:SetColor(UI.GetColorValue("Red"));
+		icon.AmountText:SetColor(UI.GetColorValue(0.9, 0.2, 0.2, 1)); -- red
     elseif resource.Category == 'duplicate' then -- other player has it
         icon.SelectButton:SetAlpha(.8);
-        --icon.AmountText:SetColor(UI.GetColorValue(124/255,154/255,224/255,230/255));
-		icon.AmountText:SetColor(UI.GetColorValue("Blue"));
+		icon.AmountText:SetColor(UI.GetColorValue(0.4, 0.7, 0.9, 1)); -- light blue
     elseif resource.MaxAmount == 0 or resource.Category == 'imported' then -- 'none' is untradable, 'imported' - via deals or from suzerain
         icon.SelectButton:SetTexture("");
         icon.AmountText:SetAlpha(.3);
@@ -251,36 +248,6 @@ function CQUI_RenderResourceButton(resource, resourceCategory, iconList, howAcqu
         tt = tt.." [COLOR:GoldMetalDark]("..Locale.Lookup("LOC_IDS_DEAL_UNTRADEABLE")..")[ENDCOLOR]";
     end
 	if resource.ToolTip ~= "" then tt = tt.."[NEWLINE]"..resource.ToolTip; end
-	icon.SelectButton:SetToolTipString(tt);
-	--[[
-    local tooltipString = Locale.Lookup(resourceDesc.Name) .. tooltipAddedText;
-    if (howAcquired ~= nil) then
-        tooltipString = tooltipString .. '[NEWLINE]' .. howAcquired;
-    end
-    if resource.IsValid then
-        icon.SelectButton:SetToolTipString(tooltipString);
-        icon.SelectButton:SetDisabled(false);
-        icon.Icon:SetColor(1, 1, 1);
-    else
-        local tempstr = tooltipString .. "[NEWLINE][COLOR_RED]";
-        if player ~= g_LocalPlayer then
-            tempstr = tempstr .. Locale.Lookup("LOC_DEAL_PLAYER_HAS_NO_CAP_ROOM");
-            icon.SelectButton:SetToolTipString(tempstr);
-        else
-            tempstr = tempstr .. Locale.Lookup("LOC_DEAL_AI_HAS_NO_CAP_ROOM");
-            icon.SelectButton:SetToolTipString(tempstr);
-        end
-        icon.SelectButton:SetDisabled(true);
-        icon.Icon:SetColor(0.5, 0.5, 0.5);
-    end
-    --icon.SelectButton:SetToolTipString(tooltipString);
-    icon.SelectButton:ReprocessAnchoring();
-	--]]
-	-- ============ EXTRA TT DEBUG
-	tt = icon.SelectButton:GetToolTipString().."[NEWLINE]-----------";
-	for k,v in pairs(resource) do
-		tt = tt.."[NEWLINE]"..tostring(k)..": "..tostring(v);
-	end
 	icon.SelectButton:SetToolTipString(tt);
 
     return icon;
@@ -469,7 +436,6 @@ end
 -- Returns a table with all resource data needed to populate the window
 -- Entry: ForType:number, ForTypeName:string, MaxAmount:number, IsValid:boolean, IsAtCap:boolean, Category:string, ToolTip:string
 function CQUI_GetAvailableResources(player: table, className: string, pForDeal: table)
-	print("CQUI_GetAvailableResources()", player:GetID(), className);
 	
 	local resources: table = {};
 	local playerResources: table = player:GetResources();
@@ -526,35 +492,19 @@ function CQUI_GetAvailableResources(player: table, className: string, pForDeal: 
 		end
 	end
 	
-	for i,entry in ipairs(resources) do for k,v in pairs(entry) do print(i,k,v); end end -- debug
-	--for i,entry in ipairs(resources) do print(i,entry.ToolTip); end -- debug
 	-- sort the resources by max amount
 	table.sort(resources, function(a,b) return a.MaxAmount > b.MaxAmount; end);
 	return resources;
 end
 
 function PopulateAvailableResources(player : table, iconList : table, className : string)
-	print("PopulateAvailableResources()", player:GetID(), className);
+
     local iAvailableItemCount = 0;
     local pForDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
-	if pForDeal == nil then print("CQUI: PopulateAvailableResources(), error getting working deal"); return; end
+	if pForDeal == nil then print("CQUI: PopulateAvailableResources(), ERROR getting working deal"); return; end
 	
-	local localResources: table = CQUI_GetAvailableResources(player,                 className, pForDeal);
-	--local otherResources: table = CQUI_GetAvailableResources(GetOtherPlayer(player), className, pForDeal);
-	
-    --local possibleResources = DealManager.GetPossibleDealItems(player:GetID(), GetOtherPlayer(player):GetID(), DealItemTypes.RESOURCES, pForDeal);
-	
-	--From deals:ForType, ForTypeName, MaxAmount, IsValid
-	--New ones: IsAtCap:boolean, Category, ToolTip
-
-    --local playerDuplicateResources = {};
-    --local playerUntradeableResources = {};
-    --local playerImportedResources = CQUI_GetImportedResources(player:GetID());
-    --local otherPlayerResources = DealManager.GetPossibleDealItems(GetOtherPlayer(player):GetID(), player:GetID(), DealItemTypes.RESOURCES);
-    --local otherPlayerImportedResources = CQUI_GetImportedResources(GetOtherPlayer(player):GetID());
+	local localResources: table = CQUI_GetAvailableResources(player, className, pForDeal);
 	local otherPlayerResources: table = GetOtherPlayer(player):GetResources();
-	
-    --g_IconOnlyIM:ReleaseInstanceByParent(iconList);
 	
 	for _,entry in ipairs(localResources) do
 		if g_bIsGatheringStorm and className == 'RESOURCECLASS_STRATEGIC' then
@@ -563,8 +513,9 @@ function PopulateAvailableResources(player : table, iconList : table, className 
 			if otherPlayerResources:HasResource(entry.ForType) then entry.Category = 'duplicate'; end
 			local space: number = otherPlayerResources:GetResourceStockpileCap(entry.ForType) - otherPlayerResources:GetResourceAmount(entry.ForType);
 			if space <= 0 then
-				if player:GetID() == g_LocalPlayer:GetID() then entry.ToolTip = entry.ToolTip.."[NEWLINE]"..Locale.Lookup("LOC_DEAL_AI_HAS_NO_CAP_ROOM");
-				else											entry.ToolTip = entry.ToolTip.."[NEWLINE]"..Locale.Lookup("LOC_DEAL_PLAYER_HAS_NO_CAP_ROOM"); end
+				if entry.ToolTip ~= "" then entry.ToolTip = entry.ToolTip.."[NEWLINE]"; end
+				if player:GetID() == g_LocalPlayer:GetID() then entry.ToolTip = entry.ToolTip..Locale.Lookup("LOC_DEAL_AI_HAS_NO_CAP_ROOM");
+				else											entry.ToolTip = entry.ToolTip..Locale.Lookup("LOC_DEAL_PLAYER_HAS_NO_CAP_ROOM"); end
 				entry.MaxAmount = 0;
 			else
 				entry.MaxAmount = math.min( entry.MaxAmount, space );
@@ -574,7 +525,8 @@ function PopulateAvailableResources(player : table, iconList : table, className 
 			-- luxuries or pre-GS, detect: scarce, duplicate, none
 			if otherPlayerResources:HasResource(entry.ForType) then -- duplicate, they have access
 				entry.Category = 'duplicate';
-				entry.ToolTip = entry.ToolTip.."[NEWLINE]They/you have access [COLOR:GoldMetalDark]("..Locale.Lookup("LOC_IDS_DEAL_DUPLICATE")..")[ENDCOLOR]";
+				if entry.ToolTip ~= "" then entry.ToolTip = entry.ToolTip.."[NEWLINE]"; end
+				entry.ToolTip = entry.ToolTip.."They/you have access [COLOR:GoldMetalDark]("..Locale.Lookup("LOC_IDS_DEAL_DUPLICATE")..")[ENDCOLOR]";
 			end
 			if entry.MaxAmount == 1 then entry.IsScarce = true; end
 		end
@@ -583,77 +535,12 @@ function PopulateAvailableResources(player : table, iconList : table, className 
 		icon.SelectButton:RegisterCallback( Mouse.eLClick, function() OnClickAvailableResource(player, entry.ForType); end );
 		iAvailableItemCount = iAvailableItemCount + 1;
 	end
---[[
-    if (possibleResources ~= nil) then
-        -- CQUI :Sort the resources
-        local sort_func = function( a,b ) return tonumber(a.MaxAmount) > tonumber(b.MaxAmount) end;
-        table.sort( possibleResources, sort_func );
-
-        for i, entry in ipairs(possibleResources) do
-            local resourceDesc = GameInfo.Resources[entry.ForType];
-            local resourceType = entry.ForType;
-            if (resourceDesc ~= nil and resourceDesc.ResourceClassType == className) then  -- correct resource class
-                if (entry.MaxAmount == 0) then
-                    -- All copies have been traded away
-                    table.insert(playerUntradeableResources, possibleResources[i]);
-                elseif (MatchesPartnerResource(otherPlayerResources, resourceDesc.ResourceType) > -1
-                        or MatchesPartnerResource(otherPlayerImportedResources, resourceDesc.ResourceType) > -1) then
-                    -- Other player already has the resource
-                    table.insert(playerDuplicateResources, possibleResources[i]);
-                else
-                    -- It's a tradeable resource
-                    local tradeableType;
-                    if (entry.MaxAmount == 1) then
-                        tradeableType = 'scarce';
-                    else
-                        tradeableType = 'default';
-                    end
-
-                    icon = CQUI_RenderResourceButton(entry, tradeableType, iconList);
-
-                    -- What to do when double clicked/tapped.
-                    icon.SelectButton:RegisterCallback( Mouse.eLClick, function() OnClickAvailableResource(player, resourceType); end );
-
-                    iAvailableItemCount = iAvailableItemCount + 1;
-                end
-            end
-        end
-    end
-
-    if (playerDuplicateResources ~= nil) then
-        for z, entry in ipairs(playerDuplicateResources) do
-            tradeableType = 'duplicate';
-            icon = CQUI_RenderResourceButton(entry, tradeableType, iconList);
-            icon.SelectButton:RegisterCallback( Mouse.eLClick, function() OnClickAvailableResource(player, entry.ForType); end );
-            iAvailableItemCount = iAvailableItemCount + 1;
-        end
-    end
-
-    if (playerUntradeableResources ~= nil) then
-        for x, entry in ipairs(playerUntradeableResources) do
-            tradeableType = 'none';
-            icon = CQUI_RenderResourceButton(entry, tradeableType, iconList, entry.ImportString);
-            icon.SelectButton:RegisterCallback( Mouse.eLClick, function() OnClickAvailableResource(player, entry.ForType); end );
-            iAvailableItemCount = iAvailableItemCount + 1;
-        end
-    end
-
-    if (playerImportedResources ~= nil) then
-        for y, entry in ipairs(playerImportedResources) do
-            if (entry.ClassType == className) then
-                tradeableType = 'imported';
-                icon = CQUI_RenderResourceButton(entry, tradeableType, iconList, entry.ImportString);
-                icon.SelectButton:RegisterCallback( Mouse.eLClick, function() OnClickAvailableResource(player, entry.ForType); end );
-                iAvailableItemCount = iAvailableItemCount + 1;
-            end
-        end
-    end
---]]
+	
     iconList.ListStack:CalculateSize();
     iconList.List:ReprocessAnchoring();
 
     -- Hide if empty
-    iconList.GetTopControl():SetHide( iconList.ListStack:GetSizeX()==0 );
+    iconList.GetTopControl():SetHide(iAvailableItemCount == 0);
 
     return iAvailableItemCount;
 end

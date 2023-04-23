@@ -1207,7 +1207,8 @@
 			<Properties><LoadOrder>200</LoadOrder></Properties>
             <Items>
 				<File>ui/xp2/diplomacydealview.xml</File>
-				<File>ui/xp2/DiplomacyDealView_CQUI_xp2.lua</File>
+				<File>ui/xp2/diplomacydealview.lua</File>
+				<File>ui/xp2/diplomacydealview_expansion2.lua</File>
             </Items>
         </ImportFiles>
     </InGameActions>
@@ -1434,6 +1435,7 @@
 		<File>ui/new/diplomacyactionview_qd.lua</File>
 		<!-- Diplomacy Deal View from CUI (only XP2 atm) -->
 		<File>ui/xp2/diplomacydealview.xml</File>
-		<File>ui/xp2/DiplomacyDealView_CQUI_xp2.lua</File>
+		<File>ui/xp2/diplomacydealview.lua</File>
+		<File>ui/xp2/diplomacydealview_expansion2.lua</File>
     </Files>
 </Mod>

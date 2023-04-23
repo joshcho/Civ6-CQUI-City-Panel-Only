@@ -1813,7 +1813,6 @@ end
 
 -- ===========================================================================
 function PopulateAvailableLuxuryResources(player : table, iconList : table)
-	print("PopulateAvailableLuxuryResources()", player:GetID());
     local availableItemCount : number = 0;
     availableItemCount = availableItemCount + PopulateAvailableResources(player, iconList, "RESOURCECLASS_LUXURY");
     return availableItemCount;
@@ -1821,7 +1820,6 @@ end
 
 -- ===========================================================================
 function PopulateAvailableStrategicResources(player : table, iconList : table)
-	print("PopulateAvailableStrategicResources()", player:GetID());
     local availableItemCount : number = 0;
     availableItemCount = availableItemCount + PopulateAvailableResources(player, iconList, "RESOURCECLASS_STRATEGIC");
     return availableItemCount;
@@ -2138,7 +2136,7 @@ end
 
 -- ===========================================================================
 function PopulatePlayerAvailablePanel(rootControl : table, player : table)
-	print("PopulatePlayerAvailablePanel()", player:GetID());
+
     local availableItemCount : number = 0;
 
     if (player ~= nil) then
@@ -2898,7 +2896,7 @@ end
 
 -- ===========================================================================
 function OnShow()
-	print("OnShow()");
+
     RefreshYields();
     Controls.YieldAlpha:SetToBeginning();
     Controls.YieldAlpha:Play();
@@ -3031,7 +3029,7 @@ end
 --    Context CTOR
 -- ===========================================================================
 function OnInit(isHotload)
-	print("OnInit()");
+
     LateInitialize();
 
     if (isHotload and not ContextPtr:IsHidden()) then
