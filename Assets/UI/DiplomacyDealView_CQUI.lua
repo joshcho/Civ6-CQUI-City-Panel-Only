@@ -96,7 +96,7 @@ function CQUI_GetImportedResources(playerID)
                             local pClassType = GameInfo.Resources[pDealResource:GetValueType()].ResourceClassType;
                             local ending:number = pDealResource:GetEndTurn() - Game.GetCurrentGameTurn();
                             local convertedResources = {
-                                Name = tostring(pDealResource:GetValueType());
+                                Name = GameInfo.Resources[pDealResource:GetValueType()].ResourceType; -- 230422 #22 correct res name
                                 ForType = pDealResource:GetValueType();
                                 MaxAmount = pDealResource:GetAmount();
                                 ClassType = pClassType;
@@ -150,8 +150,8 @@ function CQUI_GetImportedResources(playerID)
                     if resourceAmount > 0 then
                         local kResource :table = GameInfo.Resources[row.Index];
                         local cityStateResources = {
-                            Name = tostring(row.Index);--kResource.ResourceType);
-                            ForType = kResource.ResourceType;
+                            Name = kResource.ResourceType; -- 230422 #22 Name as a number???
+                            ForType = kResource.Index; -- 230422 #22 ForType is a number in the DealManager
                             MaxAmount = resourceAmount;
                             ClassType = kResource.ResourceClassType;
                             ImportString = Locale.Lookup("LOC_IDS_DEAL_SUZERAIN").." " .. Locale.Lookup(PlayerConfigurations[pMinorPlayer:GetID()]:GetPlayerName()) .. " : " .. resourceAmount;
@@ -207,41 +207,52 @@ end
 -- ===========================================================================
 --  CQUI CQUI_RenderResourceButton function
 --  Render the correct resource button
+--  resourceCategory: default, scarce, duplicate, imported, none
 -- ===========================================================================
 function CQUI_RenderResourceButton(resource, resourceCategory, iconList, howAcquired)
-    resourceDesc = GameInfo.Resources[resource.ForType];
-    local icon = g_IconOnlyIM:GetInstance(iconList.ListStack);
-    local tooltipAddedText = '';
-    local buttonDisabled = false;
-
-    icon.Icon:SetAlpha(1);
-    icon.SelectButton:SetAlpha(1);
-    icon.AmountText:SetAlpha(1);
-    icon.AmountText:SetColor(UI.GetColorValue(194/255,194/255,204/255)); -- Color : BodyTextCool
+	print("CQUI_RenderResourceButton()", resource, resourceCategory, iconList, howAcquired);
+	
+    local icon = g_IconOnlyIM:GetInstance(iconList.ListStack); -- SelectButton, Icon, AmountText
     icon.SelectButton:SetTexture("Controls_DraggableButton");
     icon.SelectButton:SetTextureOffsetVal(0, 0);
+    icon.SelectButton:SetAlpha(1);
+    SetIconToSize(icon.Icon, "ICON_"..resource.ResType);
+    icon.Icon:SetAlpha(1);
+    icon.AmountText:SetText(tostring(resource.MaxAmount));
+    --icon.AmountText:SetColor(UI.GetColorValue(194/255,194/255,204/255)); -- Color : BodyTextCool
+	icon.AmountText:SetColor(UI.GetColorValue("White"));
+    icon.AmountText:SetAlpha(1);
+    icon.AmountText:SetHide(false);
+    icon.SelectButton:SetDisabled( not resource.IsValid or resource.MaxAmount == 0 );
 
-    if (resourceCategory == 'scarce') then
-        icon.AmountText:SetColor(UI.GetColorValue(224/255,124/255,124/255,230/255));
-    elseif (resourceCategory == 'duplicate') then
+    if resource.IsScarce then -- 'scarce' is when there is a single copy left
+        --icon.AmountText:SetColor(UI.GetColorValue(224/255,124/255,124/255,230/255));
+		icon.AmountText:SetColor(UI.GetColorValue("Red"));
+    elseif resource.Category == 'duplicate' then -- other player has it
         icon.SelectButton:SetAlpha(.8);
-        icon.AmountText:SetColor(UI.GetColorValue(124/255,154/255,224/255,230/255));
-        tooltipAddedText = ' [COLOR:GoldMetalDark](' .. Locale.Lookup("LOC_IDS_DEAL_DUPLICATE") .. ')[ENDCOLOR]';
-    elseif (resourceCategory == 'none' or resourceCategory == 'imported') then
+        --icon.AmountText:SetColor(UI.GetColorValue(124/255,154/255,224/255,230/255));
+		icon.AmountText:SetColor(UI.GetColorValue("Blue"));
+    elseif resource.MaxAmount == 0 or resource.Category == 'imported' then -- 'none' is untradable, 'imported' - via deals or from suzerain
         icon.SelectButton:SetTexture("");
         icon.AmountText:SetAlpha(.3);
-        tooltipAddedText = ' [COLOR:GoldMetalDark](' .. Locale.Lookup("LOC_IDS_DEAL_UNTRADEABLE") .. ')[ENDCOLOR]';
-        buttonDisabled = true;
-    else
+    else -- 'default' is more than 1 copy and other player doesn't have it
         icon.SelectButton:SetTextureOffsetVal(0, 50);
     end
 
-    SetIconToSize(icon.Icon, "ICON_" .. resourceDesc.ResourceType);
-    icon.AmountText:SetText(tostring(resource.MaxAmount));
-    icon.AmountText:SetHide(false);
-    icon.SelectButton:SetDisabled( buttonDisabled );
-
     -- Set a tooltip
+	local tt: string = resource.Name;
+	if not resource.IsValid then
+		tt = "[COLOR_Red]"..tt.."[ENDCOLOR]";
+	end
+	tt = tt.." : "..tostring(resource.Amount);
+    if resource.Category == 'duplicate' then -- other player has it
+		tt = tt.." [COLOR:GoldMetalDark]("..Locale.Lookup("LOC_IDS_DEAL_DUPLICATE")..")[ENDCOLOR]";
+    elseif resource.MaxAmount == 0 or resource.Category == 'imported' then -- 'none' is untradable, 'imported' - via deals or from suzerain
+        tt = tt.." [COLOR:GoldMetalDark]("..Locale.Lookup("LOC_IDS_DEAL_UNTRADEABLE")..")[ENDCOLOR]";
+    end
+	if resource.ToolTip ~= "" then tt = tt.."[NEWLINE]"..resource.ToolTip; end
+	icon.SelectButton:SetToolTipString(tt);
+	--[[
     local tooltipString = Locale.Lookup(resourceDesc.Name) .. tooltipAddedText;
     if (howAcquired ~= nil) then
         tooltipString = tooltipString .. '[NEWLINE]' .. howAcquired;
@@ -262,8 +273,15 @@ function CQUI_RenderResourceButton(resource, resourceCategory, iconList, howAcqu
         icon.SelectButton:SetDisabled(true);
         icon.Icon:SetColor(0.5, 0.5, 0.5);
     end
-    icon.SelectButton:SetToolTipString(tooltipString);
+    --icon.SelectButton:SetToolTipString(tooltipString);
     icon.SelectButton:ReprocessAnchoring();
+	--]]
+	-- ============ EXTRA TT DEBUG
+	tt = icon.SelectButton:GetToolTipString().."[NEWLINE]-----------";
+	for k,v in pairs(resource) do
+		tt = tt.."[NEWLINE]"..tostring(k)..": "..tostring(v);
+	end
+	icon.SelectButton:SetToolTipString(tt);
 
     return icon;
 end
@@ -445,22 +463,127 @@ end
 -- ===========================================================================
 --  CQUI modified PopulateAvailableResources function
 --  Resources are sorted by quantity
+--  className: RESOURCECLASS_LUXURY or RESOURCECLASS_STRATEGIC
 -- ===========================================================================
+
+-- Returns a table with all resource data needed to populate the window
+-- Entry: ForType:number, ForTypeName:string, MaxAmount:number, IsValid:boolean, IsAtCap:boolean, Category:string, ToolTip:string
+function CQUI_GetAvailableResources(player: table, className: string, pForDeal: table)
+	print("CQUI_GetAvailableResources()", player:GetID(), className);
+	
+	local resources: table = {};
+	local playerResources: table = player:GetResources();
+	
+	-- first get the well known data from the game engine
+    local possibleResources: table = DealManager.GetPossibleDealItems(player:GetID(), GetOtherPlayer(player):GetID(), DealItemTypes.RESOURCES, pForDeal);
+	if playerResources and possibleResources then
+		for _,entry in ipairs(possibleResources) do
+			local resInfo: table = GameInfo.Resources[entry.ForType];
+			if resInfo and resInfo.ResourceClassType == className then
+				local data: table = {
+					Category  = 'default', -- string,
+					ForType   = entry.ForType, -- number,
+					ResType   = resInfo.ResourceType, -- string
+					Name      = Locale.Lookup(entry.ForTypeName),
+					IsValid   = entry.IsValid, -- boolean,
+					Amount    = playerResources:GetResourceAmount(entry.ForType), -- number
+					MaxAmount = entry.MaxAmount, -- number,
+					ToolTip   = "", -- string
+				};
+				table.insert(resources, data);
+			end
+		end
+	end
+	
+	-- then get all externally accessed resources i.e. from deals and city-states
+    local importedResources = CQUI_GetImportedResources(player:GetID()); -- ClassType, Name, ForType, ImportString, MaxAmount
+	if playerResources and importedResources then
+		for _,entry in ipairs(importedResources) do
+			if entry.ClassType == className then
+				-- is it a new one or an existing one
+				local found: table = nil;
+				for _,res in ipairs(resources) do
+					if res.ForType == entry.ForType then found = res; break; end
+				end
+				if found then -- update entry
+					if found.ToolTip == "" then found.ToolTip = entry.ImportString;
+					else						found.ToolTip = found.ToolTip.."[NEWLINE]"..entry.ImportString; end
+				else -- add a new entry
+					local resInfo: table = GameInfo.Resources[entry.ForType];
+					local data: table = {
+						Category  = 'imported', -- string
+						ForType   = entry.ForType, -- number
+						ResType   = resInfo.ResourceType, -- string
+						Name      = Locale.Lookup(resInfo.Name), -- string
+						IsValid   = false, -- boolean
+						Amount    = playerResources:GetResourceAmount(entry.ForType), -- number
+						MaxAmount = 0, -- number
+						ToolTip   = entry.ImportString, -- string
+					};
+					table.insert(resources, data);
+				end
+			end
+		end
+	end
+	
+	for i,entry in ipairs(resources) do for k,v in pairs(entry) do print(i,k,v); end end -- debug
+	--for i,entry in ipairs(resources) do print(i,entry.ToolTip); end -- debug
+	-- sort the resources by max amount
+	table.sort(resources, function(a,b) return a.MaxAmount > b.MaxAmount; end);
+	return resources;
+end
+
 function PopulateAvailableResources(player : table, iconList : table, className : string)
+	print("PopulateAvailableResources()", player:GetID(), className);
     local iAvailableItemCount = 0;
     local pForDeal = DealManager.GetWorkingDeal(DealDirection.OUTGOING, g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
-    local possibleResources = DealManager.GetPossibleDealItems(player:GetID(), GetOtherPlayer(player):GetID(), DealItemTypes.RESOURCES, pForDeal);
+	if pForDeal == nil then print("CQUI: PopulateAvailableResources(), error getting working deal"); return; end
+	
+	local localResources: table = CQUI_GetAvailableResources(player,                 className, pForDeal);
+	--local otherResources: table = CQUI_GetAvailableResources(GetOtherPlayer(player), className, pForDeal);
+	
+    --local possibleResources = DealManager.GetPossibleDealItems(player:GetID(), GetOtherPlayer(player):GetID(), DealItemTypes.RESOURCES, pForDeal);
+	
+	--From deals:ForType, ForTypeName, MaxAmount, IsValid
+	--New ones: IsAtCap:boolean, Category, ToolTip
 
-    local playerDuplicateResources = {};
-    local playerUntradeableResources = {};
-    local playerImportedResources = CQUI_GetImportedResources(player:GetID());
-    local otherPlayerResources = DealManager.GetPossibleDealItems(GetOtherPlayer(player):GetID(), player:GetID(), DealItemTypes.RESOURCES);
-    local otherPlayerImportedResources = CQUI_GetImportedResources(GetOtherPlayer(player):GetID());
-
-    if (pDeal ~= nil) then
-        g_IconOnlyIM:ReleaseInstanceByParent(iconList);
-    end
-
+    --local playerDuplicateResources = {};
+    --local playerUntradeableResources = {};
+    --local playerImportedResources = CQUI_GetImportedResources(player:GetID());
+    --local otherPlayerResources = DealManager.GetPossibleDealItems(GetOtherPlayer(player):GetID(), player:GetID(), DealItemTypes.RESOURCES);
+    --local otherPlayerImportedResources = CQUI_GetImportedResources(GetOtherPlayer(player):GetID());
+	local otherPlayerResources: table = GetOtherPlayer(player):GetResources();
+	
+    --g_IconOnlyIM:ReleaseInstanceByParent(iconList);
+	
+	for _,entry in ipairs(localResources) do
+		if g_bIsGatheringStorm and className == 'RESOURCECLASS_STRATEGIC' then
+			-- there is a bit different logic for XP2 and strategics
+			-- we can always sell it if other player is not at cap
+			if otherPlayerResources:HasResource(entry.ForType) then entry.Category = 'duplicate'; end
+			local space: number = otherPlayerResources:GetResourceStockpileCap(entry.ForType) - otherPlayerResources:GetResourceAmount(entry.ForType);
+			if space <= 0 then
+				if player:GetID() == g_LocalPlayer:GetID() then entry.ToolTip = entry.ToolTip.."[NEWLINE]"..Locale.Lookup("LOC_DEAL_AI_HAS_NO_CAP_ROOM");
+				else											entry.ToolTip = entry.ToolTip.."[NEWLINE]"..Locale.Lookup("LOC_DEAL_PLAYER_HAS_NO_CAP_ROOM"); end
+				entry.MaxAmount = 0;
+			else
+				entry.MaxAmount = math.min( entry.MaxAmount, space );
+			end
+			if entry.Amount <= 10 then entry.IsScarce = true; end -- TODO: this can be a parameter!
+		elseif entry.Category == 'default' then
+			-- luxuries or pre-GS, detect: scarce, duplicate, none
+			if otherPlayerResources:HasResource(entry.ForType) then -- duplicate, they have access
+				entry.Category = 'duplicate';
+				entry.ToolTip = entry.ToolTip.."[NEWLINE]They/you have access [COLOR:GoldMetalDark]("..Locale.Lookup("LOC_IDS_DEAL_DUPLICATE")..")[ENDCOLOR]";
+			end
+			if entry.MaxAmount == 1 then entry.IsScarce = true; end
+		end
+		-- now all data is ready, create a button
+		local icon: table = CQUI_RenderResourceButton(entry, entry.Category, iconList, entry.ToolTip);
+		icon.SelectButton:RegisterCallback( Mouse.eLClick, function() OnClickAvailableResource(player, entry.ForType); end );
+		iAvailableItemCount = iAvailableItemCount + 1;
+	end
+--[[
     if (possibleResources ~= nil) then
         -- CQUI :Sort the resources
         local sort_func = function( a,b ) return tonumber(a.MaxAmount) > tonumber(b.MaxAmount) end;
@@ -525,7 +648,7 @@ function PopulateAvailableResources(player : table, iconList : table, className 
             end
         end
     end
-
+--]]
     iconList.ListStack:CalculateSize();
     iconList.List:ReprocessAnchoring();
 
@@ -833,4 +956,4 @@ function Initialize_DiplomacyDealView_CQUI()
 end
 Initialize_DiplomacyDealView_CQUI();
 
-print("CQUI-Lite: Loaded DiplomacyDealView_CQUI.lua OK");
+print("CQUI-Lite: Loaded  DiplomacyDealView_CQUI.lua ok");

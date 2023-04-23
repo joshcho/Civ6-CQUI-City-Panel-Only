@@ -1,4 +1,4 @@
-print("Loading diplomacydealview_expansion2.lua (cui) from CQUI");
+print("CQUI-Lite: Loading diplomacydealview_expansion2.lua");
 
 --[[
 -- Created by Andrew Garrett
@@ -46,7 +46,7 @@ function OnClickAvailableResource(player, resourceType)
                 if pDealItem:GetValueType() == resourceType then
                     -- Check for non-zero duration.  There may already be a one-time transfer of the resource if a city is in the deal.
                     if (pDealItem:GetDuration() ~= 0) then
-                        return -- Already in there.
+                        return; -- Already in there.
                     end
                     if (pResourceDef ~= nil and pResourceDef.Accumulate) then
                         -- already have this, up the amount
@@ -83,11 +83,11 @@ function OnClickAvailableResource(player, resourceType)
 
             -- CUI: rewrite strategic logic
             if (pResourceDef ~= nil and pResourceDef.Accumulate) then
-                local iAddAmount = math.min(cuiSPC, pDealItem:GetMaxAmount())
-                pDealItem:SetAmount(iAddAmount)
+                local iAddAmount = math.min(cuiSPC, pDealItem:GetMaxAmount());
+                pDealItem:SetAmount(iAddAmount);
                 pDealItem:SetDuration(0);
             else
-                pDealItem:SetAmount(1)
+                pDealItem:SetAmount(1);
                 pDealItem:SetDuration(30); -- Default to this many turns
             end
             --
@@ -186,9 +186,6 @@ function PopulateDealResources(player: table, iconList: table)
 	--iconList.OneTimeDealsHeader:SetHide(table.count(iconList.OneTimeDealsStack:GetChildren()) == 0);
 	--iconList.For30TurnsDealsHeader:SetHide(table.count(iconList.For30TurnsDealsStack:GetChildren()) == 0);
 	
-	-- CQUI: Minicons and collapse headers not used
-	--iconList.OneTimeDealsHeader:SetHide(true);
-	--iconList.For30TurnsDealsHeader:SetHide(true);
 end
 
 -- ===========================================================================
@@ -207,7 +204,6 @@ function PopulatePlayerAvailablePanel(rootControl: table, player: table)
     return iAvailableItemCount;
 end
 
--- MUST STAY
 function PopulateAvailableFavor(player: table, iconList: table)
 
     local iAvailableItemCount : number = 0;
@@ -303,4 +299,4 @@ function OnClickAvailableOneTimeFavor(player, iAddAmount: number)
     end
 end
 
-print("Loaded diplomacydealview_expansion2.lua (cui) from CQUI");
+print("CQUI-Lite: Loaded  diplomacydealview_expansion2.lua ok");

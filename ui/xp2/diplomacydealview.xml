@@ -522,7 +522,7 @@ To fully utilize this I've decided to go back to the original controls. That mea
                             <Container ID="InventoryColumns" Size="parent-12, parent-351" Anchor="C,T">
 
                                 <Container ID="MyInventory" Size="400,parent" Anchor="L,T">
-                                    <Image Texture="Controls_Gradient" Size="parent, 150" Offset="0,0" Anchor="L,B" Color="24,47,70,230"/>
+                                    <Image ID="MyInventoryGradient" Texture="Controls_Gradient" Size="parent, 150" Offset="0,0" Anchor="L,B" Color="24,47,70,230"/>
                                     <ScrollPanel ID="MyInventoryScroll" Size="parent, parent" Vertical="1" AutoScollbar="1">
                                         <ScrollBar Size="15,parent" SliceTextureSize="11,11" SliceCorner="5,5" Anchor="L,B" Color="111,101,94,250" Offset="-2,0" AnchorSide="O,I" Texture="Controls_ScrollBarBacking" StateOffsetIncrement="0,0" Vertical="1">
                                             <Thumb Size="13,13" Texture="Controls_ScrollBarHandleV_Brown" StateOffsetIncrement="0,0" SliceCorner="6,6" SliceTextureSize="13,13"/>
@@ -534,7 +534,7 @@ To fully utilize this I've decided to go back to the original controls. That mea
                                 </Container>
 
 								<Container ID="TheirInventory" Size="400,parent" Anchor="R,T">
-									<Image Texture="Controls_Gradient" Size="parent, 150" Offset="0,0" Anchor="R,B" Color="24,47,70,230"/>
+									<Image ID="TheirInventoryGradient" Texture="Controls_Gradient" Size="parent, 150" Offset="0,0" Anchor="R,B" Color="24,47,70,230"/>
 
                                 <!-- CQUI : Added a vertical stack for the inventory -->
                                 <!--<Stack ID="OtherPlayerStack" StackGrowth="Down">-->
