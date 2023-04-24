@@ -113,5 +113,19 @@
         <Text>{1_num}名 [ICON_Unit] 间谍上限</Text>
     </Replace>
 	
+	<!-- Diplomacy Deal View -->
+    <Replace Tag="LOC_CUI_DP_GOLD_EDIT_TOOLTIP" Language="zh_Hans_CN">
+        <Text>左键增加，右键减少</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP" Language="zh_Hans_CN">
+        <Text>他们已拥有</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP" Language="zh_Hans_CN">
+        <Text>我们已拥有</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP" Language="zh_Hans_CN">
+        <Text>我们仅有一份</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

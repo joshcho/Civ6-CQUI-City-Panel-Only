@@ -108,5 +108,19 @@
         <Text>활동 가능한 [ICON_Unit]스파이: {1_num}명</Text>
     </Replace>
 	
+	<!-- Diplomacy Deal View -->
+    <Replace Tag="LOC_CUI_DP_GOLD_EDIT_TOOLTIP" Language="ko_KR">
+        <Text>좌클릭으로 증가, 우클릭으로 감소</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP" Language="ko_KR">
+        <Text>상대방이 이 물품을 이미 가지고 있습니다.</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP" Language="ko_KR">
+        <Text>우리는 이 물품을 이미 가지고 있습니다.</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP" Language="ko_KR">
+        <Text>하나만 가지고 있는 사치 자원입니다.</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

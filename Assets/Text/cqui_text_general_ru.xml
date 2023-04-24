@@ -108,5 +108,19 @@
         <Text>{1_num} [ICON_Unit] {1_num : plural 1?Spy; other?Spies;} всего</Text>
     </Replace>
 	
+	<!-- Diplomacy Deal View -->
+    <Replace Tag="LOC_CUI_DP_GOLD_EDIT_TOOLTIP" Language="ru_RU">
+        <Text>ЛКМ добавить, ПКМ убавить</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP" Language="ru_RU">
+        <Text>Уже имеют</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP" Language="ru_RU">
+        <Text>Уже имеем</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP" Language="ru_RU">
+        <Text>Имеем только одну единицу</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

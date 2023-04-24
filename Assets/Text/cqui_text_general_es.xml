@@ -51,5 +51,19 @@
         <Text>{1_num} [ICON_Unit] {1_num : plural 1?Espía; other?Espías;} permitidos</Text>
     </Replace>
 	
+	<!-- Diplomacy Deal View -->
+    <Replace Tag="LOC_CUI_DP_GOLD_EDIT_TOOLTIP" Language="es_ES">
+        <Text>Clic-I: Incluir, Clic-D: Retirar</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP" Language="es_ES">
+        <Text>Ya tienen</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP" Language="es_ES">
+        <Text>Ya tenemos</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP" Language="es_ES">
+        <Text>We only have one</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

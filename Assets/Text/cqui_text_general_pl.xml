@@ -43,5 +43,19 @@
         <Text>Limit: {1_num} [ICON_Unit] {1_num : plural 1?Szpieg; other?Szpiegów;}</Text>
     </Replace>
 	
+	<!-- Diplomacy Deal View -->
+    <Replace Tag="LOC_CUI_DP_GOLD_EDIT_TOOLTIP" Language="pl_PL">
+        <Text>LPM - Dodaj, PPM - Odejmij</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP" Language="pl_PL">
+        <Text>Posiadają już</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP" Language="pl_PL">
+        <Text>Już posiadamy</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP" Language="pl_PL">
+        <Text>Mamy tylko jedną sztukę</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

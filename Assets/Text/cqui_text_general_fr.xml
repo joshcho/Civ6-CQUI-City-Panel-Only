@@ -70,5 +70,19 @@
         <Text>{1_num} [ICON_Unit] {1_num : plural 1?Espion possible; other?Espions possibles;}</Text>
     </Replace>
 	
+	<!-- Diplomacy Deal View -->
+    <Replace Tag="LOC_CUI_DP_GOLD_EDIT_TOOLTIP" Language="fr_FR">
+        <Text>Clique gauche pour ajouter ; clique droit pour soustraire</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP" Language="fr_FR">
+        <Text>Ils possèdent déjà</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP" Language="fr_FR">
+        <Text>Nous possédons déjà</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP" Language="fr_FR">
+        <Text>Nous n'avons qu'un</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

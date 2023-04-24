@@ -84,5 +84,19 @@
         <Text>{1_num} [ICON_Unit] {1_num : plural 1?Spia arruolabile; other?Spie arruolabili;}</Text>
     </Replace>
 	
+	<!-- Diplomacy Deal View -->
+    <Replace Tag="LOC_CUI_DP_GOLD_EDIT_TOOLTIP" Language="it_IT">
+        <Text>Click sinistro aggiunge, click destro sottrae</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP" Language="it_IT">
+        <Text>Loro hanno già</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP" Language="it_IT">
+        <Text>Noi abbiamo già</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP" Language="it_IT">
+        <Text>Ne abbiamo solo una</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

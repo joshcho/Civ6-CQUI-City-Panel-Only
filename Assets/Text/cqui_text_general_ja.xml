@@ -79,5 +79,19 @@
         <Text>[ICON_Unit]スパイ保有枠: {1_num}</Text>
     </Replace>
 	
+	<!-- Diplomacy Deal View -->
+    <Replace Tag="LOC_CUI_DP_GOLD_EDIT_TOOLTIP" Language="ja_JP">
+        <Text>左クリックで追加 / 右クリックで撤回</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP" Language="ja_JP">
+        <Text>相手が所有している</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP" Language="ja_JP">
+        <Text>自分が所有している</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP" Language="ja_JP">
+        <Text>1つしか所有していない</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

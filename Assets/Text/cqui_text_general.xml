@@ -118,6 +118,18 @@
     <Replace Tag="LOC_DEAL_INCOMING_ITEMS_TT" Language="en_US">
         <Text>Incoming items (aka we are buying)</Text>
     </Replace>
+    <Replace Tag="LOC_CUI_DP_GOLD_EDIT_TOOLTIP" Language="en_US">
+        <Text>L-Click Add, R-Click Subtract</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP" Language="en_US">
+        <Text>They already have</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP" Language="en_US">
+        <Text>We already have</Text>
+    </Replace>
+    <Replace Tag="LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP" Language="en_US">
+        <Text>We only have one</Text>
+    </Replace>
 	
   </LocalizedText>
 </GameData>
