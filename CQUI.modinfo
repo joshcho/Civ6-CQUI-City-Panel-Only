@@ -243,7 +243,6 @@
             <Items>
                 <File>Assets/UI/Screens/governmentscreen_CQUI_basegame.lua</File>
                 <File>Assets/UI/Screens/governmentscreen_CQUI.lua</File>
-                <File>Assets/UI/Utilities/extendedrelationship.lua</File>
             </Items>
         </ImportFiles>
 
@@ -1343,7 +1342,6 @@
         <File>Assets/UI/Screens/TechTree_CQUI.lua</File>
         <File>Assets/UI/ToolTips/plottooltip_CQUI_basegame.lua</File>
         <File>Assets/UI/ToolTips/plottooltip_CQUI.lua</File>
-        <File>Assets/UI/Utilities/extendedrelationship.lua</File>
         <File>Assets/UI/WorldView/CityBannerManager_CQUI.lua</File>
         <File>Assets/UI/WorldView/citybannermanager.xml</File>
         <!-- Placeholder for future work -->
