@@ -2198,6 +2198,8 @@ function PopulateAvailableCaptives(player : table, iconList : table)
 end
 
 -- ===========================================================================
+-- CQUI: The logic for showing demand items is here.
+--       Only TANGIBLE items can be demanded, so Favor, Agreements and Other Players cannot.
 function PopulatePlayerAvailablePanel(rootControl : table, player : table)
 
     local availableItemCount : number = 0;
@@ -2228,7 +2230,8 @@ function PopulatePlayerAvailablePanel(rootControl : table, player : table)
             if (not ms_bIsDemand) then
                 availableItemCount = availableItemCount + PopulateAvailableOtherPlayers( player, g_AvailableGroups[AvailableDealItemGroupTypes.OTHER_PLAYERS][playerType]);
             else
-                g_AvailableGroups[AvailableDealItemGroupTypes.OTHER_PLAYERS][playerType].GetTopControl():SetHide(false);
+				-- CQUI: actually there is a bug in vanilla code where it shows this section; however the game doesn't support OTHER_PLAYERS - it is always empty!
+				g_AvailableGroups[AvailableDealItemGroupTypes.OTHER_PLAYERS][playerType].GetTopControl():SetHide(true);
             end
 
             availableItemCount = availableItemCount + PopulateAvailableGreatWorks( player, g_AvailableGroups[AvailableDealItemGroupTypes.GREAT_WORKS][playerType]);
@@ -2975,7 +2978,7 @@ function OnShow()
     Controls.LeaderDialogSlide:Play();
     Controls.ValueEditPopupBackground:SetHide(true);
 
-    CuiResetEditGroup(); -- CUI
+    CuiEditGroupIM:ResetInstances(); -- CUI
     CuiIconOnlyIM:ResetInstances(); -- CUI
 
     g_IconOnlyIM:ResetInstances();
@@ -3156,11 +3159,6 @@ function OnUserRequestClose()
 end
 function OnQuitYes()
     Events.UserConfirmedClose();
-end
-
--- CUI -----------------------------------------------------------------------
-function CuiResetEditGroup()
-    CuiEditGroupIM:ResetInstances()
 end
 
 -- CUI -----------------------------------------------------------------------

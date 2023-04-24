@@ -196,11 +196,24 @@ function CreatePlayerAvailablePanel(playerType: number, rootControl: table)
 end
 
 -- ===========================================================================
+-- CQUI: Refactored the code to have identical logic as the base function
 function PopulatePlayerAvailablePanel(rootControl: table, player: table)
 
-    local playerType = GetPlayerType(player);
-    local iAvailableItemCount = PopulateAvailableFavor(player, g_AvailableGroups[AvailableDealItemGroupTypes.FAVOR][playerType]);
-    iAvailableItemCount = iAvailableItemCount + XP2_PopulatePlayerAvailablePanel(rootControl, player);
+    local iAvailableItemCount: number = 0;
+
+    if (player ~= nil) then
+	
+        local playerType : number = GetPlayerType(player);
+        if (ms_bIsDemand and player:GetID() == ms_InitiatedByPlayerID) then
+            -- This is a demand, so hide all the demanding player's items
+			-- CQUI: this will be done in the base function
+        else
+			iAvailableItemCount = PopulateAvailableFavor(player, g_AvailableGroups[AvailableDealItemGroupTypes.FAVOR][playerType]);
+		end
+	end
+
+	iAvailableItemCount = iAvailableItemCount + XP2_PopulatePlayerAvailablePanel(rootControl, player);
+
     return iAvailableItemCount;
 end
 

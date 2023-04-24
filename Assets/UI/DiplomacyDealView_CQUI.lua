@@ -526,9 +526,16 @@ function PopulateAvailableResources(player : table, iconList : table, className 
 			if otherPlayerResources:HasResource(entry.ForType) then -- duplicate, they have access
 				entry.Category = 'duplicate';
 				if entry.ToolTip ~= "" then entry.ToolTip = entry.ToolTip.."[NEWLINE]"; end
-				entry.ToolTip = entry.ToolTip.."They/you have access [COLOR:GoldMetalDark]("..Locale.Lookup("LOC_IDS_DEAL_DUPLICATE")..")[ENDCOLOR]";
+				if player:GetID() == g_LocalPlayer:GetID() then entry.ToolTip = entry.ToolTip..Locale.Lookup("LOC_CUI_DP_THEY_HAVE_ITEM_TOOLTIP");
+				else											entry.ToolTip = entry.ToolTip..Locale.Lookup("LOC_CUI_DP_WE_HAVE_ITEM_TOOLTIP"); end
 			end
-			if entry.MaxAmount == 1 then entry.IsScarce = true; end
+			if entry.MaxAmount == 1 then
+				entry.IsScarce = true;
+				if player:GetID() == g_LocalPlayer:GetID() then
+					if entry.ToolTip ~= "" then entry.ToolTip = entry.ToolTip.."[NEWLINE]"; end
+					entry.ToolTip = entry.ToolTip.."[COLOR_Red]"..Locale.Lookup("LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP").."[ENDCOLOR]";
+				end
+			end
 		end
 		-- now all data is ready, create a button
 		local icon: table = CQUI_RenderResourceButton(entry, entry.Category, iconList, entry.ToolTip);
