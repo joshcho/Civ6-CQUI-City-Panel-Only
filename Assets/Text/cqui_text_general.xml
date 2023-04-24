@@ -108,5 +108,16 @@
         <Text>{1_num} [ICON_Unit] {1_num : plural 1?Spy; other?Spies;} capacity</Text>
     </Replace>
 	
+	<!-- Diplomacy Deal View -->
+    <Replace Tag="LOC_DEAL_CURRENT_DEALS_TT" Language="en_US">
+        <Text>Summary of currently active deals</Text>
+    </Replace>
+    <Replace Tag="LOC_DEAL_OUTGOING_ITEMS_TT" Language="en_US">
+        <Text>Outgoing items (aka we are selling)</Text>
+    </Replace>
+    <Replace Tag="LOC_DEAL_INCOMING_ITEMS_TT" Language="en_US">
+        <Text>Incoming items (aka we are buying)</Text>
+    </Replace>
+	
   </LocalizedText>
 </GameData>

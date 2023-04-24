@@ -492,40 +492,103 @@ function UpdateDealStatus()
 	g_uiTheirOffers.DirectionsBracket:SetHide( itemsFromOther > 0);
 
     UpdateProposalButtons(bDealValid);
-
     ResizeDealAndButtons();
 	
 	-- CQUI: using old controls
 	Controls.MyOfferBracket:SetHide(itemsFromLocal > 0);
 	Controls.TheirOfferBracket:SetHide(itemsFromOther > 0);
+	-- CQUI: current deals
+	UpdateCurrentDeals();
+end
+
+-- ===========================================================================
+-- CQUI: current deals
+-- DEAL_ITEM_RESOURCES, DEAL_ITEM_RESOURCES, , DEAL_ITEM_AGREEMENTS
+-- 
+function UpdateCurrentDeals()
+	--print("UpdateCurrentDeals()", g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
+	local outgoing: string, incoming: string = "", "";
+	local goldBalance: number = 0; -- >0 we gain, <0 we lose
+	local otherPlayerID: number = g_OtherPlayer:GetID();
+	local pDeals: table = DealManager.GetPlayerDeals(g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
+	for _,deal in ipairs(pDeals) do
+		--print("..deal between:",deal:GetPlayer1ID(),deal:GetPlayer2ID());
+		for item in deal:Items() do
+			--[[
+			print("....item:",
+				item:GetFromPlayerID(),
+				GameInfo.Types[item:GetType()].Type, -- this is also DealItemTypes
+				item:GetSubTypeID(), -- DIPLOACTION_OPEN_BORDERS
+				item:GetValueTypeID(), -- RESOURCE_CITRUS
+				item:GetAmount(),
+				--item:GetEnactedTurn(),
+				item:GetDuration(),
+				item:GetEndTurn());
+			--]]
+			local itemType: number = item:GetType();
+			if itemType == DealItemTypes.GOLD then
+				-- calculate balance, use GetAmount
+				if item:GetFromPlayerID() == otherPlayerID then goldBalance = goldBalance + item:GetAmount();     -- we gain
+				else                                            goldBalance = goldBalance - item:GetAmount(); end -- we lose
+			elseif itemType == DealItemTypes.RESOURCES then
+				-- use GetValueTypeID and GetValueTypeNameID and GetAmount
+				local str: string = string.format("[ICON_%s]%s", item:GetValueTypeID(), Locale.Lookup(item:GetValueTypeNameID()));
+				if item:GetFromPlayerID() == otherPlayerID then incoming = incoming..", "..str;     -- we gain
+				else                                            outgoing = outgoing..", "..str; end -- we lose
+			elseif itemType == DealItemTypes.AGREEMENTS then
+				-- use GetSubTypeID and GetSubTypeNameID
+				local str: string = Locale.Lookup(item:GetSubTypeNameID());
+				if item:GetFromPlayerID() == otherPlayerID then incoming = incoming..", "..str;     -- we gain
+				else                                            outgoing = outgoing..", "..str; end -- we lose
+			else
+				print("CQUI: UpdateCurrentDeals(), WARNING unsupported deal item type: ", GameInfo.Types[itemType].Type);
+			end
+		end
+		--print("..deal summary:", goldBalance, outgoing, incoming);
+	end
+	-- add gold
+	outgoing = string.sub(outgoing, 3); -- if nothing was added then it is still "" and this returns ""
+	incoming = string.sub(incoming, 3);
+	if goldBalance < 0 then
+		outgoing = string.format("[ICON_Gold][COLOR_Gold]%d[ENDCOLOR]", -goldBalance)..(outgoing == "" and "" or ", ")..outgoing;
+	elseif goldBalance > 0 then
+		incoming = string.format("[ICON_Gold][COLOR_Gold]%d[ENDCOLOR]",  goldBalance)..(incoming == "" and "" or ", ")..incoming;
+	end
+	--print("..deal summary:", goldBalance, "OUTGOING", outgoing, "INCOMING", incoming);
+	-- set the labels
+	Controls.OutgoingText:SetText(outgoing);
+	Controls.IncomingText:SetText(incoming);
+	--Controls.CurrentDealsArea:SetHide(outgoing == "" and incoming == "");
 end
 
 -- ===========================================================================
 function ResizeDealAndButtons()
 
     -- Find the widest deal button text and size others to match
-    local refuseX, refuseY = AutoSizeGridButton(Controls.RefuseDeal, 200, 41, 10, "1"); -- CUI
-    local equalizeX, equalizeY = AutoSizeGridButton(Controls.EqualizeDeal, 200, 32, 10, "1");
-    local acceptX, acceptY = AutoSizeGridButton(Controls.AcceptDeal, 200, 41, 10, "1");
+    local refuseX,_   = AutoSizeGridButton(Controls.RefuseDeal,   200, 0, 10, "H"); -- this button is always visible
+    local equalizeX,_ = AutoSizeGridButton(Controls.EqualizeDeal, 200, 0, 10, "H");
+    local acceptX,_   = AutoSizeGridButton(Controls.AcceptDeal,   200, 0, 10, "H");
+	local resumeX,_   = AutoSizeGridButton(Controls.ResumeGame,   200, 0, 10, "H");
+    local demandX,_   = AutoSizeGridButton(Controls.DemandDeal,   200, 0, 10, "H");
 
     local minX = refuseX;
-    if not Controls.EqualizeDeal:IsHidden() and minX < equalizeX then
-        minX = equalizeX;
-    end
-    if not Controls.AcceptDeal:IsHidden() and minX < acceptX then
-        minX = acceptX;
-    end
+    if not Controls.EqualizeDeal:IsHidden() then minX = math.max(minX, equalizeX); end
+    if not Controls.AcceptDeal:IsHidden()   then minX = math.max(minX, acceptX);   end
+	if not Controls.ResumeGame:IsHidden()   then minX = math.max(minX, resumeX);   end
+	if not Controls.DemandDeal:IsHidden()   then minX = math.max(minX, demandX);   end
 
-    if Controls.RefuseDeal:GetSizeX() < minX then
-        Controls.RefuseDeal:SetSizeX(minX);
-    end
-    if Controls.EqualizeDeal:GetSizeX() < minX then
-        Controls.EqualizeDeal:SetSizeX(minX);
-    end
-    if Controls.AcceptDeal:GetSizeX() < minX then
-        Controls.AcceptDeal:SetSizeX(minX);
-    end
-
+    --if Controls.RefuseDeal:GetSizeX() < minX then
+    Controls.RefuseDeal:SetSizeX(minX);
+    --end
+    --if Controls.EqualizeDeal:GetSizeX() < minX then
+    Controls.EqualizeDeal:SetSizeX(minX);
+    --end
+    --if Controls.AcceptDeal:GetSizeX() < minX then
+    Controls.AcceptDeal:SetSizeX(minX);
+    --end
+	Controls.ResumeGame:SetSizeX(minX);
+	Controls.DemandDeal:SetSizeX(minX);
+	
 	-- CQUI: using old controls
     Controls.DealOptionsStack:CalculateSize();
     Controls.DealOptionsStack:ReprocessAnchoring();

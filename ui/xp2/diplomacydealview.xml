@@ -177,7 +177,7 @@
 
     <Instance Name="MinimizedSection">
         <Grid ID="MinimizedSectionContainer" Style="ButtonDraggableGrid" Size="auto,auto" MinSize="210,60" Anchor="C,T" Padding="6,6" InnerPadding="0,0" OuterPadding="0,0" Hidden="1">
-            <Stack ID="MinimizedSectionStack" Size="auto,auto" Anchor="C,C" StackGrowth="Right" WrapWidth="230"/>
+            <Stack ID="MinimizedSectionStack" Size="auto,auto" Anchor="C,C" StackGrowth="Right" WrapWidth="410"/>
         </Grid>
     </Instance>
 
@@ -352,40 +352,51 @@ To fully utilize this I've decided to go back to the original controls. That mea
         <!-- The background of the panel, enclosing all contents -->
         <AlphaAnim ID="TradePanelFade" AlphaBegin="0" AlphaEnd="1" Speed="2" Cycle="Once" Size="parent,parent">
             <SlideAnim ID="TradePanelSlide" Start="-10,0" End="0,0" Speed="2" Cycle="Once" Size="parent,parent">
-                <Image Size="820,parent" StretchMode="Fill" Texture="Controls_BannerWide" Anchor="L,T" Offset="20,0">
+                <!--<Image Size="820,parent" StretchMode="Fill" Texture="Controls_BannerWide" Anchor="L,T" Offset="20,0">-->
+                <Grid Style="DiplomacyInfoWindowGrid" Size="820,parent"> <!-- Texture="Diplomacy_Window" box with rounded corners and thick bottom -->
+					<!-- Aesthetics (static): The vertical bar which divides the two areas -->
+					<!--<Container Size="parent, parent-120" Offset="0,200">-->
+						<Grid Style="Divider3VGrid" Size="7,parent-225" Anchor="C,B" Offset="0,14">
+							<Image Size="10,parent" Texture="Controls_GradientSmall" Anchor="R,T" Rotate="270" AnchorSide="O,I" Color="0,0,0,255"/>
+							<Image Size="10,parent" Texture="Controls_GradientSmall" Anchor="L,T" Rotate="90" AnchorSide="O,I" Color="0,0,0,255"/>
+						</Grid>
+					<!--</Container>-->
+					<!-- CQUI: main window stack with key sections -->
+                    <Stack StackGrowth="Down">
                     <!-- Aesthetics (static): The drop-shadow of the window-->
+					<!--
                     <Image Texture="Controls_GradientSmall" Size="22,parent" AnchorSide="O,I" Anchor="R,T" Color="0,0,0,255" Rotate="270" Offset="-2,0"/>
                     <Image Texture="Controls_GradientSmall" Size="22,parent" AnchorSide="O,I" Anchor="L,T" Color="0,0,0,255" Rotate="90" Offset="-2,0"/>
                     <Image Texture="Controls_Gradient" Size="parent,150" Anchor="L,T" Color="0,0,0,255" Offset="0,-20"/>
                     <Image Texture="Controls_Gradient" Size="parent,100" Anchor="L,B" Color="0,0,0,255" Offset="0,0" FlipY="1"/>
+					-->
 
-                    <Grid Style="DiplomacyInfoWindowGrid" Size="parent,parent-120" Offset="0,108">
+                    <!--<Grid Style="DiplomacyInfoWindowGrid" Size="parent,parent-120" Offset="0,108"> <!-- Texture="Diplomacy_Window" box with rounded corners and thick bottom -->
                         <!-- Content-Set-At-Runtime: Leader dialog area -Does not resize currently -Can accommodate up to 3 lines of text -->
-                        <Grid Style="DiplomacyWordBubbleRightGrid" Size="parent-20,88" AnchorSide="I,O" Anchor="C,T">
-                            <Stack Anchor="L,T" AnchorSide="I,O" Offset="-15,-40" StackGrowth="Right" StackPadding="8">
-                                <MakeInstance Name="CivilizationIcon22" ID="OtherPlayerBubbleIcon"/>
-                                <ScrollTextField ID="OtherPlayerBubbleName" Size="420,20" Anchor="L,C" Style="HeaderSmallCaps" Color0="GoldMetalDark"/>
-                            </Stack>
+                        <!--<Grid Style="DiplomacyWordBubbleRightGrid" Size="parent-20,88" AnchorSide="I,O" Anchor="C,T"> <!-- Texture="Diplomacy_WordBubble_Right" -->
+						<!--<Grid Style="SubContainer4" Size="parent-10,60" Anchor="C,T" Color="Dark_Gray"> <!-- Texture="Controls_SubContainer4" box with cut corners -->
+						<Container Size="parent-10,80">
                             <AlphaAnim ID="LeaderDialogFade" AlphaBegin="0" AlphaEnd="1" Cycle="Once" Size="parent,parent" Pause=".7" Speed="2">
                                 <SlideAnim ID="LeaderDialogSlide" Start="0,20" End="0,0" Cycle="Once" Size="parent,parent" Pause=".7" Speed="2">
-                                    <Stack ID="LeaderDialogStack" Anchor="C,C" StackPadding="4">
-                                        <Label ID="LeaderDialog" Style="BodyText18" String="LOC_DIPLO_DEAL_INTRO" WrapWidth="420" Anchor="C,C"/>
-                                        <Label ID="LeaderEffect" Style="BodyText18" Color="Grey" String="LOC_DIPLO_DEAL_INTRO" WrapWidth="420" Anchor="C,C"/>
+                                    <Stack ID="LeaderDialogStack" StackGrowth="Down">
+										<Container Size="parent,30">
+											<MakeInstance Name="CivilizationIcon22" ID="OtherPlayerBubbleIcon" Offset="10,8"/>
+											<ScrollTextField ID="OtherPlayerBubbleName" Size="parent-50,20" Offset="40,10" Style="HeaderSmallCaps" Color0="GoldMetalDark"/>
+										</Container>
+										<Container Size="parent,20">
+											<Label ID="LeaderDialog" Style="BodyText18" String="LOC_DIPLO_DEAL_INTRO" WrapWidth="parent-100" Anchor="C,C"/>
+										</Container>
+										<Container Size="parent,20">
+											<Label ID="LeaderEffect" Style="BodyText16" String="LOC_DIPLO_DEAL_INTRO" WrapWidth="parent-100" Anchor="C,C" Color="Grey"/>
+										</Container>
                                     </Stack>
                                 </SlideAnim>
                             </AlphaAnim>
-                        </Grid>
+                        <!--</Grid>-->
+						</Container>
 
 
-                        <!-- Aesthetics (static): The vertical bar which divides the two areas -->
-                        <Container Size="parent, parent-120" Offset="0,105">
-                            <Grid Style="Divider3VGrid" Size="7,parent" Anchor="C,B">
-                                <Image Size="10,parent" Texture="Controls_GradientSmall" Anchor="R,T" Rotate="270" AnchorSide="O,I" Color="0,0,0,255"/>
-                                <Image Size="10,parent" Texture="Controls_GradientSmall" Anchor="L,T" Rotate="90" AnchorSide="O,I" Color="0,0,0,255"/>
-                            </Grid>
-                        </Container>
-
-                        <Stack ID="DealContentStack" StackGrowth="Down" Offset="0,10" Anchor="C,T">
+                        <!--<Stack ID="DealContentStack" StackGrowth="Down" Offset="0,10" Anchor="C,T">-->
 
                             <!-- CQUI : Removed the divider -->
                             <!-- Static: Horizontal divider for offers and inventories-->
@@ -452,131 +463,144 @@ To fully utilize this I've decided to go back to the original controls. That mea
 
                                     <!--<Label ID="DealTermsLabel" String="{LOC_IDS_DEAL_TERMS:upper}" Offset="0,15" Anchor="C,T" Style="FontFlair22" FontStyle="glow" Color0="208,212,217,255" Color1="0,0,0,200" SmallCaps="26" SmallCapsLeading="0" SmallCapsType="EveryWord"/>-->
 
-							<!-- Dynamic: Button Area - where we accept the deal-->
-							<Grid Style="SubContainer4" Size="parent-14,95" Anchor="C,T" Offset="0,-3" Color="Dark_Gray">
-								<Stack ID="DealOptionsStack" StackGrowth="Right" Anchor="C,C" Padding="4" WrapWidth="800">
-									<GridButton ID="AcceptDeal" Style="ButtonConfirm" Size="200,41" String="LOC_DIPLOMACY_DEAL_ACCEPT_DEAL"/>
-									<!-- CQUI: Red button style for easier identification -->
-									<GridButton ID="RefuseDeal" Style="ButtonRed" Size="200,41"/>
-									<GridButton ID="ResumeGame" Style="ButtonLightWeight" Size="200,32" String="LOC_DIPLOMACY_DEAL_RESUME_GAME"/>
-									<GridButton ID="EqualizeDeal" Style="ButtonLightWeight" Size="200,32" String="LOC_DIPLOMACY_DEAL_WHAT_WOULD_IT_TAKE" ToolTip="LOC_DIPLOMACY_MAKE_DEAL_EQUITABLE_TOOLTIP"/>
-									<GridButton ID="DemandDeal" Style="ButtonRed" Size="200,41" String="LOC_DIPLOMACY_DEAL_DEMAND_DEAL"/>
-								</Stack>
-							</Grid>
+						<!-- Dynamic: Button Area - where we accept the deal-->
+						<!--<Grid Style="SubContainer4" Size="parent-10,60" Anchor="C,T" Color="Dark_Gray"> <!-- Texture="Controls_SubContainer4" box with cut corners -->
+						<Container Size="parent-10,40" Anchor="C,T">
+							<Stack ID="DealOptionsStack" StackGrowth="Right" Anchor="C,C" Padding="4">
+								<GridButton ID="AcceptDeal" Style="ButtonConfirm" Size="200,38" String="LOC_DIPLOMACY_DEAL_ACCEPT_DEAL" FontSize="18"/> <!-- font size 16 -->
+								<!-- CQUI: Red button style for easier identification -->
+								<GridButton ID="RefuseDeal" Style="ButtonRed" Size="200,40"/> <!-- cancel, refuse, exit, never mind --> <!-- font size 18 -->
+								<GridButton ID="ResumeGame" Style="ButtonLightWeight" Size="200,36" String="LOC_DIPLOMACY_DEAL_RESUME_GAME"/> <!-- font size 18 -->
+								<GridButton ID="EqualizeDeal" Style="ButtonLightWeight" Size="200,36" String="LOC_DIPLOMACY_DEAL_WHAT_WOULD_IT_TAKE" ToolTip="LOC_DIPLOMACY_MAKE_DEAL_EQUITABLE_TOOLTIP"/>
+								<GridButton ID="DemandDeal" Style="ButtonRed" Size="200,40" String="LOC_DIPLOMACY_DEAL_DEMAND_DEAL"/>
+							</Stack>
+						<!--</Grid>-->
+						</Container>
 
-							<!-- Static: Header for the deal area-->
-							<Grid Anchor="C,T" Size="parent, 38" Offset="1,0" Style="DiplomacyTitleBarGrid">
-								<Container Size="410,parent" Anchor="L,T">
-									<Label ID="MyOfferLabel" Anchor="C,C" String="LOC_DIPLOMACY_DEAL_MY_OFFER" Style="DiplomacyIntelHeader" Offset="0,2"/>
-								</Container>
-								<Container Size="410,parent" Anchor="R,T">
-									<Label ID="TheirOfferLabel" Anchor="C,C" String="LOC_DIPLOMACY_DEAL_THEIR_OFFER" Style="DiplomacyIntelHeader" Offset="0,2"/>
-								</Container>
-							</Grid>
+						<!-- Current active deals -->
+						<Grid Anchor="L,T" Size="parent-9,50" Offset="5,8" Style="DiplomacyTitleBarGrid"> <!-- Texture="Diplomacy_TitleBar" top and bottom horizontal lines -->
+							<Container Size="150,parent" Anchor="C,C">
+								<Label Anchor="C,C" String="CURRENT[NEWLINE]DEALS" Style="HeaderSmallCaps" Align="center" Offset="0,0" ToolTip="LOC_DEAL_CURRENT_DEALS_TT"/>
+							</Container>
+							<Container Size="330,parent" Anchor="L,T">
+								<Label ID="OutgoingText" Size="parent-10,20" Anchor="C,C" Offset="0,0" String="$Outgoing" ToolTip="LOC_DEAL_OUTGOING_ITEMS_TT"/>
+							</Container>
+							<Container Size="330,parent" Anchor="R,T">
+								<Label ID="IncomingText" Size="parent-10,20" Anchor="C,C" Offset="0,0" String="$Incoming" ToolTip="LOC_DEAL_INCOMING_ITEMS_TT"/>
+							</Container>
+						</Grid>
+							
+						<!-- Static: Header for the deal area-->
+						<Grid Anchor="L,T" Size="parent-9,38" Offset="5,-4" Style="DiplomacyTitleBarGrid"> <!-- Texture="Diplomacy_TitleBar" top and bottom horizontal lines -->
+							<Container Size="410,parent" Anchor="L,T">
+								<Label ID="MyOfferLabel" Anchor="C,C" String="LOC_DIPLOMACY_DEAL_MY_OFFER" Style="DiplomacyIntelHeader" Offset="0,2"/>
+							</Container>
+							<Container Size="410,parent" Anchor="R,T">
+								<Label ID="TheirOfferLabel" Anchor="C,C" String="LOC_DIPLOMACY_DEAL_THEIR_OFFER" Style="DiplomacyIntelHeader" Offset="0,2"/>
+							</Container>
+						</Grid>
 
-							<!-- Dynamic: Offer area-->
-							<Container ID="OfferColumns" Size="parent-12,180" Anchor="C,T">
-								<Container ID="MyOffer" Size="410,parent" Anchor="L,T">
-									<Image Texture="Controls_Gradient" Size="parent,150" Anchor="L,B" Color="24,47,70,230"/>
-									<ScrollPanel ID="MyOfferScroll" Size="parent, parent" Vertical="1" AutoScollbar="1">
-										<ScrollBar Size="15,parent" SliceTextureSize="11,11" SliceCorner="5,5" Anchor="L,B" Color="111,101,94,250" Offset="-6,0" AnchorSide="O,I" Texture="Controls_ScrollBarBacking" StateOffsetIncrement="0,0" Vertical="1">
-											<Thumb Size="13,13" Texture="Controls_ScrollBarHandleV_Brown" StateOffsetIncrement="0,0" SliceCorner="6,6" SliceTextureSize="13,13"/>
-										</ScrollBar>
-										<!-- CQUI: Here an instance of "MyOffers" is attached -->
-										<!-- CQUI: This is an old approach that didn't have headers; CUI was created back then; left for reference -->
-										<Grid ID="MyOfferBracket" Style="DecoGrid" Size="auto,auto" Offset="4,0" Color="Dark_Gray" Anchor="C,C" Offset="-2,0" InnerPadding="30,25" MinSize="39,49">
-											<Label String="LOC_DIPLOMACY_TRADE_UI_SELECT_TEXT" Anchor="C,C" Style="FontNormalMedium16" Color0="GrayMedium" Color1="Black" FontStyle="Shadow" WrapWidth="160" Align="Center"/>
-										</Grid>
-										<Stack ID="MyOfferStack" Anchor="C,C" StackGrowth="Right" WrapWidth="410" WrapGrowth="Bottom"/>
-									</ScrollPanel>
-									<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="L,B" Color="0,0,0,255" FlipY="1"/>
-									<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="L,T" Color="0,0,0,255"/>
-									<GridButton ID="WhatWouldItTakeButton" Offset="0,3" Style="ButtonLightweightSmall" Anchor="C,B" String="LOC_DIPLOMACY_DEAL_WHAT_WOULD_IT_TAKE" WrapWidth="170" FontSize="14" Size="190,25" Hidden="1" ToolTip="LOC_DIPLOMACY_DEAL_WHAT_IT_WILL_TAKE_TOOLTIP"/>
-								</Container>
-
-								<Container ID="TheirOffer" Size="410,parent" Anchor="R,T">
-									<Image Texture="Controls_Gradient" Size="parent, 150" Offset="0,0" Anchor="R,B" Color="24,47,70,230"/>
-									<ScrollPanel ID="TheirOfferScroll" Size="parent, parent" Vertical="1" AutoScollbar="1">
-										<ScrollBar Size="15,parent" SliceTextureSize="11,11" SliceCorner="5,5" Anchor="R,B" Color="111,101,94,250" Offset="-6,0" AnchorSide="O,I" Texture="Controls_ScrollBarBacking" StateOffsetIncrement="0,0" Vertical="1">
-											<Thumb Size="13,13" Texture="Controls_ScrollBarHandleV_Brown" StateOffsetIncrement="0,0" SliceCorner="6,6" SliceTextureSize="13,13"/>
-										</ScrollBar>
-										<!-- CQUI: here an instance of "TheirOffers" is attached -->
-										<!-- CQUI: This is an old approach that didn't have headers; CUI was created back then; left for reference -->
-										<Grid ID="TheirOfferBracket" Style="DecoGrid" Size="auto,auto" Offset="-4,0" Color="Dark_Gray" Anchor="C,C" Offset="-2,0" InnerPadding="30,25" MinSize="39,49">
-											<Label String="LOC_DIPLOMACY_TRADE_UI_SELECT_THEIR_TEXT" LeadingOffset="0,-2" Anchor="C,C" Style="FontNormalMedium16" Color0="GrayMedium" Color1="Black" FontStyle="Shadow" WrapWidth="160" Align="Center"/>
-										</Grid>
-										<Stack ID="TheirOfferStack" Anchor="C,C" StackGrowth="Right" WrapWidth="410" WrapGrowth="Bottom"/>
-									</ScrollPanel>
-									<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="R,B" Color="0,0,0,255" FlipY="1"/>
-									<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="R,T" Color="0,0,0,255"/>
-								</Container>
+						<!-- Dynamic: Offer area-->
+						<Container ID="OfferColumns" Size="parent-12,150" Anchor="C,T">
+							<Container ID="MyOffer" Size="410,parent" Anchor="L,T">
+								<Image Texture="Controls_Gradient" Size="parent,150" Anchor="L,B" Color="24,47,70,230"/>
+								<ScrollPanel ID="MyOfferScroll" Size="parent, parent" Vertical="1" AutoScollbar="1">
+									<ScrollBar Size="15,parent" SliceTextureSize="11,11" SliceCorner="5,5" Anchor="L,B" Color="111,101,94,250" Offset="-6,0" AnchorSide="O,I" Texture="Controls_ScrollBarBacking" StateOffsetIncrement="0,0" Vertical="1">
+										<Thumb Size="13,13" Texture="Controls_ScrollBarHandleV_Brown" StateOffsetIncrement="0,0" SliceCorner="6,6" SliceTextureSize="13,13"/>
+									</ScrollBar>
+									<!-- CQUI: Here an instance of "MyOffers" is attached -->
+									<!-- CQUI: This is an old approach that didn't have headers; CUI was created back then; left for reference -->
+									<Grid ID="MyOfferBracket" Style="DecoGrid" Size="auto,auto" Offset="4,0" Color="Dark_Gray" Anchor="C,C" Offset="-2,0" InnerPadding="30,25" MinSize="39,49">
+										<Label String="LOC_DIPLOMACY_TRADE_UI_SELECT_TEXT" Anchor="C,C" Style="FontNormalMedium16" Color0="GrayMedium" Color1="Black" FontStyle="Shadow" WrapWidth="160" Align="Center"/>
+									</Grid>
+									<Stack ID="MyOfferStack" Anchor="C,C" StackGrowth="Right" WrapWidth="410" WrapGrowth="Bottom"/>
+								</ScrollPanel>
+								<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="L,B" Color="0,0,0,255" FlipY="1"/>
+								<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="L,T" Color="0,0,0,255"/>
+								<!-- CQUI: not used in game -->
+								<!--<GridButton ID="WhatWouldItTakeButton" Offset="0,3" Style="ButtonLightweightSmall" Anchor="C,B" String="LOC_DIPLOMACY_DEAL_WHAT_WOULD_IT_TAKE" WrapWidth="170" FontSize="14" Size="190,25" Hidden="1" ToolTip="LOC_DIPLOMACY_DEAL_WHAT_IT_WILL_TAKE_TOOLTIP"/>-->
 							</Container>
 
+							<Container ID="TheirOffer" Size="410,parent" Anchor="R,T">
+								<Image Texture="Controls_Gradient" Size="parent, 150" Offset="0,0" Anchor="R,B" Color="24,47,70,230"/>
+								<ScrollPanel ID="TheirOfferScroll" Size="parent, parent" Vertical="1" AutoScollbar="1">
+									<ScrollBar Size="15,parent" SliceTextureSize="11,11" SliceCorner="5,5" Anchor="R,B" Color="111,101,94,250" Offset="-6,0" AnchorSide="O,I" Texture="Controls_ScrollBarBacking" StateOffsetIncrement="0,0" Vertical="1">
+										<Thumb Size="13,13" Texture="Controls_ScrollBarHandleV_Brown" StateOffsetIncrement="0,0" SliceCorner="6,6" SliceTextureSize="13,13"/>
+									</ScrollBar>
+									<!-- CQUI: here an instance of "TheirOffers" is attached -->
+									<!-- CQUI: This is an old approach that didn't have headers; CUI was created back then; left for reference -->
+									<Grid ID="TheirOfferBracket" Style="DecoGrid" Size="auto,auto" Offset="-4,0" Color="Dark_Gray" Anchor="C,C" Offset="-2,0" InnerPadding="30,25" MinSize="39,49">
+										<Label String="LOC_DIPLOMACY_TRADE_UI_SELECT_THEIR_TEXT" LeadingOffset="0,-2" Anchor="C,C" Style="FontNormalMedium16" Color0="GrayMedium" Color1="Black" FontStyle="Shadow" WrapWidth="160" Align="Center"/>
+									</Grid>
+									<Stack ID="TheirOfferStack" Anchor="C,C" StackGrowth="Right" WrapWidth="410" WrapGrowth="Bottom"/>
+								</ScrollPanel>
+								<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="R,B" Color="0,0,0,255" FlipY="1"/>
+								<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="R,T" Color="0,0,0,255"/>
+							</Container>
+						</Container>
+
                             <!--</Stack>-->
-                            <!-- Static: Horizontal divider for offers and inventories-->
-                            <Grid ID="HorizontalDivider" Style="Divider4Grid" Size="parent-2,10" Anchor="C,C"/>
+						<!-- Static: Horizontal divider for offers and inventories-->
+						<Grid ID="HorizontalDivider" Style="Divider4Grid" Size="parent-2,10" Anchor="C,C"/> <!-- Texture="Controls_Div4" 2 horizonal lines close to each other -->
 
                             <!--</Container>-->
 							
-                            <!-- Dynamic: Inventory area-->
-                            <Container ID="InventoryColumns" Size="parent-12, parent-351" Anchor="C,T">
+						<!-- Dynamic: Inventory area-->
+						<Container ID="InventoryColumns" Size="parent-12, parent-390" Anchor="C,T">
 
-                                <Container ID="MyInventory" Size="400,parent" Anchor="L,T">
-                                    <Image ID="MyInventoryGradient" Texture="Controls_Gradient" Size="parent, 150" Offset="0,0" Anchor="L,B" Color="24,47,70,230"/>
-                                    <ScrollPanel ID="MyInventoryScroll" Size="parent, parent" Vertical="1" AutoScollbar="1">
-                                        <ScrollBar Size="15,parent" SliceTextureSize="11,11" SliceCorner="5,5" Anchor="L,B" Color="111,101,94,250" Offset="-2,0" AnchorSide="O,I" Texture="Controls_ScrollBarBacking" StateOffsetIncrement="0,0" Vertical="1">
-                                            <Thumb Size="13,13" Texture="Controls_ScrollBarHandleV_Brown" StateOffsetIncrement="0,0" SliceCorner="6,6" SliceTextureSize="13,13"/>
-                                        </ScrollBar>
-                                        <Stack ID="MyInventoryStack" StackGrowth="Right" WrapWidth="390" WrapGrowth="Bottom"/>
-                                    </ScrollPanel>
-                                    <Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="L,B" Color="0,0,0,255" FlipY="1"/>
-                                    <Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="L,T" Color="0,0,0,255"/>
-                                </Container>
+							<Container ID="MyInventory" Size="400,parent" Anchor="L,T">
+								<Image ID="MyInventoryGradient" Texture="Controls_Gradient" Size="parent, 150" Offset="0,0" Anchor="L,B" Color="24,47,70,230"/>
+								<ScrollPanel ID="MyInventoryScroll" Size="parent, parent" Vertical="1" AutoScollbar="1">
+									<ScrollBar Size="15,parent" SliceTextureSize="11,11" SliceCorner="5,5" Anchor="L,B" Color="111,101,94,250" Offset="-8,0" AnchorSide="O,I" Texture="Controls_ScrollBarBacking" StateOffsetIncrement="0,0" Vertical="1">
+										<Thumb Size="13,13" Texture="Controls_ScrollBarHandleV_Brown" StateOffsetIncrement="0,0" SliceCorner="6,6" SliceTextureSize="13,13"/>
+									</ScrollBar>
+									<Stack ID="MyInventoryStack" StackGrowth="Right" WrapWidth="390" WrapGrowth="Bottom"/>
+								</ScrollPanel>
+								<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="L,B" Color="0,0,0,255" FlipY="1"/>
+								<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="L,T" Color="0,0,0,255"/>
+							</Container>
 
-								<Container ID="TheirInventory" Size="400,parent" Anchor="R,T">
-									<Image ID="TheirInventoryGradient" Texture="Controls_Gradient" Size="parent, 150" Offset="0,0" Anchor="R,B" Color="24,47,70,230"/>
+							<Container ID="TheirInventory" Size="400,parent" Anchor="R,T">
+								<Image ID="TheirInventoryGradient" Texture="Controls_Gradient" Size="parent, 150" Offset="0,0" Anchor="R,B" Color="24,47,70,230"/>
 
-                                <!-- CQUI : Added a vertical stack for the inventory -->
-                                <!--<Stack ID="OtherPlayerStack" StackGrowth="Down">-->
+							<!-- CQUI : Added a vertical stack for the inventory -->
+							<!--<Stack ID="OtherPlayerStack" StackGrowth="Down">-->
 
-                                    <!-- CQUI : Signature area -->
-                                    <!--<Stack ID="OtherPlayerSignatureStack" StackGrowth="Right" Offset="5, 15">-->
-                                        <!-- Civ Icon -->
-										<!--
-                                        <Container Size="50,50">
-                                            <MakeInstance ID="OtherPlayerCivIcon" Name="CivilizationIconShaded44"/>
-                                            <Image Texture="Controls_CircleRim50" Size="50,50" Anchor="C,C" Offset="-1,-1" Color="255,255,255,50"/>
-                                        </Container>
+								<!-- CQUI : Signature area -->
+								<!--<Stack ID="OtherPlayerSignatureStack" StackGrowth="Right" Offset="5, 15">-->
+									<!-- Civ Icon --><!--
+									<Container Size="50,50">
+										<MakeInstance ID="OtherPlayerCivIcon" Name="CivilizationIconShaded44"/>
+										<Image Texture="Controls_CircleRim50" Size="50,50" Anchor="C,C" Offset="-1,-1" Color="255,255,255,50"/>
+									</Container>
+									<Stack ID="OtherPlayerText" Offset="5,0" Anchor="L,C">
+										<Label ID="OtherPlayerLeaderName" String="TEST" WrapWidth="210" Align="L" Anchor="L,C" Style="FontBoldFlair18" SmallCaps="22" FontStyle="shadow" Color0="130,130,130,255" Color1="0,0,0,150"/>
+										<Label ID="OtherPlayerCivName" String="EGYPT" WrapWidth="210" Align="L" Anchor="L,C" Style="HeaderSmallCaps" SmallCaps="18" Color0="220,220,220,255" Color1="0,0,0,200"/>
+									</Stack>-->
+								<!--</Stack>-->
 
-                                        <Stack ID="OtherPlayerText" Offset="5,0" Anchor="L,C">
-                                            <Label ID="OtherPlayerLeaderName" String="TEST" WrapWidth="210" Align="L" Anchor="L,C" Style="FontBoldFlair18" SmallCaps="22" FontStyle="shadow" Color0="130,130,130,255" Color1="0,0,0,150"/>
-                                            <Label ID="OtherPlayerCivName" String="EGYPT" WrapWidth="210" Align="L" Anchor="L,C" Style="HeaderSmallCaps" SmallCaps="18" Color0="220,220,220,255" Color1="0,0,0,200"/>
-                                        </Stack>
-										-->
-                                    <!--</Stack>-->
+								<!-- CQUI : Added an Offset -->
+								<ScrollPanel ID="TheirInventoryScroll" Size="parent, parent" Vertical="1" AutoScollbar="1">
+									<ScrollBar Size="15,parent" SliceTextureSize="11,11" SliceCorner="5,5" Anchor="R,B" Color="111,101,94,250" Offset="-8,0" AnchorSide="O,I" Texture="Controls_ScrollBarBacking" StateOffsetIncrement="0,0" Vertical="1">
+										<Thumb Size="13,13" Texture="Controls_ScrollBarHandleV_Brown" StateOffsetIncrement="0,0" SliceCorner="6,6" SliceTextureSize="13,13"/>
+									</ScrollBar>
+									<Stack ID="TheirInventoryStack" StackGrowth="Right" WrapWidth="390" WrapGrowth="Bottom"/>
+								</ScrollPanel>
+							<!--</Stack>-->
 
-                                    <!-- CQUI : Added an Offset -->
-                                    <ScrollPanel ID="TheirInventoryScroll" Size="parent, parent" Vertical="1" AutoScollbar="1">
-                                        <ScrollBar Size="15,parent" SliceTextureSize="11,11" SliceCorner="5,5" Anchor="R,B" Color="111,101,94,250" Offset="-6,0" AnchorSide="O,I" Texture="Controls_ScrollBarBacking" StateOffsetIncrement="0,0" Vertical="1">
-                                            <Thumb Size="13,13" Texture="Controls_ScrollBarHandleV_Brown" StateOffsetIncrement="0,0" SliceCorner="6,6" SliceTextureSize="13,13"/>
-                                        </ScrollBar>
-                                        <Stack ID="TheirInventoryStack" StackGrowth="Right" WrapWidth="390" WrapGrowth="Bottom"/>
-                                    </ScrollPanel>
-                                <!--</Stack>-->
+								<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="R,B" Color="0,0,0,255" FlipY="1"/>
+								<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="R,T" Color="0,0,0,255"/>
+							</Container>
 
-									<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="R,B" Color="0,0,0,255" FlipY="1"/>
-									<Image Texture="Controls_GradientSmall" Size="parent-9, 22" Offset="6,0" Anchor="R,T" Color="0,0,0,255"/>
-								</Container>
-
-                                <!--Drag Resize Button-->
-                                <Button ID="DragButton" Texture="Controls_DealResizeButton" Size="50,48" Anchor="C,B" Offset="2,0" ToolTip="LOC_DIPLOMACY_DRAG_BUTTON_TOOLTIP">
-                                    <Drag ID="DragSizer" Size="parent,parent" Buttons="L" SnapBackSpeed="0" DragThreshold="0"/>
-                                </Button>
-                            </Container>
-                        </Stack>
+							<!--Drag Resize Button-->
+							<Button ID="DragButton" Texture="Controls_DealResizeButton" Size="50,48" Anchor="C,B" Offset="2,0" ToolTip="LOC_DIPLOMACY_DRAG_BUTTON_TOOLTIP">
+								<Drag ID="DragSizer" Size="parent,parent" Buttons="L" SnapBackSpeed="0" DragThreshold="0"/>
+							</Button>
+						</Container>
+                    </Stack>
                         <!--End of Content Stack-->
-                        <Image Texture="Controls_Deco2" Size="41,26" Anchor="C,B"/>
-                    </Grid>
+                        <!--<Image Texture="Controls_Deco2" Size="41,26" Anchor="C,B"/> <!-- half circle with rays -->
+                    <!--</Grid>-->
 
                     <!-- Value Edit Popup -->
                     <Box ID="ValueEditPopupBackground" Size="parent,parent" Color="0,0,0,200" ConsumeMouse="1" Hidden="1">
@@ -632,8 +656,9 @@ To fully utilize this I've decided to go back to the original controls. That mea
                     </Box>
 
                     <!--End of Window Grid-->
-                    <Grid Style="DiplomacyBannerFooter" Size="parent,32" Anchor="L,B"/>
-                </Image>
+                    <!--<Grid Style="DiplomacyBannerFooter" Size="parent,32" Anchor="L,B"/> <!-- Texture="Controls_BannerBottom thick horizontal line with fancy ends -->
+                <!--</Image>-->
+				</Grid>
 
                 <!-- End of Banner Image -->
             </SlideAnim>
