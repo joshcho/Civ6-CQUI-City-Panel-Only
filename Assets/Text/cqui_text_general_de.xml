@@ -109,6 +109,21 @@
     </Replace>
 	
 	<!-- Diplomacy Deal View -->
+	<Replace Tag="LOC_IDS_DEAL_TERMS" Language="de_DE">
+		<Text>Handelsbedingungen</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_TRADE" Language="de_DE">
+		<Text>[COLOR_Red]Handel[ENDCOLOR] mit</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_SUZERAIN" Language="de_DE">
+		<Text>[COLOR_Civ6Blue]Suzerän[ENDCOLOR] von</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_UNTRADEABLE" Language="de_DE">
+		<Text>nicht handelbar</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_DUPLICATE" Language="de_DE">
+		<Text>Duplikat</Text>
+	</Replace>
     <Replace Tag="LOC_CUI_DP_GOLD_EDIT_TOOLTIP" Language="de_DE">
         <Text>L-Klick Hinzufügen, R-Klick Abziehen</Text>
     </Replace>
@@ -122,5 +137,37 @@
         <Text>Ihr habt nur 1 Einheit davon</Text>
     </Replace>
 	
+	<!-- Extended variables for world ranking from 20 to 30 players -->
+	<Replace Tag="LOC_WORLD_RANKINGS_21_PLACE" Language="de_DE">
+		<Text>21.</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_22_PLACE" Language="de_DE">
+		<Text>22.</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_23_PLACE" Language="de_DE">
+		<Text>23.</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_24_PLACE" Language="de_DE">
+		<Text>24.</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_25_PLACE" Language="de_DE">
+		<Text>25.</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_26_PLACE" Language="de_DE">
+		<Text>26.</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_27_PLACE" Language="de_DE">
+		<Text>27.</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_28_PLACE" Language="de_DE">
+		<Text>28.</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_29_PLACE" Language="de_DE">
+		<Text>29.</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_30_PLACE" Language="de_DE">
+		<Text>30.</Text>
+	</Replace>
+		
   </LocalizedText>
 </GameData>

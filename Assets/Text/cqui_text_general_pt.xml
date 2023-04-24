@@ -75,6 +75,21 @@
     </Replace>
 	
 	<!-- Diplomacy Deal View -->
+	<Replace Tag="LOC_IDS_DEAL_TERMS" Language="pt_BR">
+		<Text>Termos da oferta</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_TRADE" Language="pt_BR">
+		<Text>[COLOR_Red]Comércio[ENDCOLOR] com</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_SUZERAIN" Language="pt_BR">
+		<Text>[COLOR_Civ6Blue]Suserano[ENDCOLOR] de</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_UNTRADEABLE" Language="pt_BR">
+		<Text>Não comercializável</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_DUPLICATE" Language="pt_BR">
+		<Text>Duplicado</Text>
+	</Replace>
     <Replace Tag="LOC_CUI_DP_GOLD_EDIT_TOOLTIP" Language="pt_BR">
         <Text>LMB Adiciona, RMB Subtrai</Text>
     </Replace>

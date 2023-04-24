@@ -109,6 +109,21 @@
     </Replace>
 	
 	<!-- Diplomacy Deal View -->
+	<Replace Tag="LOC_IDS_DEAL_TERMS" Language="ru_RU">
+		<Text>Условия сделки</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_TRADE" Language="ru_RU">
+		<Text>[COLOR_Red]Торговля[ENDCOLOR] c</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_SUZERAIN" Language="ru_RU">
+		<Text>[COLOR_Civ6Blue]Сюзерен[ENDCOLOR]</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_UNTRADEABLE" Language="ru_RU">
+		<Text>Не может торговать</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_DUPLICATE" Language="ru_RU">
+		<Text>Дублировать</Text>
+	</Replace>
     <Replace Tag="LOC_CUI_DP_GOLD_EDIT_TOOLTIP" Language="ru_RU">
         <Text>ЛКМ добавить, ПКМ убавить</Text>
     </Replace>
@@ -122,5 +137,37 @@
         <Text>Имеем только одну единицу</Text>
     </Replace>
 	
+	<!-- Extended variables for world ranking from 20 to 30 players -->
+	<Replace Tag="LOC_WORLD_RANKINGS_21_PLACE" Language="ru_RU">
+		<Text>двадцать первый</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_22_PLACE" Language="ru_RU">
+		<Text>двадцать второй</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_23_PLACE" Language="ru_RU">
+		<Text>двадцать третий</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_24_PLACE" Language="ru_RU">
+		<Text>двадцать четвёртый</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_25_PLACE" Language="ru_RU">
+		<Text>двадцать пятый</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_26_PLACE" Language="ru_RU">
+		<Text>двадцать шестой</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_27_PLACE" Language="ru_RU">
+		<Text>двадцать седьмой</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_28_PLACE" Language="ru_RU">
+		<Text>двадцать восьмой</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_29_PLACE" Language="ru_RU">
+		<Text>двадцать девятый</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_30_PLACE" Language="ru_RU">
+		<Text>тридцатый</Text>
+	</Replace>
+		
   </LocalizedText>
 </GameData>

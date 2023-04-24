@@ -80,6 +80,21 @@
     </Replace>
 	
 	<!-- Diplomacy Deal View -->
+	<Replace Tag="LOC_IDS_DEAL_TERMS" Language="ja_JP">
+		<Text>取引条項</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_TRADE" Language="ja_JP">
+		<Text>[COLOR_Red]取引[ENDCOLOR]</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_SUZERAIN" Language="ja_JP">
+		<Text>[COLOR_Civ6Blue]輸入[ENDCOLOR]</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_UNTRADEABLE" Language="ja_JP">
+		<Text>取引不可</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_DUPLICATE" Language="ja_JP">
+		<Text>両国所持</Text>
+	</Replace>
     <Replace Tag="LOC_CUI_DP_GOLD_EDIT_TOOLTIP" Language="ja_JP">
         <Text>左クリックで追加 / 右クリックで撤回</Text>
     </Replace>
@@ -92,6 +107,38 @@
     <Replace Tag="LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP" Language="ja_JP">
         <Text>1つしか所有していない</Text>
     </Replace>
+	
+	<!-- Extended variables for world ranking from 20 to 30 players -->
+	<Replace Tag="LOC_WORLD_RANKINGS_21_PLACE" Language="ja_JP">
+		<Text>21位</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_22_PLACE" Language="ja_JP">
+		<Text>22位</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_23_PLACE" Language="ja_JP">
+		<Text>23位</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_24_PLACE" Language="ja_JP">
+		<Text>24位</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_25_PLACE" Language="ja_JP">
+		<Text>25位</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_26_PLACE" Language="ja_JP">
+		<Text>26位</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_27_PLACE" Language="ja_JP">
+		<Text>27位</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_28_PLACE" Language="ja_JP">
+		<Text>28位</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_29_PLACE" Language="ja_JP">
+		<Text>29位</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_30_PLACE" Language="ja_JP">
+		<Text>30位</Text>
+	</Replace>
 	
   </LocalizedText>
 </GameData>

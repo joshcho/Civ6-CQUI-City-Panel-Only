@@ -109,6 +109,21 @@
     </Replace>
 	
 	<!-- Diplomacy Deal View -->
+	<Replace Tag="LOC_IDS_DEAL_TERMS" Language="ko_KR">
+		<Text>거래 조건</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_TRADE" Language="ko_KR">
+		<Text>와 [COLOR_Red]거래[ENDCOLOR]</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_SUZERAIN" Language="ko_KR">
+		<Text>의 [COLOR_Civ6Blue]종주국[ENDCOLOR]</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_UNTRADEABLE" Language="ko_KR">
+		<Text>거래 불가</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_DUPLICATE" Language="ko_KR">
+		<Text>중복</Text>
+	</Replace>
     <Replace Tag="LOC_CUI_DP_GOLD_EDIT_TOOLTIP" Language="ko_KR">
         <Text>좌클릭으로 증가, 우클릭으로 감소</Text>
     </Replace>
@@ -122,5 +137,37 @@
         <Text>하나만 가지고 있는 사치 자원입니다.</Text>
     </Replace>
 	
+	<!-- Extended variables for world ranking from 20 to 30 players -->
+	<Replace Tag="LOC_WORLD_RANKINGS_21_PLACE" Language="ko_KR">
+		<Text>21번째</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_22_PLACE" Language="ko_KR">
+		<Text>22번째</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_23_PLACE" Language="ko_KR">
+		<Text>23번째</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_24_PLACE" Language="ko_KR">
+		<Text>24번째</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_25_PLACE" Language="ko_KR">
+		<Text>25번째</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_26_PLACE" Language="ko_KR">
+		<Text>26번째</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_27_PLACE" Language="ko_KR">
+		<Text>27번째</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_28_PLACE" Language="ko_KR">
+		<Text>28번째</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_29_PLACE" Language="ko_KR">
+		<Text>29번째</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_30_PLACE" Language="ko_KR">
+		<Text>30번째</Text>
+	</Replace>
+		
   </LocalizedText>
 </GameData>

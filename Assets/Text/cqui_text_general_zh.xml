@@ -114,6 +114,21 @@
     </Replace>
 	
 	<!-- Diplomacy Deal View -->
+	<Replace Tag="LOC_IDS_DEAL_TERMS" Language="zh_Hans_CN">
+		<Text>交易条款</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_TRADE" Language="zh_Hans_CN">
+		<Text>[COLOR_Red]贸易[ENDCOLOR]</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_SUZERAIN" Language="zh_Hans_CN">
+		<Text>[COLOR_Civ6Blue]宗主国[ENDCOLOR]</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_UNTRADEABLE" Language="zh_Hans_CN">
+		<Text>不能交易</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_DUPLICATE" Language="zh_Hans_CN">
+		<Text>不能交易</Text>
+	</Replace>
     <Replace Tag="LOC_CUI_DP_GOLD_EDIT_TOOLTIP" Language="zh_Hans_CN">
         <Text>左键增加，右键减少</Text>
     </Replace>
@@ -127,5 +142,37 @@
         <Text>我们仅有一份</Text>
     </Replace>
 	
+	<!-- Extended variables for world ranking from 20 to 30 players -->
+	<Replace Tag="LOC_WORLD_RANKINGS_21_PLACE" Language="zh_Hans_CN">
+		<Text>21名</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_22_PLACE" Language="zh_Hans_CN">
+		<Text>22名</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_23_PLACE" Language="zh_Hans_CN">
+		<Text>23名</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_24_PLACE" Language="zh_Hans_CN">
+		<Text>24名</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_25_PLACE" Language="zh_Hans_CN">
+		<Text>25名</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_26_PLACE" Language="zh_Hans_CN">
+		<Text>26名</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_27_PLACE" Language="zh_Hans_CN">
+		<Text>27名</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_28_PLACE" Language="zh_Hans_CN">
+		<Text>28名</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_29_PLACE" Language="zh_Hans_CN">
+		<Text>29名</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_30_PLACE" Language="zh_Hans_CN">
+		<Text>30名</Text>
+	</Replace>
+		
   </LocalizedText>
 </GameData>

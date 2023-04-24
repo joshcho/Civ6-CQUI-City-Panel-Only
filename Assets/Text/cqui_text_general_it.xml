@@ -85,6 +85,21 @@
     </Replace>
 	
 	<!-- Diplomacy Deal View -->
+	<Replace Tag="LOC_IDS_DEAL_TERMS" Language="it_IT">
+		<Text>Termini dell'accordo</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_TRADE" Language="it_IT">
+		<Text>[COLOR_Red]Commercia[ENDCOLOR] con</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_SUZERAIN" Language="it_IT">
+		<Text>[COLOR_Civ6Blue]Sovrano[ENDCOLOR] di</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_UNTRADEABLE" Language="it_IT">
+		<Text>Non trattabile</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_DUPLICATE" Language="it_IT">
+		<Text>Duplicato</Text>
+	</Replace>
     <Replace Tag="LOC_CUI_DP_GOLD_EDIT_TOOLTIP" Language="it_IT">
         <Text>Click sinistro aggiunge, click destro sottrae</Text>
     </Replace>
@@ -97,6 +112,38 @@
     <Replace Tag="LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP" Language="it_IT">
         <Text>Ne abbiamo solo una</Text>
     </Replace>
+	
+    <!-- Extended variables for world ranking from 20 to 30 players -->
+	<Replace Tag="LOC_WORLD_RANKINGS_21_PLACE" Language="it_IT">
+		<Text>ventunesimo</Text>
+	</Replace>
+    <Replace Tag="LOC_WORLD_RANKINGS_22_PLACE" Language="it_IT">
+		<Text>ventiduesimo</Text>
+	</Replace>
+    <Replace Tag="LOC_WORLD_RANKINGS_23_PLACE" Language="it_IT">
+		<Text>ventitreesimo</Text>
+	</Replace>
+    <Replace Tag="LOC_WORLD_RANKINGS_24_PLACE" Language="it_IT">
+		<Text>ventiquattresimo</Text>
+	</Replace>
+    <Replace Tag="LOC_WORLD_RANKINGS_25_PLACE" Language="it_IT">
+		<Text>venticinquesimo</Text>
+	</Replace>
+    <Replace Tag="LOC_WORLD_RANKINGS_26_PLACE" Language="it_IT">
+		<Text>ventiseiesimo</Text>
+	</Replace>
+    <Replace Tag="LOC_WORLD_RANKINGS_27_PLACE" Language="it_IT">
+		<Text>ventisettesimo</Text>
+	</Replace>
+    <Replace Tag="LOC_WORLD_RANKINGS_28_PLACE" Language="it_IT">
+		<Text>ventottesimo</Text>
+	</Replace>
+    <Replace Tag="LOC_WORLD_RANKINGS_29_PLACE" Language="it_IT">
+		<Text>ventinovesimo</Text>
+	</Replace>
+    <Replace Tag="LOC_WORLD_RANKINGS_30_PLACE" Language="it_IT">
+		<Text>trentesimo</Text>
+	</Replace>
 	
   </LocalizedText>
 </GameData>

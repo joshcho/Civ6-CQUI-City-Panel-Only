@@ -109,6 +109,24 @@
     </Replace>
 	
 	<!-- Diplomacy Deal View -->
+	<Replace Tag="LOC_IDS_DEAL_TERMS" Language="en_US">
+		<Text>Deal Terms</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_TRADE" Language="en_US">
+		<Text>[COLOR_Red]Trade[ENDCOLOR] with</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_SUZERAIN" Language="en_US">
+		<Text>[COLOR_Civ6Blue]Suzerain[ENDCOLOR] of</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_UNTRADEABLE" Language="en_US">
+		<Text>Untradeable</Text>
+	</Replace>
+	<Replace Tag="LOC_IDS_DEAL_DUPLICATE" Language="en_US">
+		<Text>Duplicate</Text>
+	</Replace>
+	<Replace Tag="LOC_DEAL_CURRENT_DEALS" Language="en_US">
+		<Text>CURRENT[NEWLINE]DEALS</Text>
+	</Replace>
     <Replace Tag="LOC_DEAL_CURRENT_DEALS_TT" Language="en_US">
         <Text>Summary of currently active deals</Text>
     </Replace>
@@ -130,6 +148,38 @@
     <Replace Tag="LOC_CUI_DP_WE_HAVE_ONLY_ONE_TOOLTIP" Language="en_US">
         <Text>We only have one</Text>
     </Replace>
+	
+	<!-- Extended variables for world ranking from 20 to 30 players -->
+	<Replace Tag="LOC_WORLD_RANKINGS_21_PLACE" Language="en_US">
+		<Text>twenty-first</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_22_PLACE" Language="en_US">
+		<Text>twenty-second</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_23_PLACE" Language="en_US">
+		<Text>twenty-third</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_24_PLACE" Language="en_US">
+		<Text>twenty-fourth</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_25_PLACE" Language="en_US">
+		<Text>twenty-fifth</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_26_PLACE" Language="en_US">
+		<Text>twenty-sixth</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_27_PLACE" Language="en_US">
+		<Text>twenty-seventh</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_28_PLACE" Language="en_US">
+		<Text>twenty-eighth</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_29_PLACE" Language="en_US">
+		<Text>twenty-ninth</Text>
+	</Replace>
+	<Replace Tag="LOC_WORLD_RANKINGS_30_PLACE" Language="en_US">
+		<Text>thirtieth</Text>
+	</Replace>
 	
   </LocalizedText>
 </GameData>
