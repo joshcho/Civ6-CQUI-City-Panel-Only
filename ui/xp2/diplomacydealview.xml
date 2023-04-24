@@ -480,7 +480,7 @@ To fully utilize this I've decided to go back to the original controls. That mea
 						<!-- Current active deals -->
 						<Grid Anchor="L,T" Size="parent-9,50" Offset="5,8" Style="DiplomacyTitleBarGrid"> <!-- Texture="Diplomacy_TitleBar" top and bottom horizontal lines -->
 							<Container Size="150,parent" Anchor="C,C">
-								<Label Anchor="C,C" String="CURRENT[NEWLINE]DEALS" Style="HeaderSmallCaps" Align="center" Offset="0,0" ToolTip="LOC_DEAL_CURRENT_DEALS_TT"/>
+								<Label Anchor="C,C" String="LOC_DEAL_CURRENT_DEALS" Style="HeaderSmallCaps" Align="center" Offset="0,0" ToolTip="LOC_DEAL_CURRENT_DEALS_TT"/>
 							</Container>
 							<Container Size="330,parent" Anchor="L,T">
 								<Label ID="OutgoingText" Size="parent-10,20" Anchor="C,C" Offset="0,0" String="$Outgoing" ToolTip="LOC_DEAL_OUTGOING_ITEMS_TT"/>

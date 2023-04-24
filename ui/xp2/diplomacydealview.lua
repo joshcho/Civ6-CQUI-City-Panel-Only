@@ -511,41 +511,43 @@ function UpdateCurrentDeals()
 	local goldBalance: number = 0; -- >0 we gain, <0 we lose
 	local otherPlayerID: number = g_OtherPlayer:GetID();
 	local pDeals: table = DealManager.GetPlayerDeals(g_LocalPlayer:GetID(), g_OtherPlayer:GetID());
-	for _,deal in ipairs(pDeals) do
-		--print("..deal between:",deal:GetPlayer1ID(),deal:GetPlayer2ID());
-		for item in deal:Items() do
-			--[[
-			print("....item:",
-				item:GetFromPlayerID(),
-				GameInfo.Types[item:GetType()].Type, -- this is also DealItemTypes
-				item:GetSubTypeID(), -- DIPLOACTION_OPEN_BORDERS
-				item:GetValueTypeID(), -- RESOURCE_CITRUS
-				item:GetAmount(),
-				--item:GetEnactedTurn(),
-				item:GetDuration(),
-				item:GetEndTurn());
-			--]]
-			local itemType: number = item:GetType();
-			if itemType == DealItemTypes.GOLD then
-				-- calculate balance, use GetAmount
-				if item:GetFromPlayerID() == otherPlayerID then goldBalance = goldBalance + item:GetAmount();     -- we gain
-				else                                            goldBalance = goldBalance - item:GetAmount(); end -- we lose
-			elseif itemType == DealItemTypes.RESOURCES then
-				-- use GetValueTypeID and GetValueTypeNameID and GetAmount
-				local str: string = string.format("[ICON_%s]%s", item:GetValueTypeID(), Locale.Lookup(item:GetValueTypeNameID()));
-				if item:GetFromPlayerID() == otherPlayerID then incoming = incoming..", "..str;     -- we gain
-				else                                            outgoing = outgoing..", "..str; end -- we lose
-			elseif itemType == DealItemTypes.AGREEMENTS then
-				-- use GetSubTypeID and GetSubTypeNameID
-				local str: string = Locale.Lookup(item:GetSubTypeNameID());
-				if item:GetFromPlayerID() == otherPlayerID then incoming = incoming..", "..str;     -- we gain
-				else                                            outgoing = outgoing..", "..str; end -- we lose
-			else
-				print("CQUI: UpdateCurrentDeals(), WARNING unsupported deal item type: ", GameInfo.Types[itemType].Type);
+	if pDeals ~= nil then
+		for _,deal in ipairs(pDeals) do
+			--print("..deal between:",deal:GetPlayer1ID(),deal:GetPlayer2ID());
+			for item in deal:Items() do
+				--[[
+				print("....item:",
+					item:GetFromPlayerID(),
+					GameInfo.Types[item:GetType()].Type, -- this is also DealItemTypes
+					item:GetSubTypeID(), -- DIPLOACTION_OPEN_BORDERS
+					item:GetValueTypeID(), -- RESOURCE_CITRUS
+					item:GetAmount(),
+					--item:GetEnactedTurn(),
+					item:GetDuration(),
+					item:GetEndTurn());
+				--]]
+				local itemType: number = item:GetType();
+				if itemType == DealItemTypes.GOLD then
+					-- calculate balance, use GetAmount
+					if item:GetFromPlayerID() == otherPlayerID then goldBalance = goldBalance + item:GetAmount();     -- we gain
+					else                                            goldBalance = goldBalance - item:GetAmount(); end -- we lose
+				elseif itemType == DealItemTypes.RESOURCES then
+					-- use GetValueTypeID and GetValueTypeNameID and GetAmount
+					local str: string = string.format("[ICON_%s]%s", item:GetValueTypeID(), Locale.Lookup(item:GetValueTypeNameID()));
+					if item:GetFromPlayerID() == otherPlayerID then incoming = incoming..", "..str;     -- we gain
+					else                                            outgoing = outgoing..", "..str; end -- we lose
+				elseif itemType == DealItemTypes.AGREEMENTS then
+					-- use GetSubTypeID and GetSubTypeNameID
+					local str: string = Locale.Lookup(item:GetSubTypeNameID());
+					if item:GetFromPlayerID() == otherPlayerID then incoming = incoming..", "..str;     -- we gain
+					else                                            outgoing = outgoing..", "..str; end -- we lose
+				else
+					print("CQUI: UpdateCurrentDeals(), WARNING unsupported deal item type: ", GameInfo.Types[itemType].Type);
+				end
 			end
-		end
-		--print("..deal summary:", goldBalance, outgoing, incoming);
-	end
+			--print("..deal summary:", goldBalance, outgoing, incoming);
+		end -- for deals
+	end -- if not nil
 	-- add gold
 	outgoing = string.sub(outgoing, 3); -- if nothing was added then it is still "" and this returns ""
 	incoming = string.sub(incoming, 3);
