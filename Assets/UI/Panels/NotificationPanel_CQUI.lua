@@ -275,7 +275,9 @@ function OnGoodyHutReward(ePlayer:number, iUnitID:number, eRewardType:number, eR
     if not CQUI_NotificationGoodyHut then
         return;
     end
-
+	
+	if ePlayer == -1 then return; end -- 230501 support for autoplay
+	
     local pUnit :object = UnitManager.GetUnit(ePlayer, iUnitID);
     if (pUnit == nil) then
         print("Could not retrieve unit!  ePlayer:"..tostring(ePlayer).."  iUnitID:"..tostring(iUnitID));
