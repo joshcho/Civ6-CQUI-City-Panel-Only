@@ -53,6 +53,11 @@
         <Criteria id="ModInUse_ExtendedDiplomacyRibbon">
             <ModInUse>382a187f-c8ba-4094-a6a7-0d5315661f32</ModInUse>
         </Criteria>
+		<!-- 230502 #29 EDR -->
+        <Criteria id="ModInUse_ExtendedDiplomacyRibbon_Expansion2">
+            <GameCoreInUse>Expansion2</GameCoreInUse>
+            <ModInUse>382a187f-c8ba-4094-a6a7-0d5315661f32</ModInUse>
+        </Criteria>
     </ActionCriteria>
 
     <!-- ============================== CQUI specific settings ============================== -->
@@ -1192,6 +1197,27 @@
 				<File>ui/xp2/diplomacydealview_expansion2.lua</File>
             </Items>
         </ImportFiles>
+		
+		<!-- 230502 #29 Conflict with EDR, is uses 13001..13003 for XP2 files -->		
+        <ImportFiles id="CQUI_Files_EDR_XP2" criteria = "ModInUse_ExtendedDiplomacyRibbon_Expansion2">
+            <Properties><LoadOrder>13200</LoadOrder></Properties>
+            <Items>
+				<!-- DiplomacyDealView -->
+				<File>ui/xp2/diplomacydealview.xml</File>
+				<File>ui/xp2/diplomacydealview.lua</File>
+				<File>ui/xp2/diplomacydealview_expansion2.lua</File>
+				<!-- DiplomacyActionView -->
+                <File>Assets/Expansion2/Replacements/diplomacyactionview.xml</File>
+            </Items>
+        </ImportFiles>
+		<ReplaceUIScript id="CQUI_DiplomacyDealView_EDR_XP2" criteria="ModInUse_ExtendedDiplomacyRibbon_Expansion2">
+			<Properties>
+				<LoadOrder>13200</LoadOrder>
+				<LuaContext>DiplomacyDealView</LuaContext>
+				<LuaReplace>ui/xp2/diplomacydealview.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		
     </InGameActions>
 
     <Settings />
