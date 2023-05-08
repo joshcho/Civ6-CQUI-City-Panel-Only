@@ -16,6 +16,8 @@ local DEFAULT_TIME_TO_DISPLAY :number = 10; -- Seconds to display the message
 local CQUI_STATUS_MESSAGE_CIVIC            :number = 3; -- Number to distinguish civic messages
 local CQUI_STATUS_MESSAGE_TECHS            :number = 4; -- Number to distinguish tech messages
 
+local m_isBLI: boolean = Modding.IsModActive("60A6CFAE-34CE-5D53-3640-15B122B9955B"); -- 230508 #33 Better Leader Icon fix
+
 -- ===========================================================================
 -- CQUI Members
 -- ===========================================================================
@@ -33,7 +35,7 @@ end
 function OnStatusMessage( message:string, displayTime:number, type:number, subType:number )
 -- If gossip, trim or ignore and then send on to base game for handling
     if (type == ReportingStatusTypes.GOSSIP) then
-        local trimmed = CQUI_TrimGossipMessage(message);
+        local trimmed = message; -- CQUI_TrimGossipMessage(message); -- 230508 #30 The LOCs are updated and thus messages are trimmed always
         if (trimmed ~= nil) then
             if (CQUI_IsGossipMessageIgnored(trimmed)) then
                 return; --If the message is supposed to be ignored, give up!
@@ -357,6 +359,38 @@ function CQUI_DebugTest()
             return false;
         end, true);
 end
+
+-- ===========================================================================
+-- 230508 #33 This function controls where the messages are placed on the screen
+-- It needs to be tweaked a little inside for compatibility with BLI, hence the override
+function RealizeMainAreaPosition()
+	
+	local m_uiRibbonScroll :table	= ContextPtr:LookUpControl( "/InGame/DiplomacyRibbon/ScrollContainer" );
+	if m_uiRibbonScroll == nil then
+		return
+	end
+	local ribbonHeight:number = m_uiRibbonScroll:GetSizeY();
+
+	-- Bail if no change.
+	local EXTRA_CLEARANCE	:number = 50;
+	
+	-- 230508 #33 If Better Leader Icon is in use then we need to shift it down a bit more
+	if m_isBLI then 
+		local m_ribbonStats = Options.GetUserOption("Interface", "RibbonStats");
+		if m_ribbonStats == RibbonHUDStats.FOCUS then
+			EXTRA_CLEARANCE = 95; -- Height of StatStackBLI is 65 but to save space the gap will be smaller
+		end
+	end
+	
+	local currentOffsetY	:number = Controls.MainArea:GetOffsetY();
+	if currentOffsetY == (ribbonHeight + EXTRA_CLEARANCE) then
+		return;
+	end
+
+	-- Set starting height of stack to just below ribbon.	
+	Controls.MainArea:SetOffsetY( ribbonHeight + EXTRA_CLEARANCE );	
+end
+
 
 -- ===========================================================================
 function Initialize_StatusMessagePanel_CQUI()
