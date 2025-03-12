@@ -1,3 +1,7 @@
+## CQUI City Panel Only
+
+Unofficial mod that retains only the city panel feature (compact list with gold/faith purchase) from CQUI.
+
 ## CQUI Lite on [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2958461265)
 
 ### Removed components
