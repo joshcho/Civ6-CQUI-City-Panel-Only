@@ -84,6 +84,9 @@
     </FrontEndActions>
 
     <InGameActions>
+        <ImportFiles id="LUA_Replacer">
+            <File>ProductionPanel.lua</File>
+        </ImportFiles>
         <UpdateDatabase id="CQUI_Settings">
             <Properties>
                 <Name>CQUI Settings</Name>
@@ -1413,5 +1416,6 @@
 		<File>ui/xp2/diplomacydealview.xml</File>
 		<File>ui/xp2/diplomacydealview.lua</File>
 		<File>ui/xp2/diplomacydealview_expansion2.lua</File>
+        <File>ProductionPanel.lua</File>
     </Files>
 </Mod>
