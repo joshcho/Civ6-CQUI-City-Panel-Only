@@ -3,7 +3,7 @@
     <!-- ==============================  Basic Mod Information ============================== -->
     <Properties>
         <AffectsSavedGames>0</AffectsSavedGames>
-        <Name>CQUI [COLOR_Green]Lite[ENDCOLOR]</Name>
+        <Name>CQUI [COLOR_Green]Lite[ENDCOLOR] City Panel Only</Name>
         <Teaser>CQUI_TEASER</Teaser>
         <Description>The Community Quick User Interface[NEWLINE][COLOR_Green]Lite[ENDCOLOR][NEWLINE]Version 240304</Description>
         <CompatibleVersions>1.2,2.0</CompatibleVersions>
@@ -12,7 +12,7 @@
     <!-- ==============================  Modinfo Specific LOC ============================== -->
     <LocalizedText>
         <Text id="CQUI_TEASER">
-            <en_US>Reduce clicks and make empire management easy.</en_US>
+            <en_US>Simplify the city panel.</en_US>
             <fr_FR>Réduit les clics et rend la gestion de l'empire facile.</fr_FR>
             <zh_Hans_CN>一键化操作，轻松管理您的帝国</zh_Hans_CN>
             <pl_PL>Zmniejsz ilość kliknięć i spraw by zarządzanie imperium było łatwiejsze.</pl_PL>
@@ -171,21 +171,17 @@
             </Items>
         </ImportFiles>
 
-        <ImportFiles id="CQUI_IMPORT_FILES_CITYBANNERMANAGER_BASEGAME">
+        <!-- <ImportFiles id="CQUI_IMPORT_FILES_CITYBANNERMANAGER_BASEGAME">
             <Properties>
-                <!-- We need to ensure that the CQUI CityBannerManager.xml loads instead of say, the one from the Barbarian Tribes mode -->
                 <LoadOrder>50</LoadOrder>
                 <Context>InGame</Context>
             </Properties>
             <Items>
                 <File>Assets/UI/WorldView/citybannermanager.xml</File>
-                <!-- Placeholder for future work -->
-                <!-- <File>Assets/UI/WorldView/citybannerinstances.xml</File> -->
-                <!-- <File>Assets/UI/WorldView/cityreligioninstances.xml</File> -->
             </Items>
-        </ImportFiles>
+        </ImportFiles> -->
 
-        <ImportFiles id="CQUI_IMPORT_FILES_CITYBANNERMANAGER_LUA">
+        <!-- <ImportFiles id="CQUI_IMPORT_FILES_CITYBANNERMANAGER_LUA">
             <Properties>
                 <LoadOrder>200</LoadOrder>
                 <Context>InGame</Context>
@@ -193,7 +189,7 @@
             <Items>
                 <File>Assets/UI/WorldView/CityBannerManager_CQUI.lua</File>
             </Items>
-        </ImportFiles>
+        </ImportFiles> -->
 
         <ImportFiles id="CQUI_IMPORT_FILES_CITYPANELS">
             <Items>
@@ -307,7 +303,7 @@
             </Items>
         </ImportFiles>
 
-        <ImportFiles id="CQUI_IMPORT_FILES_TECHCIVICCOMPLETEDPOPUP">
+        <!-- <ImportFiles id="CQUI_IMPORT_FILES_TECHCIVICCOMPLETEDPOPUP">
             <Items>
                 <File>Assets/UI/Popups/techciviccompletedpopup.lua</File>
             </Items>
@@ -325,10 +321,10 @@
                 <File>Assets/UI/toppanel_CQUI_basegame.lua</File>
                 <File>Assets/UI/toppanel_CQUI.lua</File>
             </Items>
-        </ImportFiles>
+        </ImportFiles> -->
 
         <!-- Firaxis added a ReplaceUIScript for UnitFlagManager with LoadOrder 0; CQUI incorporated those changes so both could work together -->
-        <ImportFiles id="CQUI_IMPORT_FILES_UNITFLAGMANAGER">
+        <!-- <ImportFiles id="CQUI_IMPORT_FILES_UNITFLAGMANAGER">
             <Properties>
                 <LoadOrder>50</LoadOrder>
                 <Context>InGame</Context>
@@ -337,9 +333,9 @@
                 <File>Assets/UI/unitflagmanager_CQUI.lua</File>
                 <File>Assets/UI/unitflagmanager.xml</File>
             </Items>
-        </ImportFiles>
+        </ImportFiles> -->
 
-        <ImportFiles id="CQUI_IMPORT_FILES_UNITPANEL">
+        <!-- <ImportFiles id="CQUI_IMPORT_FILES_UNITPANEL">
             <Items>
                 <File>Assets/UI/Panels/unitpanel_CQUI_basegame.lua</File>
                 <File>Assets/UI/Panels/unitpanel_CQUI.lua</File>
@@ -369,14 +365,14 @@
             <Items>
                 <File>Assets/UI/WorldViewIconsManager_CQUI.lua</File>
             </Items>
-        </ImportFiles>
+        </ImportFiles> -->
 
         <UpdateIcons id="CQUI_UPDATE_ICONS_FONTICONS">
             <File>Assets/UI/Icons/FontIcons_CQUI.xml</File>
         </UpdateIcons>
 
         <!-- ============================== CQUI Expansion 1 (Rise and Fall) files ============================== -->
-        <ImportFiles id="CQUI_IMPORT_FILES_CITYBANNERMANAGER_EXP1" criteria="Expansion1">
+        <!-- <ImportFiles id="CQUI_IMPORT_FILES_CITYBANNERMANAGER_EXP1" criteria="Expansion1">
             <Properties>
                 <LoadOrder>100</LoadOrder>
                 <Context>InGame</Context>
@@ -386,7 +382,7 @@
                 <File>Assets/Expansion1/CityBanners/citybannerinstances.xml</File>
                 <File>Assets/Expansion1/CityBanners/cityreligioninstances.xml</File>
             </Items>
-        </ImportFiles>
+        </ImportFiles> -->
 
         <ImportFiles id="CQUI_IMPORT_FILES_EXP1_CITYPANELOVERVIEW" criteria="Expansion1">
             <Properties>
@@ -491,7 +487,7 @@
         </ImportFiles>
 
         <!-- ============================== CQUI Expansion 2 (Gathering Storm) files ======================================== -->
-        <ImportFiles id="CQUI_IMPORT_FILES_CITYBANNERMANAGER_EXP2" criteria="Expansion2">
+        <!-- <ImportFiles id="CQUI_IMPORT_FILES_CITYBANNERMANAGER_EXP2" criteria="Expansion2">
             <Properties>
                 <LoadOrder>200</LoadOrder>
                 <Context>InGame</Context>
@@ -501,7 +497,7 @@
                 <File>Assets/Expansion2/CityBanners/citybannerinstances.xml</File>
                 <File>Assets/Expansion2/CityBanners/cityreligioninstances.xml</File>
             </Items>
-        </ImportFiles>
+        </ImportFiles> -->
 
         <ImportFiles id="CQUI_IMPORT_FILES_EXP2_CITYPANELOVERVIEW" criteria="Expansion2">
             <Properties>
@@ -713,13 +709,13 @@
         </AddUserInterfaces>
 
         <!-- ============================== ReplaceUIScript Declarations ============================== -->
-        <ReplaceUIScript id="CQUI_CityPanelCulture_EXP1" criteria="Expansion1AndBeyond">
+        <!-- <ReplaceUIScript id="CQUI_CityPanelCulture_EXP1" criteria="Expansion1AndBeyond">
             <Properties>
                 <LoadOrder>100</LoadOrder>
                 <LuaContext>CityPanelCulture</LuaContext>
                 <LuaReplace>Assets/Expansion1/Replacements/citypanelculture_CQUI.lua</LuaReplace>
             </Properties>
-        </ReplaceUIScript>
+        </ReplaceUIScript> -->
 
         <ReplaceUIScript id="CQUI_CityPanelOverview_EXP1" criteria="Expansion1">
             <Properties>
@@ -737,15 +733,15 @@
             </Properties>
         </ReplaceUIScript>
 
-        <ReplaceUIScript id="CQUI_CityPanelPower_EXP2" criteria="Expansion2">
+        <!-- <ReplaceUIScript id="CQUI_CityPanelPower_EXP2" criteria="Expansion2">
             <Properties>
                 <LoadOrder>200</LoadOrder>
                 <LuaContext>CityPanelPower</LuaContext>
                 <LuaReplace>Assets/Expansion2/Replacements/citypanelpower_CQUI.lua</LuaReplace>
             </Properties>
-        </ReplaceUIScript>
+        </ReplaceUIScript> -->
 
-        <ReplaceUIScript id="CQUI_CivicsChooser">
+        <!-- <ReplaceUIScript id="CQUI_CivicsChooser">
             <Properties>
                 <LuaContext>CivicsChooser</LuaContext>
                 <LuaReplace>Assets/UI/Choosers/CivicsChooser_CQUI.lua</LuaReplace>
@@ -791,7 +787,6 @@
         </ReplaceUIScript>
         <ReplaceUIScript id="CQUI_DistrictPlotIconManager">
             <Properties>
-                <!-- Ensure CQUI loads after the Vietnam / Kublai Khan mod -->
                 <LoadOrder>50</LoadOrder>
                 <LuaContext>DistrictPlotIconManager</LuaContext>
                 <LuaReplace>Assets/UI/WorldView/districtploticonmanager_CQUI.lua</LuaReplace>
@@ -850,7 +845,7 @@
                 <LuaContext>LaunchBar</LuaContext>
                 <LuaReplace>Assets/Expansion2/Replacements/launchbar_CQUI_expansion2.lua</LuaReplace>
             </Properties>
-        </ReplaceUIScript>
+        </ReplaceUIScript> -->
 
         <ReplaceUIScript id="CQUI_Options">
             <Properties>
@@ -882,16 +877,15 @@
             </Properties>
         </ReplaceUIScript>
 
-        <ReplaceUIScript id="CQUI_PlotInfo">
+        <!-- <ReplaceUIScript id="CQUI_PlotInfo">
             <Properties>
                 <LuaContext>PlotInfo</LuaContext>
                 <LuaReplace>Assets/UI/WorldView/plotinfo_CQUI.lua</LuaReplace>
             </Properties>
-        </ReplaceUIScript>
+        </ReplaceUIScript> -->
 
-        <ReplaceUIScript id="CQUI_PlotToolTip">
+        <!-- <ReplaceUIScript id="CQUI_PlotToolTip">
             <Properties>
-                <!-- LoadOrder of 50 to ensure it loads after the Firaxis replacement for PlotToolTip bundled with the Barbarian Clans Mode -->
                 <LoadOrder>50</LoadOrder>
                 <LuaContext>PlotToolTip</LuaContext>
                 <LuaReplace>Assets/UI/ToolTips/plottooltip_CQUI_basegame.lua</LuaReplace>
@@ -904,7 +898,7 @@
                 <LuaContext>PlotToolTip</LuaContext>
                 <LuaReplace>Assets/Expansion2/Replacements/plottooltip_CQUI_expansion2.lua</LuaReplace>
             </Properties>
-        </ReplaceUIScript>
+        </ReplaceUIScript> -->
 
         <ReplaceUIScript id="CQUI_ProductionPanel">
             <Properties>
@@ -914,7 +908,7 @@
             </Properties>
         </ReplaceUIScript>
 
-        <ReplaceUIScript id="CQUI_ResearchChooser">
+<!--         <ReplaceUIScript id="CQUI_ResearchChooser">
             <Properties>
                 <LuaContext>ResearchChooser</LuaContext>
                 <LuaReplace>Assets/UI/Choosers/ResearchChooser_CQUI.lua</LuaReplace>
@@ -935,7 +929,7 @@
                 <LuaContext>ResearchChooser</LuaContext>
                 <LuaReplace>Assets/UI/Choosers/ResearchChooser_CQUI.lua</LuaReplace>
             </Properties>
-        </ReplaceUIScript>
+        </ReplaceUIScript> -->
 
         <ReplaceUIScript id="CQUI_StatusMessagePanel">
             <Properties>
@@ -944,7 +938,7 @@
             </Properties>
         </ReplaceUIScript>
 
-        <ReplaceUIScript id="CQUI_TechTree">
+<!--         <ReplaceUIScript id="CQUI_TechTree">
             <Properties>
                 <LuaContext>TechTree</LuaContext>
                 <LuaReplace>Assets/UI/Screens/TechTree_CQUI.lua</LuaReplace>
@@ -965,9 +959,9 @@
                 <LuaContext>TechTree</LuaContext>
                 <LuaReplace>Assets/UI/Screens/TechTree_CQUI.lua</LuaReplace>
             </Properties>
-        </ReplaceUIScript>
+        </ReplaceUIScript> -->
 
-        <ReplaceUIScript id="CQUI_TopPanel">
+        <!-- <ReplaceUIScript id="CQUI_TopPanel">
             <Properties>
                 <LuaContext>TopPanel</LuaContext>
                 <LuaReplace>Assets/UI/toppanel_CQUI_basegame.lua</LuaReplace>
@@ -992,7 +986,6 @@
 
         <ReplaceUIScript id="CQUI_UnitFlagManager">
             <Properties>
-                <!-- Firaxis Barbarians Clans Mode has a LoadOrder 0 for their ReplaceUIScript of UnitFlagManager; files load at 50 above -->
                 <LoadOrder>50</LoadOrder>
                 <LuaContext>UnitFlagManager</LuaContext>
                 <LuaReplace>Assets/UI/unitflagmanager_CQUI.lua</LuaReplace>
@@ -1080,18 +1073,17 @@
                 <LuaContext>WorldViewIconsManager</LuaContext>
                 <LuaReplace>Assets/UI/WorldViewIconsManager_CQUI.lua</LuaReplace>
             </Properties>
-        </ReplaceUIScript>
+        </ReplaceUIScript> -->
 
         <!-- ============================== Mod integrations ======================================== -->
         <!-- ============================== MoreLenses (ML) ============================== -->
-        <AddUserInterfaces id="CQUI_MORELENSES_LENSES_WPANEL">
+        <!-- <AddUserInterfaces id="CQUI_MORELENSES_LENSES_WPANEL">
             <Properties>
                 <Context>InGame</Context>
                 <LoadOrder>101</LoadOrder>
             </Properties>
             <Items>
                 <File>Integrations/ML/Lenses/CityOverlap/ModLens_CityOverlap.xml</File>
-                <!-- ModLens_CityOverlap.lua implied -->
                 <File>Integrations/ML/Lenses/Resource/ModLens_Resource.xml</File>
             </Items>
         </AddUserInterfaces>
@@ -1127,7 +1119,6 @@
         </ImportFiles>
 
         <ImportFiles id="CQUI_IMPORT_FILES_MORELENSES_PANELS">
-            <!-- ML replacements after all lens files imported -->
             <Properties><LoadOrder>100</LoadOrder></Properties>
 			<File>Integrations/ML/UI/minimappanel.lua</File>
 			<File>Integrations/ML/UI/minimappanel.xml</File>
@@ -1161,14 +1152,14 @@
 
         <UpdateDatabase id="CQUI_MORELENSES_DATABASE">
 			<File>Integrations/ML/morelenses_colors.sql</File>
-        </UpdateDatabase>
+        </UpdateDatabase> -->
         <!-- ============================== End of ML ============================== -->
         <!-- </Components> -->
 		
 		<!-- NEW FEATURES --> 
 		
 		<!-- #11 Spy Info -->
-		<ImportFiles id="CQUI_Files_SpyInfo">
+		<!-- <ImportFiles id="CQUI_Files_SpyInfo">
 			<Properties>
 				<LoadOrder>300</LoadOrder>
 			</Properties>
@@ -1180,7 +1171,7 @@
 				<Context>InGame</Context>
 			</Properties>
 			<File>ui/new/cui_spy_info.xml</File>
-		</AddUserInterfaces>
+		</AddUserInterfaces> -->
 		
 		<!-- #19 compatibility with Quick Deals -->
 		<ImportFiles id="CQUI_Files_QuickDeals">
@@ -1189,34 +1180,32 @@
 		</ImportFiles>
 		
 		<!-- Diplomacy Deal View from CUI (only XP2 atm) -->
-        <ImportFiles id="CQUI_Files_DiplomacyDealView_XP2" criteria="Expansion2">
+        <!-- <ImportFiles id="CQUI_Files_DiplomacyDealView_XP2" criteria="Expansion2">
 			<Properties><LoadOrder>200</LoadOrder></Properties>
             <Items>
 				<File>ui/xp2/diplomacydealview.xml</File>
 				<File>ui/xp2/diplomacydealview.lua</File>
 				<File>ui/xp2/diplomacydealview_expansion2.lua</File>
             </Items>
-        </ImportFiles>
+        </ImportFiles> -->
 		
 		<!-- 230502 #29 Conflict with EDR, is uses 13001..13003 for XP2 files -->		
-        <ImportFiles id="CQUI_Files_EDR_XP2" criteria = "ModInUse_ExtendedDiplomacyRibbon_Expansion2">
+        <!-- <ImportFiles id="CQUI_Files_EDR_XP2" criteria = "ModInUse_ExtendedDiplomacyRibbon_Expansion2">
             <Properties><LoadOrder>13200</LoadOrder></Properties>
             <Items>
-				<!-- DiplomacyDealView -->
 				<File>ui/xp2/diplomacydealview.xml</File>
 				<File>ui/xp2/diplomacydealview.lua</File>
 				<File>ui/xp2/diplomacydealview_expansion2.lua</File>
-				<!-- DiplomacyActionView -->
                 <File>Assets/Expansion2/Replacements/diplomacyactionview.xml</File>
             </Items>
-        </ImportFiles>
-		<ReplaceUIScript id="CQUI_DiplomacyDealView_EDR_XP2" criteria="ModInUse_ExtendedDiplomacyRibbon_Expansion2">
+        </ImportFiles> -->
+		<!-- <ReplaceUIScript id="CQUI_DiplomacyDealView_EDR_XP2" criteria="ModInUse_ExtendedDiplomacyRibbon_Expansion2">
 			<Properties>
 				<LoadOrder>13200</LoadOrder>
 				<LuaContext>DiplomacyDealView</LuaContext>
 				<LuaReplace>ui/xp2/diplomacydealview.lua</LuaReplace>
 			</Properties>
-		</ReplaceUIScript>
+		</ReplaceUIScript> -->
 		
     </InGameActions>
 
