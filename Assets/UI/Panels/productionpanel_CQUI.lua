@@ -23,8 +23,8 @@ BASE_CQUI_ZoneDistrict = ZoneDistrict;
 -- Do not show a number of turns or the timer icon if it's a purchase-only item
 local CQUI_TURNS_LEFT_PURCHASE_ONLY = -2;
 local CQUI_PurchaseTable = {}; -- key = item Hash
-local CQUI_ProductionQueue :boolean = true;
-local CQUI_ShowProductionRecommendations :boolean = false;
+local CQUI_ProductionQueue :boolean = false;
+local CQUI_ShowProductionRecommendations :boolean = true;
 local CQUI_ManagerShowing = false;
 local m_AdjacencyBonusDistricts : number = UILens.CreateLensLayerHash("Adjacency_Bonus_Districts");
 local m_Districts : number = UILens.CreateLensLayerHash("Districts");
@@ -517,10 +517,13 @@ end
 --    Changed the condition of closing (not IsReversing)
 -- ===========================================================================
 function Close()
-    if UI.GetInterfaceMode() == InterfaceModeTypes.BUILDING_PLACEMENT or UI.GetInterfaceMode() == InterfaceModeTypes.DISTRICT_PLACEMENT then
-        return;
-    end
+    -- the code below which skips when district or building is likely for when citypanel exists
+    -- for this production-panel-only version we just close normally
+    -- if UI.GetInterfaceMode() == InterfaceModeTypes.BUILDING_PLACEMENT or UI.GetInterfaceMode() == InterfaceModeTypes.DISTRICT_PLACEMENT then
+    --     return;
+    -- end
 
+    print("- CQUI ProductionPanel Close");
     if (not Controls.SlideIn:IsReversing()) then -- Need to check to make sure that we have not already begun the transition before attempting to close the panel.
         UI.PlaySound("Production_Panel_Closed");
         Controls.SlideIn:Reverse();
@@ -565,6 +568,7 @@ end
 --    CQUI modified Open function
 -- ===========================================================================
 function Open()
+    print("- CQUI ProductionPanel Open");
     if ContextPtr:IsHidden() or Controls.SlideIn:IsReversing() then                 -- The ContextPtr is only hidden as a callback to the finished SlideIn animation, so this check should be sufficient to ensure that we are not animating.
         -- Sets up proper selection AND the associated lens so it's not stuck "on".
         UI.PlaySound("Production_Panel_Open");
@@ -644,10 +648,27 @@ end
 function CreateCorrectTabs()
 end
 
+-- Right Click Close Production BEGIN --
+function OnInputHandler( pInputStruct:table )
+	local uiMsg = pInputStruct:GetMessageType();
+	if (uiMsg == MouseEvents.RButtonUp) or (uiMsg == KeyEvents.KeyUp and pInputStruct:GetKey() == Keys.VK_ESCAPE) then
+		print("- Right Click or Escape");
+        -- if UI.GetInterfaceMode() == InterfaceModeTypes.BUILDING_PLACEMENT then
+        --     print("- BUILDING_PLACEMENT"); -- wonder
+        -- elseif UI.GetInterfaceMode() == InterfaceModeTypes.DISTRICT_PLACEMENT then
+        --     print("- DISTRICT_PLACEMENT");
+        -- end
+		Close();
+		return true; 
+	end
+	return false;
+end 
+-- Right Click Close Production END --
+
 -- ===========================================================================
 function Initialize_ProductionPanel_CQUI()
     Events.InterfaceModeChanged.Remove( BASE_OnInterfaceModeChanged );
-    Events.InterfaceModeChanged.Add( OnInterfaceModeChanged );
+    Events.InterfaceModeChanged.Add( OnInterfaceModeChanged );  
     Events.CityMadePurchase.Add( function() Refresh(); end);
 
     LuaEvents.NotificationPanel_ChooseProduction.Remove( BASE_OnNotificationPanelChooseProduction );
@@ -659,6 +680,9 @@ function Initialize_ProductionPanel_CQUI()
     Controls.CloseButton:ClearCallback(Mouse.eLClick);
     Controls.CloseButton:RegisterCallback(Mouse.eLClick, OnClose);
     Controls.CQUI_ShowManagerButton:RegisterCallback(Mouse.eLClick, CQUI_ToggleManager);
+
+    -- Right Click Close
+    ContextPtr:SetInputHandler( OnInputHandler, true );
 
     LuaEvents.CQUI_ProductionPanel_CityviewEnable.Add( CQUI_OnCityviewEnabled);
     LuaEvents.CQUI_ProductionPanel_CityviewDisable.Add( CQUI_OnCityviewDisabled);
