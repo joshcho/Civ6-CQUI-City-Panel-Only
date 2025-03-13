@@ -587,6 +587,7 @@ end
 --    CQUI modified OnClose via click
 -- ===========================================================================
 function OnClose()
+    Close();
     LuaEvents.CQUI_CityviewDisableCurrentMode();
 end
 

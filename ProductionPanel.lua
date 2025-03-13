@@ -2457,6 +2457,7 @@ end
 function OnInputHandler( pInputStruct:table )
 	local uiMsg = pInputStruct:GetMessageType();
 	if (uiMsg == MouseEvents.RButtonUp) or (uiMsg == KeyEvents.KeyUp and pInputStruct:GetKey() == Keys.VK_ESCAPE) then
+		UI.SetInterfaceMode(InterfaceModeTypes.CITY_MANAGEMENT);
 		if m_kSelectedQueueItem.Index ~= -1 then
 			DeselectItem();
 		elseif m_SelectedManagerIndex ~= -1 then
